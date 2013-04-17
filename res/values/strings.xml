@@ -4,5 +4,6 @@
     <string name="app_name">Mapper</string>
     <string name="action_paste">Paste CSV</string>
     <string name="txt_welcome">Welcome!</string>
-
+    <string name="txt_inpul_guide">Paste exported CSV data content</string>
+    <string name="txt_inpul_hint">Paste here&#8230;</string>
 </resources>
