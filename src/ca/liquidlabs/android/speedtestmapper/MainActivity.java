@@ -3,6 +3,7 @@ package ca.liquidlabs.android.speedtestmapper;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,6 +25,8 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         Tracer.println("onCreate");
         
+        Intent intent = new Intent(this, MapperActivity.class);
+        startActivity(intent);
     }
 
     @Override
