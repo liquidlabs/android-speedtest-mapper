@@ -7,7 +7,22 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
+
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.MarkerOptions;
+
+/**
+ * Mapping of exported data.
+ * @author Hossain Khan
+ * @see https://developers.google.com/maps/documentation/android/
+ * @see https://developers.google.com/maps/documentation/android/reference/com/google/android/gms/maps/package-summary
+ */
 public class MapperActivity extends Activity {
+
+    private GoogleMap mMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,6 +30,47 @@ public class MapperActivity extends Activity {
         setContentView(R.layout.activity_mapper);
         // Show the Up button in the action bar.
         setupActionBar();
+        setUpMapIfNeeded();
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpMapIfNeeded();
+    }
+
+    private void setUpMapIfNeeded() {
+        // Do a null check to confirm that we have not already instantiated the
+        // map.
+        if (mMap == null) {
+            // Try to obtain the map from the SupportMapFragment.
+            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
+                    .getMap();
+            // Check if we were successful in obtaining the map.
+            if (mMap != null) {
+                setUpMap();
+            }
+        }
+    }
+
+    private void setUpMap() {
+        // Hide the zoom controls as the button panel will cover it.
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+
+        // Add lots of markers to the map.
+        addMarkersToMap();
+
+    }
+
+    private void addMarkersToMap() {
+
+        // Use parsed data to create map markers
+        for (SpeedTestRecord speedTestRecord : MainActivity.mListData) {
+            mMap.addMarker(new MarkerOptions()
+            .position(speedTestRecord.getLatLng())
+            .title("Marker " + speedTestRecord.getDate())
+            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+        }
     }
 
     /**

@@ -9,8 +9,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import ca.liquidlabs.android.speedtestmapper.InputDialogFragment.InputDialogListener;
+import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
 import ca.liquidlabs.android.speedtestmapper.util.Tracer;
+
+import java.util.List;
 
 /**
  * Main entry point launcher activity. Data is loaded here and verified before
@@ -18,6 +21,11 @@ import ca.liquidlabs.android.speedtestmapper.util.Tracer;
  */
 public class MainActivity extends Activity implements InputDialogListener {
 
+    private static final String testData = "";
+    
+    
+    public static List<SpeedTestRecord> mListData;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,8 +33,6 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         Tracer.println("onCreate");
         
-        Intent intent = new Intent(this, MapperActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -35,13 +41,14 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         Tracer.println("onStart");
 
-        Tracer.println("" + CsvDataParser.parseCsvData(""));
+        mListData = CsvDataParser.parseCsvData(testData);
+        
     }
 
     private void showInputDialog() {
         FragmentManager fm = getFragmentManager();
         InputDialogFragment editNameDialog = InputDialogFragment.newInstance();
-        editNameDialog.show(fm, "fragment_edit_name");
+        editNameDialog.show(fm, "fragment_input_data");
     }
 
     @Override
@@ -68,6 +75,9 @@ public class MainActivity extends Activity implements InputDialogListener {
         Tracer.println(inputText);
         Tracer.Toast(this, inputText);
 
+        // Test data ready - go to maps view
+        Intent intent = new Intent(this, MapperActivity.class);
+        startActivity(intent);
     }
 
 }
