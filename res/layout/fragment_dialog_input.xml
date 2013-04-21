@@ -1,0 +1,26 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/input_dialog"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/lbl_input_guide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/txt_inpul_guide" />
+
+    <EditText
+        android:id="@+id/txt_input_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/txt_inpul_hint"
+        android:imeOptions="actionDone"
+        android:inputType="text"
+        android:minHeight="@dimen/input_height"
+        android:minLines="@integer/num_input_lines"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:typeface="monospace" />
+
+</LinearLayout>
