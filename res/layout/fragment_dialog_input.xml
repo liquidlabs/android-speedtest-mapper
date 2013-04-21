@@ -27,4 +27,11 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:typeface="monospace" />
 
+    <Button
+        android:id="@+id/btn_process_input_data"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_input_process" />
+
 </LinearLayout>
