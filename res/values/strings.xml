@@ -8,6 +8,6 @@
     <string name="txt_inpul_hint">Paste here&#8230;</string>
     <string name="title_activity_mapper">MapperActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="lbl_input_heading">Manual Input</string>
 
 </resources>

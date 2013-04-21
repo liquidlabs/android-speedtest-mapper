@@ -35,7 +35,7 @@ public class InputDialogFragment extends DialogFragment implements OnEditorActio
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dialog_input, container);
         mEditText = (EditText) view.findViewById(R.id.txt_input_area);
-        getDialog().setTitle("Hello");
+        getDialog().setTitle(getText(R.string.lbl_input_heading));
 
         // Show soft keyboard automatically
         mEditText.requestFocus();
