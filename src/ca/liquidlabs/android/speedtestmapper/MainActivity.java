@@ -18,21 +18,36 @@ import java.util.List;
 /**
  * Main entry point launcher activity. Data is loaded here and verified before
  * loading maps view.
+ * 
+ * 
  */
 public class MainActivity extends Activity implements InputDialogListener {
 
     private static final String testData = "";
-    
-    
+
     public static List<SpeedTestRecord> mListData;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         Tracer.println("onCreate");
-        
+
+        // Get intent, action and MIME type
+        // More info/guide: http://developer.android.com/training/sharing/receive.html
+        Intent intent = getIntent();
+        String action = intent.getAction();
+        String type = intent.getType();
+
+        if (Intent.ACTION_SEND.equals(action) && type != null) {
+            if ("text/plain".equals(type)) {
+                handleSendText(intent); // Handle text being sent
+            }
+        } else {
+            // Handle other intents, such as being started from the home screen
+        }
+
     }
 
     @Override
@@ -41,8 +56,19 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         Tracer.println("onStart");
 
-        mListData = CsvDataParser.parseCsvData(testData);
         
+
+    }
+    
+    void handleSendText(Intent intent) {
+        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+        if (sharedText != null) {
+            // Update UI to reflect text being shared
+            Tracer.Toast(this, "Got data, length : " + sharedText.length());
+            mListData = CsvDataParser.parseCsvData(sharedText);
+        } else {
+            mListData = CsvDataParser.parseCsvData(testData);
+        }
     }
 
     private void showInputDialog() {
