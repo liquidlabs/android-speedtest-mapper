@@ -50,21 +50,21 @@ public class SpeedTestRecord {
     public SpeedTestRecord(CSVRecord csvRecord) {
         try {
             this.date = csvRecord.get(KEY_DATE);
-            
+
             // data connection type - should be one of expected values
             this.connectionType = ConnectionType.fromString(csvRecord.get(KEY_CONNTYPE));
-            
+
             // Lat, Lon is in float
             this.lat = Float.parseFloat(csvRecord.get(KEY_LAT));
             this.lon = Float.parseFloat(csvRecord.get(KEY_LON));
-            
+
             // download and upload values are always in kbps
             this.download = Integer.parseInt(csvRecord.get(KEY_DOWNL));
             this.upload = Integer.parseInt(csvRecord.get(KEY_UPL));
-            
+
             // latency is numeric - in milliseconds
             this.latency = Integer.parseInt(csvRecord.get(KEY_LATENCY));
-            
+
             this.serverName = csvRecord.get(KEY_SERVER);
             this.internalIp = csvRecord.get(KEY_IPINT);
             this.externalIp = csvRecord.get(KEY_IPEXT);
@@ -79,6 +79,17 @@ public class SpeedTestRecord {
      */
     public String getDate() {
         return date;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return SpeedTestRecord.class.getSimpleName() + " [date=" + date + ", connectionType="
+                + connectionType
+                + ", download=" + download + ", upload=" + upload + "]";
     }
 
     /**
@@ -129,12 +140,11 @@ public class SpeedTestRecord {
     public void setLon(float lon) {
         this.lon = lon;
     }
-    
+
     /**
-     * 
      * @return {@link LatLng} object
      */
-    public LatLng getLatLng(){
+    public LatLng getLatLng() {
         return new LatLng(this.lat, this.lon);
     }
 
