@@ -8,20 +8,83 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
 
+    <!-- Permissions required by google maps -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+     The following two permissions are not required to use
+     Google Maps Android API v2, but are recommended.
+     
+     TODO: Remove it, since this app does not required location information
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Google maps custom permission -->
+    <permission
+        android:name="ca.liquidlabs.android.speedtestmapper.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="ca.liquidlabs.android.speedtestmapper.permission.MAPS_RECEIVE" />
+
+    <!--
+        Because version 2 of the Google Maps Android API requires OpenGL ES version 2, 
+        you must add a <uses-feature> element as a child of the <manifest> element in AndroidManifest.xml 
+    -->
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
+
+    <!-- Main application block -->
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <!--  
+            Application entry point
+        -->
         <activity
             android:name="ca.liquidlabs.android.speedtestmapper.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <!-- 
+                Intent filter for catching exported CSV data from ST app
+                Learn more @ http://developer.android.com/training/sharing/receive.html 
+            -->
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="text/plain" />
+            </intent-filter>
+            
         </activity>
+        <!--
+            Application maps activity 
+        -->
+        <activity
+            android:name="ca.liquidlabs.android.speedtestmapper.MapperActivity"
+            android:label="@string/title_activity_mapper"
+            android:parentActivityName="ca.liquidlabs.android.speedtestmapper.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.liquidlabs.android.speedtestmapper.MainActivity" />
+        </activity>
+
+        <!--
+            Google Maps API key
+            NOTE: This is a debug key, generate your own to make it work with your debug certificate.
+                  For More info visit https://developers.google.com/maps/documentation/android/start
+        -->
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyDKEHdrqaMRMNMujokdugTEuYxdvECCoLM" />
+        
     </application>
 
 </manifest>

@@ -1,6 +1,8 @@
 
 package ca.liquidlabs.android.speedtestmapper.util;
 
+import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
+
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
@@ -8,6 +10,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -23,26 +26,22 @@ public class CsvDataParser {
      */
     private static final String ST_DATA_HEADER = "Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp";
 
-    //
-    // Individual keys for each header elements
-    //
-    private static final String KEY_DATE = "Date";
-    private static final String KEY_CONNTYPE = "ConnType";
-    private static final String KEY_LAT = "Lat";
-    private static final String KEY_LON = "Lon";
-    private static final String KEY_DOWNL = "Download";
-    private static final String KEY_UPL = "Upload";
-    private static final String KEY_LATENCY = "Latency";
-    private static final String KEY_SERVER = "ServerName";
-    private static final String KEY_IPINT = "InternalIp";
-    private static final String KEY_IPEXT = "ExternalIp";
+    
 
-    public static List<CSVRecord> parseCsvData(String csvData) {
+    public static List<SpeedTestRecord> parseCsvData(String csvData) {
         Reader in = new StringReader(getCsvData(csvData));
         try {
             CSVParser parser = new CSVParser(in, CSVFormat.DEFAULT.toBuilder().withHeader().build());
+            
+            // get the parsed records
             List<CSVRecord> list = parser.getRecords();
-            return list;
+            // create a list to convert data into SpeedTestRecord model
+            List<SpeedTestRecord> speedTestRecords = new ArrayList<SpeedTestRecord>();
+            for (CSVRecord csvRecord : list) {
+                speedTestRecords.add(new SpeedTestRecord(csvRecord));
+            }
+            
+            return speedTestRecords;
         } catch (IOException e) {
             Tracer.error(LOG_TAG, e);
         }
