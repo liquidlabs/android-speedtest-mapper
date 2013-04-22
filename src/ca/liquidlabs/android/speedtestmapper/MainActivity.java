@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private ImageView mIconFeedback;
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
+    private Button mRelaunchMapButton;
     private static String mLastSessionValidData = null;
 
     @Override
@@ -48,6 +49,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         mIconFeedback = (ImageView) findViewById(R.id.ic_user_feedback);
         mMessageTextView = (TextView) findViewById(R.id.txt_user_feedback_guide);
         mSpeedtestLinkButton = (Button) findViewById(R.id.btn_speedtest_app_link);
+        mRelaunchMapButton = (Button) findViewById(R.id.btn_relaunch_map);
 
         /*
          * Get intent, action and MIME type More info/guide:
@@ -63,18 +65,17 @@ public class MainActivity extends Activity implements InputDialogListener {
             }
         } else {
             // Handle other intents, such as being started from the home screen
-
-            // Prepare button to proper speedtest link
-            this.prepareSpeedTestLink();
         }
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         Tracer.println("onStart");
 
+        // Prepare button to proper speedtest link
+        this.prepareSpeedTestLink();
+        this.prepareSessionDataUi();
     }
 
     private void handleIntentText(Intent intent) {
@@ -82,7 +83,8 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         if (CsvDataParser.isValidCsvData(sharedText)) {
             Tracer.Toast(this, "Got data, length : " + sharedText.length());
-            mLastSessionValidData = sharedText; // save the valid data in for current session
+            // save the valid data in for current session
+            mLastSessionValidData = sharedText;
             this.launchMapperActivity(sharedText);
         } else {
             this.handleInvalidText();
@@ -92,7 +94,8 @@ public class MainActivity extends Activity implements InputDialogListener {
 
     private void handleLocalText(String data) {
         if (CsvDataParser.isValidCsvData(data)) {
-            mLastSessionValidData = data; // save the valid data in for current session
+            // save the valid data in for current session
+            mLastSessionValidData = data;
             this.launchMapperActivity(data);
         } else {
             this.handleInvalidText();
@@ -104,7 +107,11 @@ public class MainActivity extends Activity implements InputDialogListener {
      */
     private void handleInvalidText() {
         Tracer.debug(LOG_TAG, "handleInvalidText()");
-        Tracer.Toast(this, "Unable to parse CSV. Make sure you use proper export feature.");
+
+        // give ui feedback with error
+        mIconFeedback.setImageResource(R.drawable.ic_disappoint);
+        mMessageTextView.setText(R.string.msg_invalid_data);
+        mRelaunchMapButton.setVisibility(View.GONE);
     }
 
     private void showInputDialog() {
@@ -125,6 +132,28 @@ public class MainActivity extends Activity implements InputDialogListener {
         startActivity(intent);
     }
 
+    /**
+     * Prepares UI for current session - if user has already imported some data
+     */
+    private void prepareSessionDataUi(){
+        if(mLastSessionValidData != null){
+            // valid data exist, user already used some data to see maps
+            mIconFeedback.setImageResource(R.drawable.ic_smile_success);
+            mMessageTextView.setText(R.string.msg_valid_data_session_available);
+            mRelaunchMapButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchMapperActivity(mLastSessionValidData);
+                }
+            });
+            mRelaunchMapButton.setVisibility(View.VISIBLE);
+        } else {
+            mIconFeedback.setImageResource(R.drawable.ic_dialog_bubble);
+            mMessageTextView.setText(R.string.txt_welcome);
+            mRelaunchMapButton.setVisibility(View.GONE);
+        }
+    }
+    
     /**
      * Prepares speedtest app link button to help user to easily install or
      * launch app.
