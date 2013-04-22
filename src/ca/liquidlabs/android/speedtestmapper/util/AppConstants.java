@@ -8,6 +8,11 @@ public interface AppConstants {
     boolean DEBUG_MODE = true;
 
     String TAG_TRACE = "[STM]";
+    
+    /**
+     * Key name used to send data via intent
+     */
+    String KEY_SPEEDTEST_CSV_DATA = "INTENT_KEY_CSV_DATA";
 
     /**
      * Package name for SpeedTest(tm) app

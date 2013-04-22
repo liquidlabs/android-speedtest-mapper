@@ -9,10 +9,12 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
+import android.view.Window;
 
 import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
+import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
+import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -44,9 +46,17 @@ public class MapperActivity extends Activity {
         // get feature to show progress in actionbar when processing data
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_mapper);
+        
         // Show the Up button in the action bar.
         setupActionBar();
-        //setUpMapIfNeeded();
+        
+        // Get the csv data from intent and then proceed
+        Bundle bundle = getIntent().getExtras();
+        String csvData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
+        mListData = CsvDataParser.parseCsvData(csvData);
+        
+        // Now setup map with app the data
+        setUpMapIfNeeded();
     }
 
     @Override
@@ -106,7 +116,8 @@ public class MapperActivity extends Activity {
         for (SpeedTestRecord speedTestRecord : mListData) {
             mMap.addMarker(new MarkerOptions()
                     .position(speedTestRecord.getLatLng())
-                    .title("Marker " + speedTestRecord.getDate())
+                    .title("Download (mbps): " + speedTestRecord.getDownload()
+                            +"\n Upload (mbps): " + speedTestRecord.getUpload())
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
             // also build the maps bounds area

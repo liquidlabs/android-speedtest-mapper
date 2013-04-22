@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private ImageView mIconFeedback;
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
+    private static String mLastSessionValidData = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +82,7 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         if (CsvDataParser.isValidCsvData(sharedText)) {
             Tracer.Toast(this, "Got data, length : " + sharedText.length());
+            mLastSessionValidData = sharedText; // save the valid data in for current session
             this.launchMapperActivity(sharedText);
         } else {
             this.handleInvalidText();
@@ -90,6 +92,7 @@ public class MainActivity extends Activity implements InputDialogListener {
 
     private void handleLocalText(String data) {
         if (CsvDataParser.isValidCsvData(data)) {
+            mLastSessionValidData = data; // save the valid data in for current session
             this.launchMapperActivity(data);
         } else {
             this.handleInvalidText();
@@ -118,6 +121,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private void launchMapperActivity(String csvData) {
         // Test data ready - go to maps view
         Intent intent = new Intent(this, MapperActivity.class);
+        intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_DATA, csvData);
         startActivity(intent);
     }
 
