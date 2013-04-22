@@ -10,14 +10,15 @@
 
     <!--
         I'm trying to keep it simple here. Instead of using dialog and other UI things, 
-        trying to re-use existing UI elements to convey message 
-    -->
+        trying to re-use existing UI elements to convey message     -->
     <ImageView
         android:id="@+id/ic_user_feedback"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/activity_message_block_top_margin"
+        android:contentDescription="@string/desc_user_feedback_icon"
         android:src="@drawable/ic_dialog_bubble" />
 
     <TextView
@@ -26,13 +27,25 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/ic_user_feedback"
         android:layout_centerHorizontal="true"
-        android:text="@string/txt_welcome" />
+        android:text="@string/txt_welcome"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    <!-- Invisible button that shows, when user has some data in session to re-launch map -->
+    <Button
+        android:id="@+id/btn_relaunch_map"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_user_feedback_guide"
+        android:layout_centerHorizontal="true"
+        android:text="@string/lbl_launch_map"
+        android:visibility="gone"
+        android:textColor="@color/btn_link" />
 
-    <!-- 
+    <!--
         Button which will be Re-Used to show either:
          * Link to existing SpeedTest App - when app is already installed 
-         * otherwise, SpeedTest google playstore link to install
-    -->
+         * otherwise, SpeedTest google playstore link to install    -->
     <Button
         android:id="@+id/btn_speedtest_app_link"
         android:layout_width="fill_parent"
