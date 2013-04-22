@@ -88,7 +88,8 @@ public class InputDialogFragment extends DialogFragment implements OnEditorActio
         switch (v.getId()) {
             case R.id.btn_process_input_data:
                 Tracer.debug(LOG_TAG, "PROCESS BUTTON USED");
-                this.notifyInputData(((TextView) v).getText().toString());
+                this.notifyInputData(mEditText.getText().toString());
+                this.dismiss();
                 break;
         }
     }
