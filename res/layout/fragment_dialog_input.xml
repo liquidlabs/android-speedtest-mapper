@@ -3,6 +3,10 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
+    android:paddingLeft="@dimen/dialog_horizontal_margin"
+    android:paddingRight="@dimen/dialog_horizontal_margin"
+    android:paddingTop="@dimen/dialog_vertical_margin"
+    android:paddingBottom="@dimen/dialog_vertical_margin"
     android:orientation="vertical" >
 
     <TextView
@@ -22,5 +26,12 @@
         android:minLines="@integer/num_input_lines"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:typeface="monospace" />
+
+    <Button
+        android:id="@+id/btn_process_input_data"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/lbl_input_process" />
 
 </LinearLayout>

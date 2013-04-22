@@ -32,11 +32,11 @@ public class SpeedTestRecord {
     //
 
     private String date;
-    private String connectionType;
+    private ConnectionType connectionType;
     private float lat;
     private float lon;
-    private String download;
-    private String upload;
+    private int download;
+    private int upload;
     private int latency;
     private String serverName;
     private String internalIp;
@@ -48,16 +48,30 @@ public class SpeedTestRecord {
      * @param csvRecord
      */
     public SpeedTestRecord(CSVRecord csvRecord) {
-        this.date = csvRecord.get(KEY_DATE);
-        this.connectionType = csvRecord.get(KEY_CONNTYPE);
-        this.lat = Float.parseFloat(csvRecord.get(KEY_LAT));
-        this.lon = Float.parseFloat(csvRecord.get(KEY_LON));
-        this.download = csvRecord.get(KEY_DOWNL);
-        this.upload = csvRecord.get(KEY_UPL);
-        this.latency = Integer.parseInt(csvRecord.get(KEY_LATENCY));
-        this.serverName = csvRecord.get(KEY_SERVER);
-        this.internalIp = csvRecord.get(KEY_IPINT);
-        this.externalIp = csvRecord.get(KEY_IPEXT);
+        try {
+            this.date = csvRecord.get(KEY_DATE);
+
+            // data connection type - should be one of expected values
+            this.connectionType = ConnectionType.fromString(csvRecord.get(KEY_CONNTYPE));
+
+            // Lat, Lon is in float
+            this.lat = Float.parseFloat(csvRecord.get(KEY_LAT));
+            this.lon = Float.parseFloat(csvRecord.get(KEY_LON));
+
+            // download and upload values are always in kbps
+            this.download = Integer.parseInt(csvRecord.get(KEY_DOWNL));
+            this.upload = Integer.parseInt(csvRecord.get(KEY_UPL));
+
+            // latency is numeric - in milliseconds
+            this.latency = Integer.parseInt(csvRecord.get(KEY_LATENCY));
+
+            this.serverName = csvRecord.get(KEY_SERVER);
+            this.internalIp = csvRecord.get(KEY_IPINT);
+            this.externalIp = csvRecord.get(KEY_IPEXT);
+        } catch (NumberFormatException e) {
+            // if for some reason unexpected value is passed, stop parsing
+            throw new IllegalArgumentException("Unable to parse record: " + csvRecord.toString());
+        }
     }
 
     /**
@@ -65,6 +79,17 @@ public class SpeedTestRecord {
      */
     public String getDate() {
         return date;
+    }
+
+    /*
+     * (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return SpeedTestRecord.class.getSimpleName() + " [date=" + date + ", connectionType="
+                + connectionType
+                + ", download=" + download + ", upload=" + upload + "]";
     }
 
     /**
@@ -77,14 +102,14 @@ public class SpeedTestRecord {
     /**
      * @return the connectionType
      */
-    public String getConnectionType() {
+    public ConnectionType getConnectionType() {
         return connectionType;
     }
 
     /**
      * @param connectionType the connectionType to set
      */
-    public void setConnectionType(String connectionType) {
+    public void setConnectionType(ConnectionType connectionType) {
         this.connectionType = connectionType;
     }
 
@@ -115,40 +140,39 @@ public class SpeedTestRecord {
     public void setLon(float lon) {
         this.lon = lon;
     }
-    
+
     /**
-     * 
      * @return {@link LatLng} object
      */
-    public LatLng getLatLng(){
+    public LatLng getLatLng() {
         return new LatLng(this.lat, this.lon);
     }
 
     /**
      * @return the download
      */
-    public String getDownload() {
+    public int getDownload() {
         return download;
     }
 
     /**
      * @param download the download to set
      */
-    public void setDownload(String download) {
+    public void setDownload(int download) {
         this.download = download;
     }
 
     /**
      * @return the upload
      */
-    public String getUpload() {
+    public int getUpload() {
         return upload;
     }
 
     /**
      * @param upload the upload to set
      */
-    public void setUpload(String upload) {
+    public void setUpload(int upload) {
         this.upload = upload;
     }
 

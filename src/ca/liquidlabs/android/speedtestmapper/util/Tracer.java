@@ -26,7 +26,7 @@ public class Tracer {
      */
     public static void Toast(Context c, String message)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Toast.makeText(c, message, Toast.LENGTH_SHORT).show();
     }
@@ -63,7 +63,7 @@ public class Tracer {
      */
     public static void error(String tag, String message)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Log.e(tag, message);
     }
@@ -76,7 +76,7 @@ public class Tracer {
      */
     public static void error(String tag, Exception e)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Tracer.error(tag, e.getMessage());
     }
@@ -89,7 +89,7 @@ public class Tracer {
      */
     public static void info(String tag, String message)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Log.i(tag, message);
     }
@@ -102,16 +102,16 @@ public class Tracer {
      */
     public static void info(String tag, Exception e)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Tracer.info(tag, e.getMessage());
     }
 
     public static void println(String m)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
-        Tracer.debug(Constants.TAG_TRACE + "", m);
+        Tracer.debug(AppConstants.TAG_TRACE + "", m);
     }
 
     /**
@@ -122,7 +122,7 @@ public class Tracer {
      */
     public static void debug(String tag, String m)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Log.d(tag, m == null ? "[null]" : m);
     }
@@ -135,7 +135,7 @@ public class Tracer {
      */
     public static void debug(String tag, Exception e)
     {
-        if (!Constants.DEBUG_MODE)
+        if (!AppConstants.DEBUG_MODE)
             return;
         Log.d(tag, e.getMessage());
     }
