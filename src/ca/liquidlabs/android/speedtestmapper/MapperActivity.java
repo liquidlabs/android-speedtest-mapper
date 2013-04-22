@@ -9,6 +9,7 @@ import android.support.v4.app.NavUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 
 import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
@@ -20,6 +21,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 /**
  * Mapping of exported data.
@@ -33,20 +36,23 @@ public class MapperActivity extends Activity {
 
     private GoogleMap mMap;
     private Builder mBoundsBuilder;
+    private static List<SpeedTestRecord> mListData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // get feature to show progress in actionbar when processing data
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_mapper);
         // Show the Up button in the action bar.
         setupActionBar();
-        setUpMapIfNeeded();
+        //setUpMapIfNeeded();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUpMapIfNeeded();
+        //setUpMapIfNeeded();
     }
 
     private void setUpMapIfNeeded() {
@@ -97,7 +103,7 @@ public class MapperActivity extends Activity {
     private void addMarkersToMap() {
 
         // Use parsed data to create map markers
-        for (SpeedTestRecord speedTestRecord : MainActivity.mListData) {
+        for (SpeedTestRecord speedTestRecord : mListData) {
             mMap.addMarker(new MarkerOptions()
                     .position(speedTestRecord.getLatLng())
                     .title("Marker " + speedTestRecord.getDate())
@@ -106,6 +112,18 @@ public class MapperActivity extends Activity {
             // also build the maps bounds area
             mBoundsBuilder.include(speedTestRecord.getLatLng());
         }
+    }
+    
+    
+
+    private void showProgressIndicator() {
+        setProgressBarIndeterminateVisibility(true);
+        setProgressBarIndeterminate(true);
+    }
+
+    private void hideProgressIndicator() {
+        setProgressBarIndeterminateVisibility(false);
+        setProgressBarIndeterminate(false);
     }
 
     /**

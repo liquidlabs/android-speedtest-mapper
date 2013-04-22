@@ -22,4 +22,9 @@ public interface AppConstants {
      * was not found by this package name.
      */
     String PACKAGE_GOOGLE_PLAY_STORE = "com.google.vending";
+    
+    /**
+     * Used to create generic intent instead of using package name
+     */
+    String PLAY_STORE_BASE_URL = "http://play.google.com/store/apps/details?id=";
 }

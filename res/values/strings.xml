@@ -10,5 +10,10 @@
     <string name="action_settings">Settings</string>
     <string name="lbl_input_heading">Manual Input</string>
     <string name="lbl_input_process">Process</string>
+    
+    
+    <!-- SpeedTest app related -->
+    <string name="lbl_get_app_googleplay">Get SpeedTest App on Play</string>
+    <string name="lbl_launch_speedtest_app">Export CSV from SpeedTest</string>
 
 </resources>
