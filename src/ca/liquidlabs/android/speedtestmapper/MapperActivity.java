@@ -3,6 +3,7 @@ package ca.liquidlabs.android.speedtestmapper;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -12,9 +13,11 @@ import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
 
+import ca.liquidlabs.android.speedtestmapper.model.ComparableDownloadSpeed;
 import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
 import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
+import ca.liquidlabs.android.speedtestmapper.util.Tracer;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,6 +27,7 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -35,10 +39,14 @@ import java.util.List;
  * @see Maps V2 example project. Most codes are taken from sample project.
  */
 public class MapperActivity extends Activity {
+    private static final String LOG_TAG = MapperActivity.class.getSimpleName();
 
     private GoogleMap mMap;
     private Builder mBoundsBuilder;
+    private String mCsvInputData = "";
     private static List<SpeedTestRecord> mListData;
+    private static int mMaxNetworkSpeed;
+    private static int mMinNetworkSpeed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +60,12 @@ public class MapperActivity extends Activity {
         
         // Get the csv data from intent and then proceed
         Bundle bundle = getIntent().getExtras();
-        String csvData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
-        mListData = CsvDataParser.parseCsvData(csvData);
-        
+        mCsvInputData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
+
         // Now setup map with app the data
-        setUpMapIfNeeded();
+        // this.setUpMapIfNeeded();
+        new MarkerDataProcessorTask().execute(mCsvInputData);
+        
     }
 
     @Override
@@ -107,7 +116,6 @@ public class MapperActivity extends Activity {
                 }
             });
         }
-
     }
 
     private void addMarkersToMap() {
@@ -118,14 +126,33 @@ public class MapperActivity extends Activity {
                     .position(speedTestRecord.getLatLng())
                     .title("Download (mbps): " + speedTestRecord.getDownload()
                             +"\n Upload (mbps): " + speedTestRecord.getUpload())
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+                    .icon(BitmapDescriptorFactory.defaultMarker(speedTestRecord.getMarkerColorHue())));
 
             // also build the maps bounds area
             mBoundsBuilder.include(speedTestRecord.getLatLng());
         }
     }
     
+    /**
+     * Prepares mapping data and statistics
+     */
+    private void prepareRequiredData(){
+        Collections.sort(mListData, new ComparableDownloadSpeed());
+        // at this point we know there is at least one data, save min and max speed data
+        mMinNetworkSpeed = mListData.get(0).getDownload();
+        mMaxNetworkSpeed = mListData.get(mListData.size()-1).getDownload();
+        
+        Tracer.debug(LOG_TAG, "Min: "+mMinNetworkSpeed+", Max: "+mMaxNetworkSpeed);
+    }
     
+    private static float getWeightedMarkerValue(int speedValue){
+        float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
+                /(mMaxNetworkSpeed - mMinNetworkSpeed);
+        if(hueVal<BitmapDescriptorFactory.HUE_RED || hueVal>BitmapDescriptorFactory.HUE_ROSE){
+            return BitmapDescriptorFactory.HUE_GREEN;
+        }
+        return hueVal;
+    }
 
     private void showProgressIndicator() {
         setProgressBarIndeterminateVisibility(true);
@@ -168,6 +195,42 @@ public class MapperActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    
+    private class MarkerDataProcessorTask extends AsyncTask<String, Void, Void> {
+        
+        @Override
+        protected void onPreExecute(){
+            showProgressIndicator();
+        }
+        
+        @Override
+        protected Void doInBackground(String... params) {
+            mListData = CsvDataParser.parseCsvData(params[0]);
+            
+            Collections.sort(mListData, new ComparableDownloadSpeed());
+            // at this point we know there is at least one data, save min and max speed data
+            mMinNetworkSpeed = mListData.get(0).getDownload();
+            mMaxNetworkSpeed = mListData.get(mListData.size()-1).getDownload();
+            
+            for (SpeedTestRecord record : mListData) {
+                record.setMarkerColorHue(getWeightedMarkerValue(record.getDownload()));
+            }
+            
+            Tracer.debug(LOG_TAG, "Min: "+mMinNetworkSpeed+", Max: "+mMaxNetworkSpeed);
+            
+            
+            
+            return null;
+        }
+        
+        @Override
+        protected void onPostExecute(Void v){
+            hideProgressIndicator();
+            setUpMapIfNeeded();
+        }
+        
     }
 
 }

@@ -13,7 +13,8 @@
     <string name="lbl_launch_map">View Map</string>
     <!-- User message -->
     <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us <i>(using menu)</i>.\nWe\'ll try to fix it ASAP :-]</string>
-    <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
+    <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
+    <string name="msg_no_data_record_found">Ops! There is no data to draw on map. Please go back and retry.</string>
     
     <!-- SpeedTest app related -->
     <string name="lbl_get_app_googleplay">Get SpeedTest App on Play</string>

@@ -41,6 +41,14 @@ public class SpeedTestRecord {
     private String serverName;
     private String internalIp;
     private String externalIp;
+    
+    //
+    // Extra info added by this app
+    //
+    /**
+     * Hue value store for each marker after calculation. Used by app internally.
+     */
+    private float markerColorHue;
 
     /**
      * Constructs speedtest model object from parsed csv record.
@@ -230,5 +238,18 @@ public class SpeedTestRecord {
      */
     public void setExternalIp(String externalIp) {
         this.externalIp = externalIp;
+    }
+
+    
+    //
+    // Getter/Setter methods for Extra Infos
+    //
+    
+    public float getMarkerColorHue() {
+        return markerColorHue;
+    }
+
+    public void setMarkerColorHue(float markerColorHue) {
+        this.markerColorHue = markerColorHue;
     }
 }
