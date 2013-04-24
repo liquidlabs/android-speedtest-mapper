@@ -15,13 +15,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestmapper.InputDialogFragment.InputDialogListener;
-import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
 import ca.liquidlabs.android.speedtestmapper.util.AppPackageUtils;
 import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
 import ca.liquidlabs.android.speedtestmapper.util.Tracer;
-
-import java.util.List;
 
 /**
  * Main entry point launcher activity. Data is loaded here and verified before
@@ -36,6 +33,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private Button mSpeedtestLinkButton;
     private Button mRelaunchMapButton;
     private static String mLastSessionValidData = null;
+    private String mCsvHeaderText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +48,9 @@ public class MainActivity extends Activity implements InputDialogListener {
         mMessageTextView = (TextView) findViewById(R.id.txt_user_feedback_guide);
         mSpeedtestLinkButton = (Button) findViewById(R.id.btn_speedtest_app_link);
         mRelaunchMapButton = (Button) findViewById(R.id.btn_relaunch_map);
+
+        // Also load the CSV record header text, which is needed to validate
+        mCsvHeaderText = this.getString(R.string.speedtest_csv_header);
 
         /*
          * Get intent, action and MIME type More info/guide:
@@ -81,7 +82,9 @@ public class MainActivity extends Activity implements InputDialogListener {
     private void handleIntentText(Intent intent) {
         String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
 
-        if (CsvDataParser.isValidCsvData(sharedText)) {
+        Tracer.debug(LOG_TAG, "handleIntentText() - DATA: " + sharedText);
+
+        if (CsvDataParser.isValidCsvData(mCsvHeaderText, sharedText)) {
             Tracer.Toast(this, "Got data, length : " + sharedText.length());
             // save the valid data in for current session
             mLastSessionValidData = sharedText;
@@ -93,7 +96,9 @@ public class MainActivity extends Activity implements InputDialogListener {
     }
 
     private void handleLocalText(String data) {
-        if (CsvDataParser.isValidCsvData(data)) {
+        Tracer.debug(LOG_TAG, "handleLocalText() - DATA: " + data);
+
+        if (CsvDataParser.isValidCsvData(mCsvHeaderText, data)) {
             // save the valid data in for current session
             mLastSessionValidData = data;
             this.launchMapperActivity(data);
@@ -128,6 +133,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private void launchMapperActivity(String csvData) {
         // Test data ready - go to maps view
         Intent intent = new Intent(this, MapperActivity.class);
+        intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_HEADER, mCsvHeaderText);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_DATA, csvData);
         startActivity(intent);
     }
@@ -135,8 +141,8 @@ public class MainActivity extends Activity implements InputDialogListener {
     /**
      * Prepares UI for current session - if user has already imported some data
      */
-    private void prepareSessionDataUi(){
-        if(mLastSessionValidData != null){
+    private void prepareSessionDataUi() {
+        if (mLastSessionValidData != null) {
             // valid data exist, user already used some data to see maps
             mIconFeedback.setImageResource(R.drawable.ic_smile_success);
             mMessageTextView.setText(R.string.msg_valid_data_session_available);
@@ -153,7 +159,7 @@ public class MainActivity extends Activity implements InputDialogListener {
             mRelaunchMapButton.setVisibility(View.GONE);
         }
     }
-    
+
     /**
      * Prepares speedtest app link button to help user to easily install or
      * launch app.

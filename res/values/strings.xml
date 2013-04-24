@@ -13,12 +13,26 @@
     <string name="lbl_launch_map">View Map</string>
     <!-- User message -->
     <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us <i>(using menu)</i>.\nWe\'ll try to fix it ASAP :-]</string>
-    <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
-    
+    <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
+
     <!-- SpeedTest app related -->
     <string name="lbl_get_app_googleplay">Get SpeedTest App on Play</string>
     <string name="lbl_launch_speedtest_app">Export CSV from SpeedTest</string>
-    
+    <string name="filter_wifi">wifi</string>
+    <string name="filter_cell">cell</string>
+    <string name="filter_all">all</string>
+
+    <string-array name="filters_array">
+        <item>@string/filter_all</item>
+        <item>@string/filter_wifi</item>
+        <item>@string/filter_cell</item>
+    </string-array>
+    <string name="map_not_ready">Map is not ready yet</string>
+
     <!-- UI element description for accessibility -->
     <string name="desc_user_feedback_icon">User Input Feedback</string>
+
+    <!-- Localized header value for exported csv -->
+    <string name="speedtest_csv_header">Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp</string>
+
 </resources>
