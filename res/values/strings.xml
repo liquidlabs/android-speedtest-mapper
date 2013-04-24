@@ -21,4 +21,7 @@
     
     <!-- UI element description for accessibility -->
     <string name="desc_user_feedback_icon">User Input Feedback</string>
+    
+    <!-- Localized header value for exported csv -->
+    <string name="speedtest_csv_header">Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp</string>
 </resources>

@@ -52,8 +52,9 @@ public class MapperActivity extends Activity {
         
         // Get the csv data from intent and then proceed
         Bundle bundle = getIntent().getExtras();
+        String csvHeader = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_HEADER);
         String csvData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
-        mListData = CsvDataParser.parseCsvData(csvData);
+        mListData = CsvDataParser.parseCsvData(csvHeader, csvData);
         
         // Now setup map with app the data
         setUpMapIfNeeded();
