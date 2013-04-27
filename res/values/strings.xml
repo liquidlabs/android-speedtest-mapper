@@ -19,7 +19,24 @@
     <!-- SpeedTest app related -->
     <string name="lbl_get_app_googleplay">Get SpeedTest App on Play</string>
     <string name="lbl_launch_speedtest_app">Export CSV from SpeedTest</string>
-    
+    <string name="filter_wifi">wifi</string>
+    <string name="filter_cell">cell</string>
+    <string name="filter_all">all</string>
+
+    <string-array name="filters_array">
+        <item>@string/filter_all</item>
+        <item>@string/filter_wifi</item>
+        <item>@string/filter_cell</item>
+    </string-array>
+    <string name="map_not_ready">Map is not ready yet</string>
+
     <!-- UI element description for accessibility -->
     <string name="desc_user_feedback_icon">User Input Feedback</string>
+
+    <!-- Localized header value for exported csv -->
+    <string name="speedtest_csv_header">Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp</string>
+    <string name="img_legend_download">Download Speed</string>
+    <string name="desc_upload_info">Upload Information</string>
+    <string name="desc_connection_type">Network Connection Type</string>
+
 </resources>

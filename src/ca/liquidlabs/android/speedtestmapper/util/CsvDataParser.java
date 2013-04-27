@@ -21,13 +21,16 @@ public class CsvDataParser {
      */
     private static final String LOG_TAG = CsvDataParser.class.getSimpleName();
 
-    /**
-     * Header string currently supported (taken from exported CSV)
-     */
-    private static final String ST_DATA_HEADER = "Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp";
 
-    public static List<SpeedTestRecord> parseCsvData(String csvData) {
-        Reader in = new StringReader(getCsvData(csvData));
+    /**
+     * Parses CSV data
+     * 
+     * @param csvHeader Header items for csv records
+     * @param csvData
+     * @return
+     */
+    public static List<SpeedTestRecord> parseCsvData(String csvHeader, String csvData) {
+        Reader in = new StringReader(getCsvData(csvHeader, csvData));
         try {
             CSVParser parser = new CSVParser(in, CSVFormat.DEFAULT.toBuilder().withHeader().build());
 
@@ -50,12 +53,13 @@ public class CsvDataParser {
     /**
      * Returns on CSV data string. Strips out initial paragraph.
      * 
+     * @param csvHeader Header items for csv records
      * @param csvData CSV data imported by user
      * @return CSV data text set.
      */
-    private static String getCsvData(String csvData) {
+    private static String getCsvData(String csvHeader, String csvData) {
         if (csvData != null) {
-            int startPosition = csvData.indexOf(ST_DATA_HEADER);
+            int startPosition = csvData.indexOf(csvHeader);
             if (startPosition != -1) {
                 // found expected header, return CSV data set
                 return csvData.substring(startPosition);
@@ -69,12 +73,13 @@ public class CsvDataParser {
     /**
      * Checks if input data is valid as expected.
      * 
+     * @param csvHeader Header items for csv records
      * @param csvData CSV data imported by user
-     * @return
+     * @return {@code true} when header is available, {@code false} otherwise
      */
-    public static boolean isValidCsvData(String csvData) {
+    public static boolean isValidCsvData(String csvHeader, String csvData) {
         if (csvData != null && !csvData.equals("")) {
-            return (csvData.indexOf(ST_DATA_HEADER) != -1);
+            return (csvData.indexOf(csvHeader) != -1);
         }
         return false;
     }
