@@ -14,18 +14,18 @@ import org.apache.commons.csv.CSVRecord;
 public class SpeedTestRecord {
 
     //
-    // Individual CSV keys for each header elements
+    // Individual CSV keys index for each header elements
     //
-    private static final String KEY_DATE = "Date";
-    private static final String KEY_CONNTYPE = "ConnType";
-    private static final String KEY_LAT = "Lat";
-    private static final String KEY_LON = "Lon";
-    private static final String KEY_DOWNL = "Download";
-    private static final String KEY_UPL = "Upload";
-    private static final String KEY_LATENCY = "Latency";
-    private static final String KEY_SERVER = "ServerName";
-    private static final String KEY_IPINT = "InternalIp";
-    private static final String KEY_IPEXT = "ExternalIp";
+    private static final int KEY_DATE = 0;
+    private static final int KEY_CONNTYPE = 1;
+    private static final int KEY_LAT = 2;
+    private static final int KEY_LON = 3;
+    private static final int KEY_DOWNL = 4;
+    private static final int KEY_UPL = 5;
+    private static final int KEY_LATENCY = 6;
+    private static final int KEY_SERVER = 7;
+    private static final int KEY_IPINT = 8;
+    private static final int KEY_IPEXT = 9;
 
     //
     // Class Attributes

@@ -1,6 +1,10 @@
 
 package ca.liquidlabs.android.speedtestmapper;
 
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
+import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
@@ -11,10 +15,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
 import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
+import ca.liquidlabs.android.speedtestmapper.util.Tracer;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -35,9 +45,14 @@ import java.util.List;
  * @see Maps V2 example project. Most codes are taken from sample project.
  */
 public class MapperActivity extends Activity {
+    private static final String LOG_TAG = MapperActivity.class.getSimpleName();
+    
+    private static final int FILTER_TYPE_ALL = 0;
+    private static final int FILTER_TYPE_WIFI = 1;
+    private static final int FILTER_TYPE_CELL = 2;
+    private static int FILTER_SELECTED = FILTER_TYPE_ALL;
 
     private GoogleMap mMap;
-    private Builder mBoundsBuilder;
     private static List<SpeedTestRecord> mListData;
 
     @Override
@@ -46,15 +61,23 @@ public class MapperActivity extends Activity {
         // get feature to show progress in actionbar when processing data
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_mapper);
-        
+
+        Spinner spinner = (Spinner) findViewById(R.id.spinner_conntype_filter);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                this, R.array.filters_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new ConnectionTypeFilterHandler());
+
         // Show the Up button in the action bar.
         setupActionBar();
-        
+
         // Get the csv data from intent and then proceed
         Bundle bundle = getIntent().getExtras();
+        String csvHeader = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_HEADER);
         String csvData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
-        mListData = CsvDataParser.parseCsvData(csvData);
-        
+        mListData = CsvDataParser.parseCsvData(csvHeader, csvData);
+
         // Now setup map with app the data
         setUpMapIfNeeded();
     }
@@ -62,7 +85,7 @@ public class MapperActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
-        //setUpMapIfNeeded();
+        // setUpMapIfNeeded();
     }
 
     private void setUpMapIfNeeded() {
@@ -72,7 +95,6 @@ public class MapperActivity extends Activity {
             // Try to obtain the map from the SupportMapFragment.
             mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
                     .getMap();
-            mBoundsBuilder = new LatLngBounds.Builder();
             // Check if we were successful in obtaining the map.
             if (mMap != null) {
                 setUpMap();
@@ -87,6 +109,40 @@ public class MapperActivity extends Activity {
         // Add lots of markers to the map.
         addMarkersToMap();
 
+        
+
+    }
+
+    private void addMarkersToMap() {
+        
+        Builder mapBoundsBuilder = new LatLngBounds.Builder();
+        
+        // Use parsed data to create map markers
+        for (SpeedTestRecord speedTestRecord : mListData) {
+            
+            if(FILTER_SELECTED == FILTER_TYPE_CELL && !speedTestRecord.getConnectionType().isCell()){
+                continue; // do not add non-cell items
+            } else if(FILTER_SELECTED == FILTER_TYPE_WIFI && !speedTestRecord.getConnectionType().isWifi()){
+                continue; // do not add non-wifi items
+            }
+            
+            mMap.addMarker(new MarkerOptions()
+                    .position(speedTestRecord.getLatLng())
+                    .title("Down (mbps): " + speedTestRecord.getDownload()
+                            + "\n Up (mbps): " + speedTestRecord.getUpload()
+                            + "\n Type: " + speedTestRecord.getConnectionType().toString())
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
+
+            // also build the maps bounds area
+            mapBoundsBuilder.include(speedTestRecord.getLatLng());
+            
+        }
+        
+        // apply bounds if anything was added
+        this.applyMapCameraBounds(mapBoundsBuilder.build());
+    }
+    
+    private void applyMapCameraBounds(final LatLngBounds bounds){
         // Pan to see all markers in view.
         // Cannot zoom to bounds until the map has a size.
         final View mapView = getFragmentManager().findFragmentById(R.id.map).getView();
@@ -103,29 +159,42 @@ public class MapperActivity extends Activity {
                     } else {
                         mapView.getViewTreeObserver().removeOnGlobalLayoutListener(this);
                     }
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(mBoundsBuilder.build(), 50));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
                 }
             });
         }
-
     }
+    
 
-    private void addMarkersToMap() {
-
-        // Use parsed data to create map markers
-        for (SpeedTestRecord speedTestRecord : mListData) {
-            mMap.addMarker(new MarkerOptions()
-                    .position(speedTestRecord.getLatLng())
-                    .title("Download (mbps): " + speedTestRecord.getDownload()
-                            +"\n Upload (mbps): " + speedTestRecord.getUpload())
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-
-            // also build the maps bounds area
-            mBoundsBuilder.include(speedTestRecord.getLatLng());
+    private boolean checkReady() {
+        if (mMap == null) {
+            Toast.makeText(this, R.string.map_not_ready, Toast.LENGTH_SHORT).show();
+            return false;
         }
+        return true;
     }
-    
-    
+
+    /**
+     * Clears maps
+     */
+    public void clearMap() {
+        if (!checkReady()) {
+            return;
+        }
+        mMap.clear();
+    }
+
+    /**
+     * Resets the maps
+     */
+    public void updateMapMarkers() {
+        if (!checkReady()) {
+            return;
+        }
+        // Clear the map because we don't want duplicates of the markers.
+        mMap.clear();
+        addMarkersToMap();
+    }
 
     private void showProgressIndicator() {
         setProgressBarIndeterminateVisibility(true);
@@ -168,6 +237,36 @@ public class MapperActivity extends Activity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private class ConnectionTypeFilterHandler implements OnItemSelectedListener {
+
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            if (!checkReady()) {
+                return;
+            }
+
+            String filterName = (String) parent.getItemAtPosition(position);
+            Tracer.debug(LOG_TAG, "Selected Filter: " + filterName);
+            if (filterName.equals(getString(R.string.filter_all))) {
+                MapperActivity.FILTER_SELECTED = MapperActivity.FILTER_TYPE_ALL;
+                MapperActivity.this.updateMapMarkers();
+            } else if (filterName.equals(getString(R.string.filter_cell))) {
+                MapperActivity.FILTER_SELECTED = MapperActivity.FILTER_TYPE_CELL;
+                MapperActivity.this.updateMapMarkers();
+            } else if (filterName.equals(getString(R.string.filter_wifi))) {
+                MapperActivity.FILTER_SELECTED = MapperActivity.FILTER_TYPE_WIFI;
+                MapperActivity.this.updateMapMarkers();
+            } else {
+                Tracer.info(LOG_TAG, "Error applying filter with name " + filterName);
+            }
+        }
+
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            // do nothing
+        }
     }
 
 }

@@ -10,10 +10,15 @@ public interface AppConstants {
     String TAG_TRACE = "[STM]";
     
     /**
-     * Key name used to send data via intent
+     * Key name for CSV header used to send data via intent
+     */
+    String KEY_SPEEDTEST_CSV_HEADER = "INTENT_KEY_CSV_HEADER";
+    
+    /**
+     * Key name for CSV data set used to send data via intent
      */
     String KEY_SPEEDTEST_CSV_DATA = "INTENT_KEY_CSV_DATA";
-
+    
     /**
      * Package name for SpeedTest(tm) app
      */
