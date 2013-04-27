@@ -34,5 +34,8 @@
 
     <!-- Localized header value for exported csv -->
     <string name="speedtest_csv_header">Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp</string>
+    <string name="img_legend_download">Download Speed</string>
+    <string name="desc_upload_info">Upload Information</string>
+    <string name="desc_connection_type">Network Connection Type</string>
 
 </resources>
