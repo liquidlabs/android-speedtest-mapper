@@ -59,6 +59,8 @@ public class MapperActivity extends Activity {
         // get feature to show progress in actionbar when processing data
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         setContentView(R.layout.activity_mapper);
+        // It seems like 4.0.x enables progress by default - STOP it!
+        hideProgressIndicator();
 
         Spinner spinner = (Spinner) findViewById(R.id.spinner_conntype_filter);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
