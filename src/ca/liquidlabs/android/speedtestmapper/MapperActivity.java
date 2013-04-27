@@ -212,11 +212,17 @@ public class MapperActivity extends Activity {
         addMarkersToMap();
     }
 
+    /**
+     * Shows progress animation in ActioBar
+     */
     private void showProgressIndicator() {
         setProgressBarIndeterminateVisibility(true);
         setProgressBarIndeterminate(true);
     }
 
+    /**
+     * Hides progress animation in ActionBar
+     */
     private void hideProgressIndicator() {
         setProgressBarIndeterminateVisibility(false);
         setProgressBarIndeterminate(false);
@@ -255,6 +261,9 @@ public class MapperActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Inner listener class to listent for change in connection type filter spinner.
+     */
     private class ConnectionTypeFilterHandler implements OnItemSelectedListener {
 
         @Override
