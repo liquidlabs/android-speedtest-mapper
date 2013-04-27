@@ -104,6 +104,11 @@ public class MapperActivity extends Activity {
         // Hide the zoom controls as the button panel will cover it.
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
+        // Setting an info window adapter allows us to change the both the
+        // contents and look of the
+        // info window.
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getLayoutInflater()));
+
         // Add lots of markers to the map.
         addMarkersToMap();
 
@@ -280,6 +285,5 @@ public class MapperActivity extends Activity {
             Tracer.debug(LOG_TAG, "OnItemSelectedListener > onNothingSelected()");
         }
     }
-
 
 }
