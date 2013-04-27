@@ -1,10 +1,6 @@
 
 package ca.liquidlabs.android.speedtestmapper;
 
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_HYBRID;
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_NORMAL;
-import static com.google.android.gms.maps.GoogleMap.MAP_TYPE_SATELLITE;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Build;
@@ -34,6 +30,9 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.LatLngBounds.Builder;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.NumberFormat;
 import java.util.List;
 
 /**
@@ -41,12 +40,11 @@ import java.util.List;
  * 
  * @author Hossain Khan
  * @see https://developers.google.com/maps/documentation/android/
- * @see https://developers.google.com/maps/documentation/android/reference/com/google/android/gms/maps/package-summary
  * @see Maps V2 example project. Most codes are taken from sample project.
  */
 public class MapperActivity extends Activity {
     private static final String LOG_TAG = MapperActivity.class.getSimpleName();
-    
+
     private static final int FILTER_TYPE_ALL = 0;
     private static final int FILTER_TYPE_WIFI = 1;
     private static final int FILTER_TYPE_CELL = 2;
@@ -106,43 +104,62 @@ public class MapperActivity extends Activity {
         // Hide the zoom controls as the button panel will cover it.
         mMap.getUiSettings().setZoomControlsEnabled(false);
 
+        // Setting an info window adapter allows us to change the both the
+        // contents and look of the
+        // info window.
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getLayoutInflater()));
+
         // Add lots of markers to the map.
         addMarkersToMap();
-
-        
 
     }
 
     private void addMarkersToMap() {
-        
+
         Builder mapBoundsBuilder = new LatLngBounds.Builder();
-        
+        int currentTotalRecordCount = 0;
         // Use parsed data to create map markers
         for (SpeedTestRecord speedTestRecord : mListData) {
-            
-            if(FILTER_SELECTED == FILTER_TYPE_CELL && !speedTestRecord.getConnectionType().isCell()){
+
+            if (FILTER_SELECTED == FILTER_TYPE_CELL
+                    && !speedTestRecord.getConnectionType().isCell()) {
                 continue; // do not add non-cell items
-            } else if(FILTER_SELECTED == FILTER_TYPE_WIFI && !speedTestRecord.getConnectionType().isWifi()){
+            } else if (FILTER_SELECTED == FILTER_TYPE_WIFI
+                    && !speedTestRecord.getConnectionType().isWifi()) {
                 continue; // do not add non-wifi items
             }
-            
+
+            /*
+             * Build string array to concatenate and send info (doing it in dumb
+             * old way, rather than passing serialized data). NOTE: Must be
+             * retrieved in same order
+             */
+            String snippetMultiInfo[] = {
+                    speedTestRecord.getConnectionType().toString(),
+                    NumberFormat.getInstance().format(speedTestRecord.getDownload()) + " (mbps)",
+                    NumberFormat.getInstance().format(speedTestRecord.getUpload()) + " (mbps)"
+            };
+
             mMap.addMarker(new MarkerOptions()
                     .position(speedTestRecord.getLatLng())
-                    .title("Down (mbps): " + speedTestRecord.getDownload()
-                            + "\n Up (mbps): " + speedTestRecord.getUpload()
-                            + "\n Type: " + speedTestRecord.getConnectionType().toString())
+                    .title(speedTestRecord.getDate())
+                    .snippet(StringUtils.join(snippetMultiInfo, '|'))
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
 
             // also build the maps bounds area
             mapBoundsBuilder.include(speedTestRecord.getLatLng());
-            
+
+            // Update the count for selected filter
+            currentTotalRecordCount++;
         }
-        
-        // apply bounds if anything was added
-        this.applyMapCameraBounds(mapBoundsBuilder.build());
+
+        if (currentTotalRecordCount > 0) {
+            // apply bounds if anything was added
+            this.applyMapCameraBounds(mapBoundsBuilder.build());
+        }
     }
-    
-    private void applyMapCameraBounds(final LatLngBounds bounds){
+
+    private void applyMapCameraBounds(final LatLngBounds bounds) {
         // Pan to see all markers in view.
         // Cannot zoom to bounds until the map has a size.
         final View mapView = getFragmentManager().findFragmentById(R.id.map).getView();
@@ -164,7 +181,6 @@ public class MapperActivity extends Activity {
             });
         }
     }
-    
 
     private boolean checkReady() {
         if (mMap == null) {
@@ -266,6 +282,7 @@ public class MapperActivity extends Activity {
         @Override
         public void onNothingSelected(AdapterView<?> parent) {
             // do nothing
+            Tracer.debug(LOG_TAG, "OnItemSelectedListener > onNothingSelected()");
         }
     }
 
