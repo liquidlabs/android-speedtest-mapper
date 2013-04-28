@@ -28,18 +28,29 @@ public class MainActivity extends Activity implements InputDialogListener {
 
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
+    //
+    // UI Views Used for this activity
+    //
     private ImageView mIconFeedback;
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
     private Button mRelaunchMapButton;
+
+    /**
+     * Validated CSV data saved in memory
+     */
     private static String mLastSessionValidData = null;
+
+    /**
+     * Localised CSV header text, used for data validation
+     */
     private String mCsvHeaderText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Tracer.println("onCreate");
+        Tracer.debug(LOG_TAG, "onCreate");
 
         /*
          * Get reference to views
@@ -51,6 +62,13 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         // Also load the CSV record header text, which is needed to validate
         mCsvHeaderText = this.getString(R.string.speedtest_csv_header);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracer.debug(LOG_TAG, "onStart");
+        Tracer.debug(LOG_TAG, "onStart > Intent: " + getIntent());
 
         /*
          * Get intent, action and MIME type More info/guide:
@@ -60,28 +78,29 @@ public class MainActivity extends Activity implements InputDialogListener {
         String action = intent.getAction();
         String type = intent.getType();
 
+        Tracer.debug(LOG_TAG, "onCreate > Intent: " + intent);
+
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             if ("text/plain".equals(type)) {
-                handleIntentText(intent); // Handle text being sent
+                // Handle text being sent
+                handleIntentText(intent.getStringExtra(Intent.EXTRA_TEXT));
             }
         } else {
             // Handle other intents, such as being started from the home screen
+            // Prepare session UI data - based on user input
+            this.prepareSessionDataUi();
         }
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Tracer.println("onStart");
 
         // Prepare button to proper speedtest link
         this.prepareSpeedTestLink();
-        this.prepareSessionDataUi();
     }
 
-    private void handleIntentText(Intent intent) {
-        String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-
+    /**
+     * Handle intent data when shared from speedtest or other app
+     * 
+     * @param intent Intent received by this activity
+     */
+    private void handleIntentText(String sharedText) {
         Tracer.debug(LOG_TAG, "handleIntentText() - DATA: " + sharedText);
 
         if (CsvDataParser.isValidCsvData(mCsvHeaderText, sharedText)) {
@@ -95,6 +114,10 @@ public class MainActivity extends Activity implements InputDialogListener {
 
     }
 
+    /**
+     * Handle text provided by user from clipboard
+     * @param data User data
+     */
     private void handleLocalText(String data) {
         Tracer.debug(LOG_TAG, "handleLocalText() - DATA: " + data);
 
@@ -119,6 +142,9 @@ public class MainActivity extends Activity implements InputDialogListener {
         mRelaunchMapButton.setVisibility(View.GONE);
     }
 
+    /**
+     * Shows input dialog fragment to take input from user
+     */
     private void showInputDialog() {
         FragmentManager fm = getFragmentManager();
         InputDialogFragment editNameDialog = InputDialogFragment.newInstance();
@@ -154,8 +180,10 @@ public class MainActivity extends Activity implements InputDialogListener {
             });
             mRelaunchMapButton.setVisibility(View.VISIBLE);
         } else {
+            // Welcome user and show instructions UI
             mIconFeedback.setImageResource(R.drawable.ic_dialog_bubble);
-            mMessageTextView.setText(R.string.txt_welcome);
+            mMessageTextView.setText(R.string.msg_welcome_instructions);
+            // TODO: Show button with YouTube demo link
             mRelaunchMapButton.setVisibility(View.GONE);
         }
     }
