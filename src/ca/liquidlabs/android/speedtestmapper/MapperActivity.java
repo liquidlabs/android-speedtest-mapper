@@ -117,7 +117,7 @@ public class MapperActivity extends Activity {
         // Setting an info window adapter allows us to change the both the
         // contents and look of the
         // info window.
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(getLayoutInflater()));
+        mMap.setInfoWindowAdapter(new SpeedTestInfoWindowAdapter(getLayoutInflater()));
 
         // Add lots of markers to the map.
         addMarkersToMap();
