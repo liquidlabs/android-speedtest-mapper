@@ -7,8 +7,6 @@ public interface AppConstants {
      */
     boolean DEBUG_MODE = true;
 
-    String TAG_TRACE = "[STM]";
-    
     /**
      * Key name for CSV header used to send data via intent
      */
