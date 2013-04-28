@@ -1,7 +1,7 @@
 Android - SpeedTest.net Data Visualizer
 =======================================
 
-[Speedtest.net][applink] android application data visualization using Google Maps and other means (in works).
+[Speedtest.net android application][applink] data visualization using Google Maps and other means (in works).
 
 
 This is a very simple mapping app, which shows points where speed test was done and associated information with it.
@@ -13,7 +13,7 @@ Though Speedtest.net android app records location information with the test data
 
 How to use
 =========== 
-This app depends on exported data from [Speedtest.net][applink]. Currently there are 2 ways to input data into this visualizer app:
+This app depends on exported data from [Speedtest.net app][applink]. Currently there are 2 ways to input data into this visualizer app:
  1. By launching Speedtest.net app, and use existing export feature.
  2. Or, use already exported data - just copy data and paste into input box 
 
@@ -21,9 +21,9 @@ TODO: Add video URL
 
 Credits
 =======
- * Apache Commons Lang3 - Utility classes for Java - [http://commons.apache.org/proper/commons-lang/]
- * Apache Commons CSV - parser used to parse CSV data from SpeedTest.net app - [http://commons.apache.org/proper/commons-csv/]
- * Google Maps V2 - [https://developers.google.com/maps/documentation/android/]
+ * Apache Commons Lang3 - Utility classes for Java - http://commons.apache.org/proper/commons-lang/
+ * Apache Commons CSV - parser used to parse CSV data from SpeedTest.net app - http://commons.apache.org/proper/commons-csv/
+ * Google Maps V2 - https://developers.google.com/maps/documentation/android/
 
 Privacy
 ========
