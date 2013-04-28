@@ -107,13 +107,6 @@ public class Tracer {
         Tracer.info(tag, e.getMessage());
     }
 
-    public static void println(String m)
-    {
-        if (!AppConstants.DEBUG_MODE)
-            return;
-        Tracer.debug(AppConstants.TAG_TRACE + "", m);
-    }
-
     /**
      * Logs a debug message with a tag
      * 

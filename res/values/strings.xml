@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <string name="app_name">Mapper</string>
     <string name="action_paste">Paste CSV</string>
@@ -8,12 +8,14 @@
     <string name="txt_inpul_hint">Long press to show \npaste option&#8230;</string>
     <string name="title_activity_mapper">MapperActivity</string>
     <string name="action_settings">Settings</string>
-    <string name="lbl_input_heading">Manual Input</string>
+    <string name="lbl_input_heading">Manual input</string>
     <string name="lbl_input_process">Process</string>
-    <string name="lbl_launch_map">View Map</string>
+    <string name="lbl_launch_map">View map</string>
+    <string name="lbl_show_how">Show me how</string>
     <!-- User message -->
-    <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us <i>(using menu)</i>.\nWe\'ll try to fix it ASAP :-]</string>
+    <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us <i>(using menu)</i>.\nWe\'ll look into it :-]</string>
     <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
+    <string name="msg_welcome_instructions">Welcome! \nYou can visualize Speedtest.net\'s saved data by exporting them into this app, or use the \"Paste\" menu to import data from your clipboard.</string>
 
     <!-- SpeedTest app related -->
     <string name="lbl_get_app_googleplay">Get SpeedTest App on Play</string>

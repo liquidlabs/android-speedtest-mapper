@@ -1,3 +1,4 @@
+
 package ca.liquidlabs.android.speedtestmapper;
 
 import android.view.LayoutInflater;
@@ -13,15 +14,32 @@ import com.google.android.gms.maps.model.Marker;
 
 import org.apache.commons.lang3.StringUtils;
 
+/**
+ * Provides views for customized rendering of info-windows.<br/>
+ * When constructing an info-window, methods in this class are called in a
+ * defined order.
+ * 
+ * @author Hossain Khan
+ */
 public class CustomInfoWindowAdapter implements InfoWindowAdapter {
-    
+
     private static final String LOG_TAG = CustomInfoWindowAdapter.class.getSimpleName();
     private final View mContentsView;
-    
-    public CustomInfoWindowAdapter(final LayoutInflater inflater){
+
+    public CustomInfoWindowAdapter(final LayoutInflater inflater) {
         mContentsView = inflater.inflate(R.layout.fragment_record_info, null);
     }
 
+    /**
+     * Provides custom contents for the default info-window frame of a marker.
+     * This method is only called if getInfoWindow(Marker) first returns null.
+     * If this method returns a view, it will be placed inside the default
+     * info-window frame.
+     * 
+     * @param marker The marker for which an info window is being populated.
+     * @return A custom view to display as contents in the info window for
+     *         marker
+     */
     @Override
     public View getInfoContents(Marker marker) {
         Tracer.debug(LOG_TAG, "getInfoContents()");
@@ -29,26 +47,38 @@ public class CustomInfoWindowAdapter implements InfoWindowAdapter {
         return mContentsView;
     }
 
+    /**
+     * Provides a custom info-window for a marker. <br/>
+     * NOTE: Currently not used - using default window box
+     */
     @Override
     public View getInfoWindow(Marker marker) {
         Tracer.debug(LOG_TAG, "getInfoWindow()");
         return null;
     }
-    
+
+    /**
+     * Renders marker contents into the infobox
+     * 
+     * @param marker Map marker
+     * @param view Custom infobox view
+     */
     private void renderContents(Marker marker, View view) {
         String[] snippetInfo = StringUtils.split(marker.getSnippet(), '|');
-        
+
         TextView downloadSpeed = (TextView) view.findViewById(R.id.txt_info_download);
         downloadSpeed.setText(snippetInfo[1]);
-        
+
         TextView uploadSpeed = (TextView) view.findViewById(R.id.txt_info_upload);
         uploadSpeed.setText(snippetInfo[2]);
-        
+
         // Connection type - update image based on type
         ConnectionType connType = ConnectionType.fromString(snippetInfo[0]);
-        if(connType.isWifi()){
-            ImageView conntypeImage = (ImageView) view.findViewById(R.id.img_legend_conntype);
+        ImageView conntypeImage = (ImageView) view.findViewById(R.id.img_legend_conntype);
+        if (connType.isWifi()) {
             conntypeImage.setImageResource(R.drawable.ic_connection_wifi);
+        } else {
+            conntypeImage.setImageResource(R.drawable.ic_connection_cell);
         }
         TextView connTypeTxt = (TextView) view.findViewById(R.id.txt_info_conntype);
         connTypeTxt.setText(snippetInfo[0]);
