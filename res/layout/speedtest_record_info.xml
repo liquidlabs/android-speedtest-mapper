@@ -12,7 +12,7 @@
             android:id="@+id/img_legend_download"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:contentDescription="@string/img_legend_download"
+            android:contentDescription="@string/desc_download_info"
             android:src="@drawable/ic_download" />
 
         <TextView
@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
-            android:text="@string/img_legend_download" />
+            android:text="@string/desc_download_info" />
 
     </TableRow>
 
@@ -66,4 +66,12 @@
 
     </TableRow>
 
+    <TextView
+        android:id="@+id/txt_info_heading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/desc_record_date" />
+
+    
 </TableLayout>
