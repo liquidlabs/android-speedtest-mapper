@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestmapper.model.ConnectionType;
+import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
 import ca.liquidlabs.android.speedtestmapper.util.Tracer;
 
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -64,7 +65,7 @@ public class SpeedTestInfoWindowAdapter implements InfoWindowAdapter {
      * @param view Custom infobox view
      */
     private void renderContents(Marker marker, View view) {
-        String[] snippetInfo = StringUtils.split(marker.getSnippet(), '|');
+        String[] snippetInfo = StringUtils.split(marker.getSnippet(), AppConstants.TEXT_SEPARATOR);
         
         TextView infoHeading = (TextView) view.findViewById(R.id.txt_info_heading);
         infoHeading.setText("@ " + marker.getTitle());
