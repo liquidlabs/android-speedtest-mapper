@@ -40,6 +40,7 @@ public class MainActivity extends Activity implements InputDialogListener {
      * Validated CSV data saved in memory
      */
     private static String mLastSessionValidData = null;
+    private static boolean mIsSharedIntent = false;
 
     /**
      * Localised CSV header text, used for data validation
@@ -62,14 +63,7 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         // Also load the CSV record header text, which is needed to validate
         mCsvHeaderText = this.getString(R.string.speedtest_csv_header);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        Tracer.debug(LOG_TAG, "onStart");
-        Tracer.debug(LOG_TAG, "onStart > Intent: " + getIntent());
-
+        
         /*
          * Get intent, action and MIME type More info/guide:
          * http://developer.android.com/training/sharing/receive.html
@@ -78,19 +72,29 @@ public class MainActivity extends Activity implements InputDialogListener {
         String action = intent.getAction();
         String type = intent.getType();
 
-        Tracer.debug(LOG_TAG, "onCreate > Intent: " + intent);
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
+            mIsSharedIntent = true;
             if ("text/plain".equals(type)) {
                 // Handle text being sent
                 handleIntentText(intent.getStringExtra(Intent.EXTRA_TEXT));
+            } else {
+                // unsupported mimetype
+                this.handleInvalidText();
             }
         } else {
             // Handle other intents, such as being started from the home screen
-            // Prepare session UI data - based on user input
-            this.prepareSessionDataUi();
         }
+    }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Tracer.debug(LOG_TAG, "onStart");
+
+        // Prepare session UI data - based on user input
+        this.prepareSessionDataUi();
+        
         // Prepare button to proper speedtest link
         this.prepareSpeedTestLink();
     }
@@ -101,12 +105,12 @@ public class MainActivity extends Activity implements InputDialogListener {
      * @param intent Intent received by this activity
      */
     private void handleIntentText(String sharedText) {
-        Tracer.debug(LOG_TAG, "handleIntentText() - DATA: " + sharedText);
+        Tracer.debug(LOG_TAG, "handleIntentText()");
 
         if (CsvDataParser.isValidCsvData(mCsvHeaderText, sharedText)) {
-            Tracer.Toast(this, "Got data, length : " + sharedText.length());
             // save the valid data in for current session
             mLastSessionValidData = sharedText;
+            mIsSharedIntent = false;
             this.launchMapperActivity(sharedText);
         } else {
             this.handleInvalidText();
@@ -119,7 +123,7 @@ public class MainActivity extends Activity implements InputDialogListener {
      * @param data User data
      */
     private void handleLocalText(String data) {
-        Tracer.debug(LOG_TAG, "handleLocalText() - DATA: " + data);
+        Tracer.debug(LOG_TAG, "handleLocalText()");
 
         if (CsvDataParser.isValidCsvData(mCsvHeaderText, data)) {
             // save the valid data in for current session
@@ -168,6 +172,9 @@ public class MainActivity extends Activity implements InputDialogListener {
      * Prepares UI for current session - if user has already imported some data
      */
     private void prepareSessionDataUi() {
+        // if shared intent, UI has been already populated
+        if(mIsSharedIntent) {return;}
+        
         if (mLastSessionValidData != null) {
             // valid data exist, user already used some data to see maps
             mIconFeedback.setImageResource(R.drawable.ic_smile_success);
