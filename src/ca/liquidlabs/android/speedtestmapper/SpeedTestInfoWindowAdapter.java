@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestmapper.model.ConnectionType;
+import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
 import ca.liquidlabs.android.speedtestmapper.util.Tracer;
 
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
@@ -21,13 +22,13 @@ import org.apache.commons.lang3.StringUtils;
  * 
  * @author Hossain Khan
  */
-public class CustomInfoWindowAdapter implements InfoWindowAdapter {
+public class SpeedTestInfoWindowAdapter implements InfoWindowAdapter {
 
-    private static final String LOG_TAG = CustomInfoWindowAdapter.class.getSimpleName();
+    private static final String LOG_TAG = SpeedTestInfoWindowAdapter.class.getSimpleName();
     private final View mContentsView;
 
-    public CustomInfoWindowAdapter(final LayoutInflater inflater) {
-        mContentsView = inflater.inflate(R.layout.fragment_record_info, null);
+    public SpeedTestInfoWindowAdapter(final LayoutInflater inflater) {
+        mContentsView = inflater.inflate(R.layout.speedtest_record_info, null);
     }
 
     /**
@@ -64,7 +65,10 @@ public class CustomInfoWindowAdapter implements InfoWindowAdapter {
      * @param view Custom infobox view
      */
     private void renderContents(Marker marker, View view) {
-        String[] snippetInfo = StringUtils.split(marker.getSnippet(), '|');
+        String[] snippetInfo = StringUtils.split(marker.getSnippet(), AppConstants.TEXT_SEPARATOR);
+        
+        TextView infoHeading = (TextView) view.findViewById(R.id.txt_info_heading);
+        infoHeading.setText("@ " + marker.getTitle());
 
         TextView downloadSpeed = (TextView) view.findViewById(R.id.txt_info_download);
         downloadSpeed.setText(snippetInfo[1]);
