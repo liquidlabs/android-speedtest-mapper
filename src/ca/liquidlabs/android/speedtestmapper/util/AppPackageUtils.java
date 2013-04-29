@@ -3,9 +3,12 @@ package ca.liquidlabs.android.speedtestmapper.util;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
+
+import java.util.Locale;
 
 /**
  * Collection of utility methods to perform actions.
@@ -70,5 +73,30 @@ public class AppPackageUtils {
         } catch (NameNotFoundException e) {
             return null;
         }
+    }
+
+    /**
+     * Util method to get app name and version.
+     * 
+     * @param context Application context
+     * @param packageName Fully qualified package name of app
+     * @return Human readable version info of the application
+     */
+    public static String getApplicationVersionInfo(Context context, String packageName) {
+        PackageInfo packageInfo;
+        try {
+            packageInfo = context.getPackageManager().getPackageInfo(packageName,
+                    PackageManager.GET_ACTIVITIES);
+        } catch (NameNotFoundException e) {
+            // unable to find application
+            return "";
+        }
+
+        String appName = "N/A";
+        if (packageInfo.applicationInfo != null) {
+            appName = (String) context.getPackageManager().getApplicationLabel(
+                    packageInfo.applicationInfo);
+        }
+        return String.format(Locale.US, "\nApp: %s\nVersion: %s\n", appName, packageInfo.versionName);
     }
 }
