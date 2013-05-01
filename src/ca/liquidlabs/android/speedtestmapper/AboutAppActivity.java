@@ -17,6 +17,13 @@ public class AboutAppActivity extends Activity {
         setupActionBar();
     }
 
+    @Override
+    protected void onPause(){
+        // Override the activity transition animation
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        super.onPause();
+    }
+    
     /**
      * Set up the {@link android.app.ActionBar}.
      */

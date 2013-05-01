@@ -98,7 +98,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         // Prepare button to proper speedtest link
         this.prepareSpeedTestLink();
     }
-
+    
     /**
      * Handle intent data when shared from speedtest or other app
      * 
@@ -248,6 +248,7 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return true;
             case R.id.action_about_app:
                 startActivity(new Intent(getApplicationContext(), AboutAppActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             default:
                 return super.onOptionsItemSelected(item);
         }
