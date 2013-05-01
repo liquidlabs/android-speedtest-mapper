@@ -63,7 +63,7 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         // Also load the CSV record header text, which is needed to validate
         mCsvHeaderText = this.getString(R.string.speedtest_csv_header);
-        
+
         /*
          * Get intent, action and MIME type More info/guide:
          * http://developer.android.com/training/sharing/receive.html
@@ -71,7 +71,6 @@ public class MainActivity extends Activity implements InputDialogListener {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             mIsSharedIntent = true;
@@ -94,7 +93,7 @@ public class MainActivity extends Activity implements InputDialogListener {
 
         // Prepare session UI data - based on user input
         this.prepareSessionDataUi();
-        
+
         // Prepare button to proper speedtest link
         this.prepareSpeedTestLink();
     }
@@ -120,6 +119,7 @@ public class MainActivity extends Activity implements InputDialogListener {
 
     /**
      * Handle text provided by user from clipboard
+     * 
      * @param data User data
      */
     private void handleLocalText(String data) {
@@ -173,8 +173,10 @@ public class MainActivity extends Activity implements InputDialogListener {
      */
     private void prepareSessionDataUi() {
         // if shared intent, UI has been already populated
-        if(mIsSharedIntent) {return;}
-        
+        if (mIsSharedIntent) {
+            return;
+        }
+
         if (mLastSessionValidData != null) {
             // valid data exist, user already used some data to see maps
             mIconFeedback.setImageResource(R.drawable.ic_smile_success);
@@ -245,6 +247,13 @@ public class MainActivity extends Activity implements InputDialogListener {
         switch (item.getItemId()) {
             case R.id.action_paste_data:
                 showInputDialog();
+                return true;
+            case R.id.action_report_issue:
+                Tracer.Toast(this, "TODO: Reporting issue.");
+                return true;
+            case R.id.action_about_app:
+                startActivity(new Intent(getApplicationContext(), AboutAppActivity.class));
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

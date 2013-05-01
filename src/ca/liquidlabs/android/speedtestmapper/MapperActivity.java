@@ -212,7 +212,7 @@ public class MapperActivity extends Activity {
 
     private boolean checkReady() {
         if (mMap == null || mListData == null) {
-            Toast.makeText(this, R.string.map_not_ready, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.msg_map_not_ready, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

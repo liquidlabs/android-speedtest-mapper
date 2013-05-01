@@ -2,9 +2,19 @@
 
     <item
         android:id="@+id/action_paste_data"
+        android:icon="@drawable/ic_action_paste"
         android:orderInCategory="100"
         android:showAsAction="always"
-        android:icon="@drawable/ic_action_paste"
         android:title="@string/action_paste"/>
+    <item
+        android:id="@+id/action_report_issue"
+        android:showAsAction="never"
+        android:title="@string/action_report_issue">
+    </item>
+    <item
+        android:id="@+id/action_about_app"
+        android:showAsAction="never"
+        android:title="@string/action_about">
+    </item>
 
 </menu>
