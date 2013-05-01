@@ -246,6 +246,8 @@ public class MainActivity extends Activity implements InputDialogListener {
             case R.id.action_paste_data:
                 showInputDialog();
                 return true;
+            case R.id.action_about_app:
+                startActivity(new Intent(getApplicationContext(), AboutAppActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
