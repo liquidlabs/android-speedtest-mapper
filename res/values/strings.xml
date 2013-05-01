@@ -53,7 +53,7 @@
     <string name="speedtest_csv_header">Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp</string>
     
     <!-- email content -->
-    <string name="title_dialog_choose_email">Select email app:</string>
+    <string name="title_dialog_choose_email">Select an email app:</string>
     <string name="report_issue_subject">Issue for %s app</string>
     <string name="report_issue_body">Hi,\nData import is not working.\n\nHere is useful information for debugging:\n-%s-\n</string>
 

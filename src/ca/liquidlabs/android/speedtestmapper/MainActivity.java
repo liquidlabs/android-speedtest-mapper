@@ -249,8 +249,7 @@ public class MainActivity extends Activity implements InputDialogListener {
                 showInputDialog();
                 return true;
             case R.id.action_report_issue:
-                Tracer.Toast(this, "TODO: Reporting issue.");
-
+                // Prepare email content and send intent
                 startActivity(Intent.createChooser(getReportIssueIntent(),
                         getString(R.string.title_dialog_choose_email)));
                 return true;
