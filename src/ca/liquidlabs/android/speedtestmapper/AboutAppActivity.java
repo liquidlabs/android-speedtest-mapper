@@ -1,11 +1,10 @@
 
 package ca.liquidlabs.android.speedtestmapper;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.view.MenuItem;
 
 public class AboutAppActivity extends Activity {
 
@@ -18,12 +17,12 @@ public class AboutAppActivity extends Activity {
     }
 
     @Override
-    protected void onPause(){
+    protected void onPause() {
         // Override the activity transition animation
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         super.onPause();
     }
-    
+
     /**
      * Set up the {@link android.app.ActionBar}.
      */
@@ -31,13 +30,6 @@ public class AboutAppActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.about_app, menu);
-        return true;
     }
 
     @Override
