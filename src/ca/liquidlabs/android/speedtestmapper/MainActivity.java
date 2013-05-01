@@ -166,6 +166,8 @@ public class MainActivity extends Activity implements InputDialogListener {
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_HEADER, mCsvHeaderText);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_DATA, csvData);
         startActivity(intent);
+        // apply slide-in animation
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
     }
 
     /**
