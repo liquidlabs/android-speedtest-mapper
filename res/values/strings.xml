@@ -3,6 +3,7 @@
 
     <!-- App and activity core -->
     <string name="app_name">Mapper</string>
+    <string name="speedtest_app_name">Speed Test</string>
     <string name="title_activity_mapper">MapperActivity</string>
     <string name="title_activity_about_app">About</string>
     
@@ -50,5 +51,10 @@
 
     <!-- Localized header value for exported csv -->
     <string name="speedtest_csv_header">Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp</string>
+    
+    <!-- email content -->
+    <string name="title_dialog_choose_email">Select email app:</string>
+    <string name="report_issue_subject">Issue for %s app</string>
+    <string name="report_issue_body">Hi,\nData import is not working.\n\nHere is useful information for debugging:\n-%s-\n</string>
 
 </resources>

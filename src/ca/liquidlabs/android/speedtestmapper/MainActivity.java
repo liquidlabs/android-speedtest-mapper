@@ -250,6 +250,9 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return true;
             case R.id.action_report_issue:
                 Tracer.Toast(this, "TODO: Reporting issue.");
+
+                startActivity(Intent.createChooser(getReportIssueIntent(),
+                        getString(R.string.title_dialog_choose_email)));
                 return true;
             case R.id.action_about_app:
                 startActivity(new Intent(getApplicationContext(), AboutAppActivity.class));
@@ -259,6 +262,28 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    /**
+     * Prepares an intent to report issue via email.
+     * 
+     * @return Intent to launch to send email.
+     */
+    private Intent getReportIssueIntent() {
+        Intent reportIssueIntent = new Intent(Intent.ACTION_SEND);
+        reportIssueIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {
+                AppConstants.CONTANT_EMAIL
+        });
+        reportIssueIntent.putExtra(Intent.EXTRA_SUBJECT,
+                getString(R.string.report_issue_subject, getString(R.string.app_name)));
+        reportIssueIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                getString(R.string.report_issue_body,
+                        AppPackageUtils
+                                .getApplicationVersionInfo(getApplicationContext(),
+                                        AppConstants.PACKAGE_SPEEDTEST_APP)));
+        reportIssueIntent.setType(AppConstants.EMAIL_MIME_TYPE);
+        return reportIssueIntent;
     }
 
     //
