@@ -67,6 +67,18 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.liquidlabs.android.speedtestmapper.MainActivity" />
         </activity>
+        
+        <!--
+            Application about activity 
+        -->
+        <activity
+            android:name="ca.liquidlabs.android.speedtestmapper.AboutAppActivity"
+            android:label="@string/title_activity_about_app"
+            android:parentActivityName="ca.liquidlabs.android.speedtestmapper.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.liquidlabs.android.speedtestmapper.MainActivity" />
+        </activity>
 
         <!--
             Google Maps API key
