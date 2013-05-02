@@ -15,6 +15,10 @@
     <dimen name="filter_view_margin">10dp</dimen>
     <dimen name="filter_view_padding">6dp</dimen>
     
+    <!--  typography margins -->
+    <dimen name="title_vertical_margin">10dp</dimen>
+    <dimen name="btn_horizontal_pad_med">20dp</dimen>
+    
     <!-- Activity Specific -->
     <dimen name="activity_message_block_top_margin">40dp</dimen>
 </resources>

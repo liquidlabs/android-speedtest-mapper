@@ -1,10 +1,18 @@
 
 package ca.liquidlabs.android.speedtestmapper;
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.TextView;
 
 public class AboutAppActivity extends Activity {
 
@@ -14,6 +22,40 @@ public class AboutAppActivity extends Activity {
         setContentView(R.layout.activity_about_app);
         // Show the Up button in the action bar.
         setupActionBar();
+        
+        /* setup the Attribution Text for Google Maps - as per license agreement */
+      //  TextView attrText = (TextView) super.findViewById(R.id.txt_about_info);        
+      //  attrText.setText();
+        
+        initListeners();
+    }
+    
+    
+    /**
+     * Initializes / Attaches Event Listeners to Buttons
+     */
+    private void initListeners() 
+    {
+    	Button btn = (Button) super.findViewById(R.id.btn_license_info);    	
+    	final AboutAppActivity $this = AboutAppActivity.this;
+    	
+    	btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+
+				new AlertDialog.Builder($this)
+			    	.setTitle($this.getString(R.string.lbl_license_info))
+			    	.setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo($this))
+//			    	.setView(input)
+			    	.setNegativeButton("OK", new DialogInterface.OnClickListener() {
+			    		public void onClick(DialogInterface dialog, int whichButton) {
+			    			// Do nothing.
+			    		}
+			    	}).show();				
+			}
+		});
     }
 
     @Override
