@@ -5,71 +5,58 @@
 
     <TableRow
         android:id="@+id/tableRow1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        style="@style/WrapBoth" >
 
         <ImageView
             android:id="@+id/img_legend_download"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/MarkerInfoIcon"
             android:contentDescription="@string/desc_download_info"
             android:src="@drawable/ic_download" />
 
         <TextView
             android:id="@+id/txt_info_download"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            style="@style/MarkerInfoText"
             android:text="@string/desc_download_info" />
 
     </TableRow>
 
     <TableRow
         android:id="@+id/tableRow2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        style="@style/WrapBoth" >
 
         <ImageView
             android:id="@+id/img_legend_upload"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/MarkerInfoIcon"
             android:contentDescription="@string/desc_upload_info"
             android:src="@drawable/ic_upload" />
 
         <TextView
             android:id="@+id/txt_info_upload"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            style="@style/MarkerInfoText"
             android:text="@string/desc_upload_info" />
 
     </TableRow>
 
     <TableRow
         android:id="@+id/tableRow3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        style="@style/WrapBoth" >
 
         <ImageView
             android:id="@+id/img_legend_conntype"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/MarkerInfoIcon"
             android:contentDescription="@string/desc_connection_type"
             android:src="@drawable/ic_connection_cell" />
 
         <TextView
             android:id="@+id/txt_info_conntype"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:gravity="center_vertical"
+            style="@style/MarkerInfoText"
             android:text="@string/desc_connection_type" />
 
     </TableRow>
 
     <TextView
         android:id="@+id/txt_info_heading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/WrapBoth"
         android:gravity="center"
         android:text="@string/desc_record_date" />
 
