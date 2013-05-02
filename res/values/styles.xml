@@ -32,7 +32,6 @@
         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     -->
 
-
     <!-- Wraps content on both height and weight -->
     <style name="WrapBoth">
         <item name="android:layout_width">wrap_content</item>
@@ -45,6 +44,14 @@
         <item name="android:layout_height">match_parent</item>
     </style>
     <!-- ~~~~~~~~~~~~ End of generic style classes ~~~~~~~~~~~~~ -->
+    
+    <!-- Style for generic activity with recommended margins -->
+    <style name="MarginedActivity" parent="@style/MatchBoth">
+        <item name="android:paddingBottom">@dimen/activity_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
+        <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
+    </style>
 
     <!--
         Info view item styles on Main Acitivty 
@@ -71,5 +78,13 @@
         <item name="android:gravity">center_vertical</item>
     </style>
     
+    <!-- General styles for Mapper Activity -->
+    <style name="MapFilterContainer" parent="@style/WrapBoth">
+        <item name="android:layout_marginRight">@dimen/filter_view_margin</item>
+        <item name="android:layout_marginBottom">@dimen/filter_view_margin</item>
+        <item name="android:background">@color/bg_filter_container</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:padding">@dimen/filter_view_padding</item>
+    </style>
 
 </resources>

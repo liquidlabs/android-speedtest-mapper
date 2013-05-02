@@ -11,6 +11,10 @@
     <dimen name="dialog_horizontal_margin">12dp</dimen>
     <dimen name="dialog_vertical_margin">12dp</dimen>
     
+    <!-- Generic view related -->
+    <dimen name="filter_view_margin">10dp</dimen>
+    <dimen name="filter_view_padding">6dp</dimen>
+    
     <!-- Activity Specific -->
     <dimen name="activity_message_block_top_margin">40dp</dimen>
 </resources>

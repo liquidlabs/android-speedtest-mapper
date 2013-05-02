@@ -1,3 +1,4 @@
 <resources>
     <color name="btn_link">#555</color>
+    <color name="bg_filter_container">#ACCC</color>
 </resources>
