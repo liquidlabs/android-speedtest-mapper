@@ -2,17 +2,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- App and activity core -->
-    <string name="app_name">Mapper</string>
+    <string name="app_name">Speed Test Visualizer</string>
     <string name="speedtest_app_name">Speed Test</string>
-    <string name="title_activity_mapper">MapperActivity</string>
-    <string name="title_activity_about_app">About</string>
+    <string name="title_activity_mapper">Map Visualizer</string>
+    <string name="title_activity_about_app">About App</string>
     
     <string name="txt_welcome">Welcome!</string>
     <string name="txt_inpul_guide">Paste exported CSV data content</string>
     <string name="txt_inpul_hint">Long press to show \npaste option&#8230;</string>
     
     <string name="lbl_input_heading">Manual input</string>
-    <string name="lbl_input_process">Process</string>
+    <string name="lbl_input_process">Process Data</string>
     <string name="lbl_launch_map">View map</string>
     <string name="lbl_show_how">Show me how</string>
     <!-- User message -->
