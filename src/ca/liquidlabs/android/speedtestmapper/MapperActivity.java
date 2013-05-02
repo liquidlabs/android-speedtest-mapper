@@ -98,6 +98,13 @@ public class MapperActivity extends Activity {
         super.onResume();
         setUpMapIfNeeded();
     }
+    
+    @Override
+    protected void onPause() {
+        // Override the activity transition animation
+        overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+        super.onPause();
+    }
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the

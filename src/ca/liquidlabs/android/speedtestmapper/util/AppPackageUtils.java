@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 
+import ca.liquidlabs.android.speedtestmapper.R;
+
 import java.util.Locale;
 
 /**
@@ -89,7 +91,7 @@ public class AppPackageUtils {
                     PackageManager.GET_ACTIVITIES);
         } catch (NameNotFoundException e) {
             // unable to find application
-            return "";
+            return context.getString(R.string.speedtest_app_name) + " app was not found.";
         }
 
         String appName = "N/A";
@@ -97,6 +99,7 @@ public class AppPackageUtils {
             appName = (String) context.getPackageManager().getApplicationLabel(
                     packageInfo.applicationInfo);
         }
-        return String.format(Locale.US, "\nApp: %s\nVersion: %s\n", appName, packageInfo.versionName);
+        return String.format(Locale.US, "\nApp: %s\nVersion: %s\n", appName,
+                packageInfo.versionName);
     }
 }
