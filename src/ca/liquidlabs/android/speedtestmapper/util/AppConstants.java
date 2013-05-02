@@ -6,7 +6,7 @@ public interface AppConstants {
      * Boolean flat to trun ON or OFF application debugging
      */
     boolean DEBUG_MODE = true;
-    
+
     /**
      * Character used to join and split string data
      */
@@ -16,12 +16,12 @@ public interface AppConstants {
      * Key name for CSV header used to send data via intent
      */
     String KEY_SPEEDTEST_CSV_HEADER = "INTENT_KEY_CSV_HEADER";
-    
+
     /**
      * Key name for CSV data set used to send data via intent
      */
     String KEY_SPEEDTEST_CSV_DATA = "INTENT_KEY_CSV_DATA";
-    
+
     /**
      * Package name for SpeedTest(tm) app
      */
@@ -31,4 +31,14 @@ public interface AppConstants {
      * Used to create generic intent instead of using package name
      */
     String PLAY_STORE_BASE_URL = "http://play.google.com/store/apps/details?id=";
+
+    /**
+     * Email address for contact/issue reporting
+     */
+    String CONTANT_EMAIL = "contact@liquidlabs.ca";
+
+    /**
+     * Email mime type
+     */
+    String EMAIL_MIME_TYPE = "message/rfc822";
 }
