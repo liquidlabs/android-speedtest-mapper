@@ -1,9 +1,8 @@
-<resources>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    -->
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.    -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
@@ -16,5 +15,51 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+
+    <!--
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        List of some generic style classes which can be
+        extended and overridden when necessary
+        
+        Use following to extend existing style
+        <style name="a"><item /></style>
+        
+        Extend style "a" using, (which inherits all style of "a")
+        <style name="a.b"><item /></style>
+        
+        You can also directly import style without extending by,
+        <style name="c" parent="@style/a"><item /></style>
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    -->
+
+
+    <!-- Wraps content on both height and weight -->
+    <style name="WrapBoth">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <!-- Match parent's height and weight -->
+    <style name="MatchBoth">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+    <!-- ~~~~~~~~~~~~ End of generic style classes ~~~~~~~~~~~~~ -->
+
+    <!--
+        Info view item styles on Main Acitivty 
+    -->
+    <style name="InfoView" parent="@style/WrapBoth">
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <style name="InfoView.Text">
+        <item name="android:textAppearance">@android:attr/textAppearanceMedium</item>
+    </style>
+    <style name="InfoView.Button">
+        <item name="android:textColor">@color/btn_link</item>
+        <item name="android:visibility">gone</item>
+    </style>
+    
+    
 
 </resources>
