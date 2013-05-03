@@ -52,6 +52,7 @@
         <item name="android:paddingRight">@dimen/activity_horizontal_margin</item>
         <item name="android:paddingTop">@dimen/activity_vertical_margin</item>
     </style>
+    
 
     <!--
         Info view item styles on Main Acitivty 
@@ -65,6 +66,32 @@
     <style name="InfoView.Button">
         <item name="android:textColor">@color/btn_link</item>
         <item name="android:visibility">gone</item>
+    </style>
+    
+    <!-- 
+        Styles related to About Activity 
+    -->
+    <style name="AboutView" parent="@style/WrapBoth">
+    </style>    
+        
+    <style name="AboutView.Title">
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_marginTop">@dimen/title_vertical_margin</item>
+        <item name="android:layout_marginBottom">@dimen/title_vertical_margin</item>
+    </style>
+    
+    <style name="AboutView.Info">
+        <item name="android:textStyle">normal</item>
+    </style>
+    
+    <style name="AboutView.Button">
+        <item name="android:layout_width">wrap_content</item>        
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingLeft">@dimen/btn_horizontal_pad_med</item>
+        <item name="android:paddingRight">@dimen/btn_horizontal_pad_med</item>
     </style>
     
     
