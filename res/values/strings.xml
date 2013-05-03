@@ -70,19 +70,25 @@
     <string name="report_issue_subject">Issue for %s app</string>
     <string name="report_issue_body">Hi,\nData import is not working.\n\nHere is useful information for debugging:\n-%s-\n</string>
 
+    
     <!-- 
         String used on About Activity
      -->
-    <string name="txt_about_info">Speed Test Visualizer provides a data visualization of the speed test results obtained from Speedtest.net. 
-        In the Map each point shows the location of speed test, the connection speed and type (wifi, 3G). 
-        \n\nTo use the App, you must have SpeedTest.net installed. 
-        \n\nThe source code of the entire App is available at 
+    <string name="txt_about_info">Speed Test Visualizer provides a visualization of the speed test results from Speedtest.net
+        and displays them in Map. In the Map each point shows the location of speed test, the connection speed and type (wifi, 3G).  
+        \n\nSource code of the App is available at 
         <a href="https://github.com/liquidlabs/android-speedtest-mapper">Github</a>
-        \n\nDeveloped by Liquid Labs Inc.                       
+                               
     </string>
+    
+     <string name="txt_author_info">\nDeveloped by Liquid Labs Inc. Visit us at <a href="http://liquidlabs.ca/">http://liquidlabs.ca/</a>
+     </string>
     
     <string name="lbl_license_info">Google Maps Terms</string>    
     <string name="lbl_apps_list">Apps By Liquid Labs</string>
+    <string name="google_play_query">market://search?q=pub:Liquid Labs Inc.</string>
+    <string name="github_url">https://github.com/liquidlabs/android-speedtest-mapper</string>
+    <string name="author_url">http://liquidlabs.ca/</string>
             
     
     

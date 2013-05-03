@@ -6,6 +6,8 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
@@ -48,7 +50,6 @@ public class AboutAppActivity extends Activity {
 				new AlertDialog.Builder($this)
 			    	.setTitle($this.getString(R.string.lbl_license_info))
 			    	.setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo($this))
-//			    	.setView(input)
 			    	.setNegativeButton("OK", new DialogInterface.OnClickListener() {
 			    		public void onClick(DialogInterface dialog, int whichButton) {
 			    			// Do nothing.
@@ -56,6 +57,37 @@ public class AboutAppActivity extends Activity {
 			    	}).show();				
 			}
 		});
+    	
+    	btn = (Button) super.findViewById(R.id.btn_google_play_apps);
+    	btn.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {				
+				String googlePlayLink = $this.getString(R.string.google_play_query);
+				$this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(googlePlayLink)));
+			}
+		});
+    	
+    	/* On Tap of the TextView, simply redirect user to the Github Repo */
+    	TextView txtView = (TextView) super.findViewById(R.id.txt_about_info);
+    	txtView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse($this.getString(R.string.github_url)));
+				$this.startActivity(browserIntent);				
+			}
+		});
+    	
+    	txtView = (TextView) super.findViewById(R.id.txt_author_info);
+    	txtView.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse($this.getString(R.string.author_url)));
+				$this.startActivity(browserIntent);				
+			}
+		});    	
     }
 
     @Override

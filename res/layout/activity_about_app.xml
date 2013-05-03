@@ -13,6 +13,15 @@
         android:layout_alignParentLeft="true"    
      />
     
+    <TextView
+        style="@style/AboutView.Info"
+        android:text="@string/txt_author_info"
+        
+        android:id="@+id/txt_author_info"                
+        android:layout_below="@id/txt_about_info"
+        android:layout_alignParentLeft="true"    
+     />    
+    
     <Button
         style="@style/AboutView.Button"
         android:id="@+id/btn_license_info"
@@ -24,7 +33,7 @@
 
     <Button
         style="@style/AboutView.Button"
-        android:id="@+id/txt_about_attr_info"
+        android:id="@+id/btn_google_play_apps"
         
         android:text="@string/lbl_apps_list"
         android:layout_above="@id/btn_license_info"            
