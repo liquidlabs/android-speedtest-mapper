@@ -29,7 +29,7 @@
     <string name="lbl_launch_map">View map</string>
     <string name="lbl_show_how">Show me how</string>
     <!-- User message -->
-    <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us <i>(using menu)</i>.\nWe\'ll look into it :-]</string>
+    <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us.\nWe\'ll look into it :-]</string>
     <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
     <string name="msg_welcome_instructions">Welcome! \nYou can visualize Speedtest.net\'s saved data by exporting them into this app, or use the \"Paste\" menu to import data from your clipboard.</string>
     <string name="msg_map_not_ready">Preparing map with data&#8230;</string>
@@ -53,6 +53,8 @@
     <string name="action_about">About</string>
     <string name="action_report_issue">Report</string>
     <string name="action_google_maps_attribution">About Maps</string>
+    <string name="action_github_project">Get it on Github</string>
+    <string name="action_github_project_short">Github</string>
 
 
     <!-- UI element description for accessibility -->
@@ -68,7 +70,7 @@
     <!-- email content -->
     <string name="title_dialog_choose_email">Select an email app:</string>
     <string name="report_issue_subject">Issue for %s app</string>
-    <string name="report_issue_body">Hi,\nData import is not working.\n\nHere is useful information for debugging:\n-%s-\n</string>
+    <string name="report_issue_body">Hi,\nData import is non-functional.\n\nHere is useful information for debugging:\n-%s-\n</string>
 
     
     <!-- 
