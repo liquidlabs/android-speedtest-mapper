@@ -24,6 +24,10 @@ Credits
  * Apache Commons Lang3 - Utility classes for Java - http://commons.apache.org/proper/commons-lang/
  * Apache Commons CSV - parser used to parse CSV data from SpeedTest.net app - http://commons.apache.org/proper/commons-csv/
  * Google Maps V2 - https://developers.google.com/maps/documentation/android/
+ 
+License
+========
+This app is licensed under *Apache License, Version 2.0* - http://www.apache.org/licenses/LICENSE-2.0
 
 Privacy
 ========
