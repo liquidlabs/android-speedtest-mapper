@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.liquidlabs.android.speedtestmapper.model.ConnectionType;
-import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
-import ca.liquidlabs.android.speedtestmapper.util.Tracer;
+import ca.liquidlabs.android.speedtestvisualizer.model.ConnectionType;
+import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
+import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 import com.google.android.gms.maps.GoogleMap.InfoWindowAdapter;
 import com.google.android.gms.maps.model.Marker;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper.model;
+package ca.liquidlabs.android.speedtestvisualizer.model;
 
 /**
  * List of possible connection type values. These values can be used to show

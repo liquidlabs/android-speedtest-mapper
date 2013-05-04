@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper.util;
+package ca.liquidlabs.android.speedtestvisualizer.util;
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.drawable.Drawable;
 
-import ca.liquidlabs.android.speedtestmapper.R;
+import ca.liquidlabs.android.speedtestvisualizer.R;
 
 import java.util.Locale;
 

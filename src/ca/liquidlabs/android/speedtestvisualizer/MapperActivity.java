@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,11 +31,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import ca.liquidlabs.android.speedtestmapper.model.ComparableDownloadSpeed;
-import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
-import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
-import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
-import ca.liquidlabs.android.speedtestmapper.util.Tracer;
+import ca.liquidlabs.android.speedtestvisualizer.model.ComparableDownloadSpeed;
+import ca.liquidlabs.android.speedtestvisualizer.model.SpeedTestRecord;
+import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
+import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
+import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
