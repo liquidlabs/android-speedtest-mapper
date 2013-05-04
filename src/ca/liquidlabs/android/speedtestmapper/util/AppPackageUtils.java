@@ -99,7 +99,7 @@ public class AppPackageUtils {
             appName = (String) context.getPackageManager().getApplicationLabel(
                     packageInfo.applicationInfo);
         }
-        return String.format(Locale.US, "\nApp: %s\nVersion: %s\n", appName,
-                packageInfo.versionName);
+        return String.format(Locale.US, "\nApp: %s\nVersion: %s\nLanguage: %s\n", 
+        		appName, packageInfo.versionName, Locale.getDefault().getLanguage());
     }
 }
