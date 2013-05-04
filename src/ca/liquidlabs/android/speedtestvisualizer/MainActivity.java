@@ -28,7 +28,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.InputDialogFragment.InputDialogListener;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppPackageUtils;

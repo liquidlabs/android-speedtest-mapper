@@ -31,7 +31,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.model.ComparableDownloadSpeed;
 import ca.liquidlabs.android.speedtestvisualizer.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;

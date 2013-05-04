@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.model.ConnectionType;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;

@@ -29,7 +29,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 /**

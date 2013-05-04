@@ -15,7 +15,6 @@
  */
 package ca.liquidlabs.android.speedtestvisualizer;
 
-import ca.liquidlabs.android.speedtestvisualizer.R;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.app.Activity;
