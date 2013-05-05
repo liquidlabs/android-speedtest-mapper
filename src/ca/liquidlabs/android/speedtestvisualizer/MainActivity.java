@@ -15,6 +15,8 @@
  */
 package ca.liquidlabs.android.speedtestvisualizer;
 
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -236,15 +238,17 @@ public class MainActivity extends Activity implements InputDialogListener {
         } else {
             // Prepare link to SpeedTest app in Google Play
             mSpeedtestLinkButton.setText(R.string.lbl_get_app_googleplay);
-            mSpeedtestLinkButton.setCompoundDrawablesWithIntrinsicBounds(
-                    R.drawable.ic_google_play_store, 0, 0, 0);
+			mSpeedtestLinkButton.setCompoundDrawablesWithIntrinsicBounds(
+					AppPackageUtils.getAppIcon(getApplicationContext(),
+							GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE),
+					null, null, null);
 
             // Setup play store intent
             mSpeedtestLinkButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                            .parse(AppConstants.PLAY_STORE_BASE_URL
+                            .parse(AppConstants.PLAY_STORE_BASE_NATIVE_URI
                                     + AppConstants.PACKAGE_SPEEDTEST_APP)));
                 }
             });
