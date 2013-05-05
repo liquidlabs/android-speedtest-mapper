@@ -39,7 +39,7 @@ Contributing to project
 =========================
 If you would like to contribute to this project, please create pull request. We'll be happy to add new features to this app.
 
-Here is [how to setup project][https://github.com/liquidlabs/android-speedtest-mapper/wiki/How-to-setup-project] with eclipse.
+Here is [how to setup project](https://github.com/liquidlabs/android-speedtest-mapper/wiki/How-to-setup-project "How to setup project") with eclipse.
 
 
 Credits
