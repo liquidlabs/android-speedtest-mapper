@@ -31,14 +31,13 @@
     <!--
         Button which will be Re-Used to show either:
          * Link to existing SpeedTest App - when app is already installed 
-         * otherwise, SpeedTest google playstore link to install    -->
+         * otherwise, link to Speed Test app on google play store    -->
     <Button
         android:id="@+id/btn_speedtest_app_link"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:drawableLeft="@drawable/ic_google_play_store"
         android:text="@string/lbl_get_app_googleplay" />
 
 </RelativeLayout>
