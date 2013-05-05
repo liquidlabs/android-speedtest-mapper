@@ -268,20 +268,30 @@ public class MapperActivity extends Activity {
         addMarkersToMap();
     }
 
-    /**
-     * Calculates marker color warmness based on download speed. <br/>
-     * Highest speed -> RED, Lowest speed -> GREEN.
-     * @param speedValue Speed
-     * @return hue value based on speed
-     */
-    private static float getWeightedMarkerValue(int speedValue){
-        float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * MapperActivity.mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
-                /(MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed);
-        if(hueVal<BitmapDescriptorFactory.HUE_RED || hueVal>BitmapDescriptorFactory.HUE_ROSE){
-            return BitmapDescriptorFactory.HUE_GREEN;
-        }
-        return hueVal;
-    }
+	/**
+	 * Calculates marker color warmness based on download speed. <br/>
+	 * Highest speed -> RED, Lowest speed -> GREEN.
+	 * 
+	 * @param speedValue
+	 *            Single record's speed value
+	 * @return hue value based on speed
+	 */
+	private static float getWeightedMarkerValue(int speedValue) {
+		int speedDifference = MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed;
+		if (speedDifference <= 0) {
+			// this might be the case, when there is only one record and
+			// MaxSpeed = MinSpeed, So, return warmest hue value
+			return BitmapDescriptorFactory.HUE_RED;
+		}
+		
+		// calculate hue value based on speed
+		float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * MapperActivity.mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
+				/ speedDifference;
+		if (hueVal < BitmapDescriptorFactory.HUE_RED || hueVal > BitmapDescriptorFactory.HUE_ROSE) {
+			return BitmapDescriptorFactory.HUE_GREEN;
+		}
+		return hueVal;
+	}
 
     /**
      * Shows progress animation in ActioBar
