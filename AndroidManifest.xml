@@ -4,6 +4,11 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <!-- 
+    	Using ICS+ to avoid using support fragments and support ActioBar.
+    	This does lose ~45% of the users who are stuck at Android 2.x release.
+    	Will try to address this based on user demand and feedback.
+    -->
     <uses-sdk
         android:minSdkVersion="14"
         android:targetSdkVersion="17" />
@@ -83,12 +88,12 @@
         <!--
             Google Maps API key
             ====================
-            NOTE: This is a debug key, generate your own to make it work with your debug certificate.
-                  For More info visit https://developers.google.com/maps/documentation/android/start
+            NOTE: You must create your own API key for Google Maps to view map data.
+            https://developers.google.com/maps/documentation/android/start#the_google_maps_api_key
         -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyApxf8f-fb8IOL5MSIe6afNvlcLW1U3VoM" />
+            android:value="your_own_api_key_here" />
         
     </application>
 
