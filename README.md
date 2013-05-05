@@ -4,9 +4,9 @@ Android - SpeedTest.net Data Visualizer
 [Speedtest.net android application][applink] data visualization using Google Maps and other means (in works).
 
 
-This is a very simple mapping app, which shows points where speed test was done and associated information with it.
+This is a very simple data visualization app, which currently shows points where speed test was done and associated information with it.
 
-Why This?
+Why this?
 ==========
 Though Speedtest.net android app records location information with the test data, there is currently no way to visualize the data in map. This is an effort to fill this gap, and possibly implement other ways to generate chart to understand even more on data stored by the app.  
 
@@ -18,6 +18,22 @@ This app depends on exported data from [Speedtest.net app][applink]. Currently t
  2. Or, use already exported data - just copy data and paste into input box 
 
 TODO: Add video URL
+
+
+Known issues
+==============
+ * Maps camera does not update bounds to show all marker points after changing "Connection Type" filter.
+
+
+Possible features
+====================
+Here are list of nice to have *(missing)* features, which can be implemented in future release for better visualization.
+
+ * Show chart containing all test records
+ * Filter records by date range
+ * Filter records by download, upload or latency speed
+ * Filter by region
+
 
 Credits
 =======
@@ -33,6 +49,7 @@ Privacy
 ========
 This app does *NOT* collect any personal identifiable information.
 App does not store data used to visualize exported data. Once app exits, data is removed from memory.
+
 
 
 [applink]: https://play.google.com/store/apps/details?id=org.zwanoo.android.speedtest "Speedtest.net Android App at Google Play Store"
