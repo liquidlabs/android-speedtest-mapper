@@ -62,7 +62,7 @@ public class MapperActivity extends Activity {
     private static final String LOG_TAG = MapperActivity.class.getSimpleName();
 
     private GoogleMap mMap;
-    private static List<SpeedTestRecord> mListData;
+    private static List<SpeedTestRecord> mCsvListData;
     private static int mMaxNetworkSpeed;
     private static int mMinNetworkSpeed;
     
@@ -147,6 +147,12 @@ public class MapperActivity extends Activity {
     }
 
     private void setUpMap() {
+    	if(mCsvListData == null || mCsvListData.size()==0){
+    		// nothing to show on map - return with user msg
+    		Toast.makeText(this, R.string.msg_no_records_found, Toast.LENGTH_LONG).show();
+    		return;
+    	}
+    	
         // Setting an info window adapter allows us to change the both the
         // contents and look of the
         // info window.
@@ -167,7 +173,7 @@ public class MapperActivity extends Activity {
         Builder mapBoundsBuilder = new LatLngBounds.Builder();
         int currentTotalRecordCount = 0;
         // Use parsed data to create map markers
-        for (SpeedTestRecord speedTestRecord : mListData) {
+        for (SpeedTestRecord speedTestRecord : mCsvListData) {
 
             if (FILTER_SELECTED == FILTER_TYPE_CELL
                     && !speedTestRecord.getConnectionType().isCell()) {
@@ -231,7 +237,7 @@ public class MapperActivity extends Activity {
     }
 
     private boolean checkReady() {
-        if (mMap == null || mListData == null) {
+        if (mMap == null || mCsvListData == null) {
             Toast.makeText(this, R.string.msg_map_not_ready, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -328,28 +334,35 @@ public class MapperActivity extends Activity {
         protected void onPreExecute(){
             showProgressIndicator();
         }
-        
-        @Override
-        protected Void doInBackground(String... params) {
-            mListData = CsvDataParser.parseCsvData(params[0], params[1]);
-            
-            Collections.sort(mListData, new ComparableDownloadSpeed());
-            // at this point we know there is at least one data, save min and max speed data
-            mMinNetworkSpeed = mListData.get(0).getDownload();
-            mMaxNetworkSpeed = mListData.get(mListData.size()-1).getDownload();
-            
-            // For each of the marker data - update hue color value based on speed
-            for (SpeedTestRecord record : mListData) {
-                record.setMarkerColorHue(getWeightedMarkerValue(record.getDownload()));
-            }
-            
-            Tracer.debug(LOG_TAG, "Min: "+MapperActivity.mMinNetworkSpeed+", Max: "+MapperActivity.mMaxNetworkSpeed);
-            
-            
-            // Nothing to return
-            return null;
-        }
-        
+
+		@Override
+		protected Void doInBackground(String... params) {
+			mCsvListData = CsvDataParser.parseCsvData(params[0], params[1]);
+
+			// do additional operation only if there is more than 1 data
+			if (mCsvListData.size() > 0) {
+				Collections.sort(mCsvListData, new ComparableDownloadSpeed());
+				// at this point we know there is at least one data, save min
+				// and max speed data
+				mMinNetworkSpeed = mCsvListData.get(0).getDownload();
+				mMaxNetworkSpeed = mCsvListData.get(mCsvListData.size() - 1)
+						.getDownload();
+
+				// For each of the marker data - update hue color value based on
+				// download speed
+				for (SpeedTestRecord record : mCsvListData) {
+					record.setMarkerColorHue(getWeightedMarkerValue(record
+							.getDownload()));
+				}
+
+				Tracer.debug(LOG_TAG, "Min: " + MapperActivity.mMinNetworkSpeed
+						+ ", Max: " + MapperActivity.mMaxNetworkSpeed);
+			}
+
+			// Nothing to return
+			return null;
+		}
+
         @Override
         protected void onPostExecute(Void v){
             // hide progress when all processing done
