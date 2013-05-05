@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -31,11 +31,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import ca.liquidlabs.android.speedtestmapper.model.ComparableDownloadSpeed;
-import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
-import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
-import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
-import ca.liquidlabs.android.speedtestmapper.util.Tracer;
+import ca.liquidlabs.android.speedtestvisualizer.model.ComparableDownloadSpeed;
+import ca.liquidlabs.android.speedtestvisualizer.model.SpeedTestRecord;
+import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
+import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
+import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -62,7 +62,7 @@ public class MapperActivity extends Activity {
     private static final String LOG_TAG = MapperActivity.class.getSimpleName();
 
     private GoogleMap mMap;
-    private static List<SpeedTestRecord> mListData;
+    private static List<SpeedTestRecord> mCsvListData;
     private static int mMaxNetworkSpeed;
     private static int mMinNetworkSpeed;
     
@@ -147,6 +147,12 @@ public class MapperActivity extends Activity {
     }
 
     private void setUpMap() {
+    	if(mCsvListData == null || mCsvListData.size()==0){
+    		// nothing to show on map - return with user msg
+    		Toast.makeText(this, R.string.msg_no_records_found, Toast.LENGTH_LONG).show();
+    		return;
+    	}
+    	
         // Setting an info window adapter allows us to change the both the
         // contents and look of the
         // info window.
@@ -167,7 +173,7 @@ public class MapperActivity extends Activity {
         Builder mapBoundsBuilder = new LatLngBounds.Builder();
         int currentTotalRecordCount = 0;
         // Use parsed data to create map markers
-        for (SpeedTestRecord speedTestRecord : mListData) {
+        for (SpeedTestRecord speedTestRecord : mCsvListData) {
 
             if (FILTER_SELECTED == FILTER_TYPE_CELL
                     && !speedTestRecord.getConnectionType().isCell()) {
@@ -231,7 +237,7 @@ public class MapperActivity extends Activity {
     }
 
     private boolean checkReady() {
-        if (mMap == null || mListData == null) {
+        if (mMap == null || mCsvListData == null) {
             Toast.makeText(this, R.string.msg_map_not_ready, Toast.LENGTH_SHORT).show();
             return false;
         }
@@ -262,20 +268,30 @@ public class MapperActivity extends Activity {
         addMarkersToMap();
     }
 
-    /**
-     * Calculates marker color warmness based on download speed. <br/>
-     * Highest speed -> RED, Lowest speed -> GREEN.
-     * @param speedValue Speed
-     * @return hue value based on speed
-     */
-    private static float getWeightedMarkerValue(int speedValue){
-        float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * MapperActivity.mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
-                /(MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed);
-        if(hueVal<BitmapDescriptorFactory.HUE_RED || hueVal>BitmapDescriptorFactory.HUE_ROSE){
-            return BitmapDescriptorFactory.HUE_GREEN;
-        }
-        return hueVal;
-    }
+	/**
+	 * Calculates marker color warmness based on download speed. <br/>
+	 * Highest speed -> RED, Lowest speed -> GREEN.
+	 * 
+	 * @param speedValue
+	 *            Single record's speed value
+	 * @return hue value based on speed
+	 */
+	private static float getWeightedMarkerValue(int speedValue) {
+		int speedDifference = MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed;
+		if (speedDifference <= 0) {
+			// this might be the case, when there is only one record and
+			// MaxSpeed = MinSpeed, So, return warmest hue value
+			return BitmapDescriptorFactory.HUE_RED;
+		}
+		
+		// calculate hue value based on speed
+		float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * MapperActivity.mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
+				/ speedDifference;
+		if (hueVal < BitmapDescriptorFactory.HUE_RED || hueVal > BitmapDescriptorFactory.HUE_ROSE) {
+			return BitmapDescriptorFactory.HUE_GREEN;
+		}
+		return hueVal;
+	}
 
     /**
      * Shows progress animation in ActioBar
@@ -328,28 +344,35 @@ public class MapperActivity extends Activity {
         protected void onPreExecute(){
             showProgressIndicator();
         }
-        
-        @Override
-        protected Void doInBackground(String... params) {
-            mListData = CsvDataParser.parseCsvData(params[0], params[1]);
-            
-            Collections.sort(mListData, new ComparableDownloadSpeed());
-            // at this point we know there is at least one data, save min and max speed data
-            mMinNetworkSpeed = mListData.get(0).getDownload();
-            mMaxNetworkSpeed = mListData.get(mListData.size()-1).getDownload();
-            
-            // For each of the marker data - update hue color value based on speed
-            for (SpeedTestRecord record : mListData) {
-                record.setMarkerColorHue(getWeightedMarkerValue(record.getDownload()));
-            }
-            
-            Tracer.debug(LOG_TAG, "Min: "+MapperActivity.mMinNetworkSpeed+", Max: "+MapperActivity.mMaxNetworkSpeed);
-            
-            
-            // Nothing to return
-            return null;
-        }
-        
+
+		@Override
+		protected Void doInBackground(String... params) {
+			mCsvListData = CsvDataParser.parseCsvData(params[0], params[1]);
+
+			// do additional operation only if there is more than 1 data
+			if (mCsvListData.size() > 0) {
+				Collections.sort(mCsvListData, new ComparableDownloadSpeed());
+				// at this point we know there is at least one data, save min
+				// and max speed data
+				mMinNetworkSpeed = mCsvListData.get(0).getDownload();
+				mMaxNetworkSpeed = mCsvListData.get(mCsvListData.size() - 1)
+						.getDownload();
+
+				// For each of the marker data - update hue color value based on
+				// download speed
+				for (SpeedTestRecord record : mCsvListData) {
+					record.setMarkerColorHue(getWeightedMarkerValue(record
+							.getDownload()));
+				}
+
+				Tracer.debug(LOG_TAG, "Min: " + MapperActivity.mMinNetworkSpeed
+						+ ", Max: " + MapperActivity.mMaxNetworkSpeed);
+			}
+
+			// Nothing to return
+			return null;
+		}
+
         @Override
         protected void onPostExecute(Void v){
             // hide progress when all processing done

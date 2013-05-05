@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -28,11 +28,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import ca.liquidlabs.android.speedtestmapper.InputDialogFragment.InputDialogListener;
-import ca.liquidlabs.android.speedtestmapper.util.AppConstants;
-import ca.liquidlabs.android.speedtestmapper.util.AppPackageUtils;
-import ca.liquidlabs.android.speedtestmapper.util.CsvDataParser;
-import ca.liquidlabs.android.speedtestmapper.util.Tracer;
+import ca.liquidlabs.android.speedtestvisualizer.InputDialogFragment.InputDialogListener;
+import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
+import ca.liquidlabs.android.speedtestvisualizer.util.AppPackageUtils;
+import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
+import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 /**
  * Main entry point launcher activity. Data is loaded here and verified before

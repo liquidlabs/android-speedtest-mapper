@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -29,7 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
-import ca.liquidlabs.android.speedtestmapper.util.Tracer;
+import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 /**
  * Simple input dialog for taking custom input.

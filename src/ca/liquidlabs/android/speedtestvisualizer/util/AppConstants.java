@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper.util;
+package ca.liquidlabs.android.speedtestvisualizer.util;
 
 /**
  * Application constants. Defined in interface, since they are implicitly public+final.

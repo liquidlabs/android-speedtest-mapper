@@ -33,6 +33,7 @@
     <string name="msg_valid_data_session_available">You can revisit maps with recently used data.\n<i>Note: Once you exit app, data will be lost.</i></string>
     <string name="msg_welcome_instructions">Welcome! \nYou can visualize Speedtest.net\'s saved data by exporting them into this app, or use the \"Paste\" menu to import data from your clipboard.</string>
     <string name="msg_map_not_ready">Preparing map with data&#8230;</string>
+    <string name="msg_no_records_found">There is no record found to show on map.\nIf you think this is a bug, please report us.</string>
 
     <!-- SpeedTest app related -->
     <string name="lbl_get_app_googleplay">Get SpeedTest App on Play</string>

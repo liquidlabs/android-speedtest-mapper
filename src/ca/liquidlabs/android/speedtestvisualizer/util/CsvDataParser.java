@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestmapper.util;
+package ca.liquidlabs.android.speedtestvisualizer.util;
 
-import ca.liquidlabs.android.speedtestmapper.model.SpeedTestRecord;
+import ca.liquidlabs.android.speedtestvisualizer.model.SpeedTestRecord;
 
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;

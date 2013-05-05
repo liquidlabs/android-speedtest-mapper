@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="ca.liquidlabs.android.speedtestmapper"
+    package="ca.liquidlabs.android.speedtestvisualizer"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -16,10 +16,10 @@
 
     <!-- Google maps custom permission -->
     <permission
-        android:name="ca.liquidlabs.android.speedtestmapper.permission.MAPS_RECEIVE"
+        android:name="ca.liquidlabs.android.speedtestvisualizer.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="ca.liquidlabs.android.speedtestmapper.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="ca.liquidlabs.android.speedtestvisualizer.permission.MAPS_RECEIVE" />
 
     <!--
         Because version 2 of the Google Maps Android API requires OpenGL ES version 2, 
@@ -39,7 +39,7 @@
             Application entry point
         -->
         <activity
-            android:name="ca.liquidlabs.android.speedtestmapper.MainActivity"
+            android:name="ca.liquidlabs.android.speedtestvisualizer.MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -60,34 +60,35 @@
             Application maps activity 
         -->
         <activity
-            android:name="ca.liquidlabs.android.speedtestmapper.MapperActivity"
+            android:name="ca.liquidlabs.android.speedtestvisualizer.MapperActivity"
             android:label="@string/title_activity_mapper"
-            android:parentActivityName="ca.liquidlabs.android.speedtestmapper.MainActivity" >
+            android:parentActivityName="ca.liquidlabs.android.speedtestvisualizer.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ca.liquidlabs.android.speedtestmapper.MainActivity" />
+                android:value="ca.liquidlabs.android.speedtestvisualizer.MainActivity" />
         </activity>
         
         <!--
             Application about activity 
         -->
         <activity
-            android:name="ca.liquidlabs.android.speedtestmapper.AboutAppActivity"
+            android:name="ca.liquidlabs.android.speedtestvisualizer.AboutAppActivity"
             android:label="@string/title_activity_about_app"
-            android:parentActivityName="ca.liquidlabs.android.speedtestmapper.MainActivity" >
+            android:parentActivityName="ca.liquidlabs.android.speedtestvisualizer.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="ca.liquidlabs.android.speedtestmapper.MainActivity" />
+                android:value="ca.liquidlabs.android.speedtestvisualizer.MainActivity" />
         </activity>
 
         <!--
             Google Maps API key
+            ====================
             NOTE: This is a debug key, generate your own to make it work with your debug certificate.
                   For More info visit https://developers.google.com/maps/documentation/android/start
         -->
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyDKEHdrqaMRMNMujokdugTEuYxdvECCoLM" />
+            android:value="AIzaSyApxf8f-fb8IOL5MSIe6afNvlcLW1U3VoM" />
         
     </application>
 
