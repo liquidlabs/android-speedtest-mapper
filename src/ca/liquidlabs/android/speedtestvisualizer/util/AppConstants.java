@@ -45,9 +45,16 @@ public interface AppConstants {
     String PACKAGE_SPEEDTEST_APP = "org.zwanoo.android.speedtest";
 
     /**
-     * Used to create generic intent instead of using package name
+     * Used to create browser based intent for App page<br/>
+     * Guide: http://developer.android.com/distribute/googleplay/promote/linking.html
      */
-    String PLAY_STORE_BASE_URL = "http://play.google.com/store/apps/details?id=";
+    String PLAY_STORE_BASE_WEB_URI = "http://play.google.com/store/apps/details?id=";
+    
+    /**
+     * Used to directly launch Google's Play Store app with query. <br/>
+     * Guide: http://developer.android.com/distribute/googleplay/promote/linking.html
+     */
+    String PLAY_STORE_BASE_NATIVE_URI = "market://details?id=";
 
     /**
      * Email address for contact/issue reporting

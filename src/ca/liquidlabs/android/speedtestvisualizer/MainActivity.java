@@ -244,7 +244,7 @@ public class MainActivity extends Activity implements InputDialogListener {
                 @Override
                 public void onClick(View v) {
                     startActivity(new Intent(Intent.ACTION_VIEW, Uri
-                            .parse(AppConstants.PLAY_STORE_BASE_URL
+                            .parse(AppConstants.PLAY_STORE_BASE_NATIVE_URI
                                     + AppConstants.PACKAGE_SPEEDTEST_APP)));
                 }
             });
