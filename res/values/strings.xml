@@ -74,7 +74,7 @@
     <string name="report_issue_subject">Issue for %s app</string>
     <string name="report_issue_body">Hi,\nData import is non-functional.\n\nHere is useful information for debugging:\n-%s-\n</string>
     <string name="share_app_subject">Checkout %s app data visualizer.</string>
-    <string name="share_app_body">%s app visualizes exported data in maps, and other ways.\n Get the app for FREE! from Google play store.</string>
+    <string name="share_app_body" formatted="false">%s app visualizes exported data in maps, and other ways.\n\nGet the app for FREE! from Google play store at %s.</string>
     
     <!-- 
         String used on About Activity

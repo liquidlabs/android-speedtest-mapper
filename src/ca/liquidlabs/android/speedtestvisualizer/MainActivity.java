@@ -279,13 +279,14 @@ public class MainActivity extends Activity implements InputDialogListener {
         // Locate MenuItem with ShareActionProvider
         MenuItem item = menu.findItem(R.id.action_share_app);
 
-        // Fetch and store ShareActionProvider
-        // More info @ http://developer.android.com/training/sharing/shareaction.html
+        // Fetch and store ShareActionProvider. More info @
+        // http://developer.android.com/training/sharing/shareaction.html
         mShareActionProvider = (ShareActionProvider) item.getActionProvider();
 
         // Share app using share action provider
         if (mShareActionProvider != null) {
-            mShareActionProvider.setShareIntent(getShareAppIntent());
+            mShareActionProvider.setShareIntent(AppPackageUtils.getShareAppIntent(
+                    getApplicationContext()));
         }
 
         // Return true to display menu
@@ -300,7 +301,8 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return true;
             case R.id.action_report_issue:
                 // Prepare email content and send intent
-                startActivity(Intent.createChooser(getReportIssueIntent(),
+                startActivity(Intent.createChooser(
+                        AppPackageUtils.getReportIssueIntent(getApplicationContext()),
                         getString(R.string.title_dialog_choose_email)));
                 return true;
             case R.id.action_about_app:
@@ -311,39 +313,6 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    /**
-     * Prepares an intent to report issue via email.
-     * 
-     * @return Intent to launch to send email.
-     */
-    private Intent getReportIssueIntent() {
-        Intent reportIssueIntent = new Intent(Intent.ACTION_SEND);
-        reportIssueIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {
-                AppConstants.CONTANT_EMAIL
-        });
-        reportIssueIntent.putExtra(Intent.EXTRA_SUBJECT,
-                getString(R.string.report_issue_subject, getString(R.string.app_name)));
-        reportIssueIntent.putExtra(
-                Intent.EXTRA_TEXT,
-                getString(R.string.report_issue_body,
-                        AppPackageUtils
-                                .getApplicationVersionInfo(getApplicationContext(),
-                                        AppConstants.PACKAGE_SPEEDTEST_APP)));
-        reportIssueIntent.setType(AppConstants.EMAIL_MIME_TYPE);
-        return reportIssueIntent;
-    }
-
-    private Intent getShareAppIntent() {
-        Intent shareAppIntent = new Intent(Intent.ACTION_SEND);
-        shareAppIntent.putExtra(Intent.EXTRA_SUBJECT,
-                getString(R.string.share_app_subject, getString(R.string.speedtest_app_name)));
-        shareAppIntent.putExtra(
-                Intent.EXTRA_TEXT,
-                getString(R.string.share_app_body, getString(R.string.app_name)));
-        shareAppIntent.setType("text/plain");
-        return shareAppIntent;
     }
 
     //
