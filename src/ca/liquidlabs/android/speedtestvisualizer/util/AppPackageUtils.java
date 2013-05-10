@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package ca.liquidlabs.android.speedtestvisualizer.util;
 
 import android.content.Context;
@@ -38,7 +39,7 @@ public class AppPackageUtils {
      * @return Returns either a fully-qualified Intent, or null if the package
      *         does not contain such an activity.
      */
-    public static Intent getSpeedTestAppIntent(Context context) {
+    public static Intent getSpeedTestAppIntent(final Context context) {
         // get intent by KNOWN Package Name
         return context.getPackageManager().getLaunchIntentForPackage(
                 AppConstants.PACKAGE_SPEEDTEST_APP);
@@ -50,7 +51,7 @@ public class AppPackageUtils {
      * @param context Application context
      * @return {@code true} if SpeedTest app exist, {@code false} otherwise
      */
-    public static boolean isSpeedTestAppInstalled(Context context) {
+    public static boolean isSpeedTestAppInstalled(final Context context) {
         return isAppInstalled(context, AppConstants.PACKAGE_SPEEDTEST_APP);
     }
 
@@ -59,7 +60,7 @@ public class AppPackageUtils {
      * @param packageName Fully qualified package name of app
      * @return {@code true} when installed, {@code false} otherwise
      */
-    public static boolean isAppInstalled(Context context, String packageName) {
+    public static boolean isAppInstalled(final Context context, final String packageName) {
         try {
             context.getPackageManager().getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
             Tracer.debug(LOG_TAG, packageName + " - isAppInstalled : true");
@@ -83,7 +84,7 @@ public class AppPackageUtils {
      * @return {@code null} when no app is found, otherwise {@link Drawable}
      *         icon of app
      */
-    public static Drawable getAppIcon(Context context, String packageName) {
+    public static Drawable getAppIcon(final Context context, final String packageName) {
         try {
             return context.getPackageManager().getApplicationIcon(packageName);
         } catch (NameNotFoundException e) {
@@ -98,7 +99,7 @@ public class AppPackageUtils {
      * @param packageName Fully qualified package name of app
      * @return Human readable version info of the application
      */
-    public static String getApplicationVersionInfo(Context context, String packageName) {
+    public static String getApplicationVersionInfo(final Context context, final String packageName) {
         PackageInfo packageInfo;
         try {
             packageInfo = context.getPackageManager().getPackageInfo(packageName,
@@ -113,7 +114,51 @@ public class AppPackageUtils {
             appName = (String) context.getPackageManager().getApplicationLabel(
                     packageInfo.applicationInfo);
         }
-        return String.format(Locale.US, "\nApp: %s\nVersion: %s\nLanguage: %s\n", 
-        		appName, packageInfo.versionName, Locale.getDefault().getLanguage());
+        return String.format(Locale.US, "\nApp: %s\nVersion: %s\nLanguage: %s\n",
+                appName, packageInfo.versionName, Locale.getDefault().getLanguage());
+    }
+
+    /**
+     * Prepares an intent to report issue via email.
+     * 
+     * @return Intent to launch to send email.
+     */
+    public static Intent getReportIssueIntent(final Context context) {
+        Intent reportIssueIntent = new Intent(Intent.ACTION_SEND);
+        reportIssueIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {
+                AppConstants.CONTANT_EMAIL
+        });
+        reportIssueIntent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                context.getString(R.string.report_issue_subject,
+                        context.getString(R.string.app_name)));
+        reportIssueIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                context.getString(R.string.report_issue_body,
+                        AppPackageUtils
+                                .getApplicationVersionInfo(context,
+                                        AppConstants.PACKAGE_SPEEDTEST_APP)));
+        reportIssueIntent.setType(AppConstants.EMAIL_MIME_TYPE);
+        return reportIssueIntent;
+    }
+
+    /**
+     * Prepares this application's share intent for ShareActionProvider
+     * 
+     * @param context Application context
+     * @return An intent to share application via email or txt
+     */
+    public static Intent getShareAppIntent(final Context context) {
+        Intent shareAppIntent = new Intent(Intent.ACTION_SEND);
+        shareAppIntent.putExtra(
+                Intent.EXTRA_SUBJECT,
+                context.getString(R.string.share_app_subject,
+                        context.getString(R.string.speedtest_app_name)));
+        shareAppIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                context.getString(R.string.share_app_body, context.getString(R.string.app_name),
+                        AppConstants.PLAY_STORE_BASE_WEB_URI + context.getPackageName()));
+        shareAppIntent.setType(AppConstants.PLAIN_TEXT_MIME_TYPE);
+        return shareAppIntent;
     }
 }

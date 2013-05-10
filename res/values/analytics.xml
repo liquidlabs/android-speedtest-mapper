@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Google analytics is used to track app usage frequency, and to learn
+    more on how app is used and what feature to add/move based on user
+    interaction with the app.
+    
+    More info and guidelines can be found at:
+    https://developers.google.com/analytics/devguides/collection/android/v2/-->
+<resources>
+
+    <!-- Replace placeholder ID with your tracking ID -->
+    <string name="ga_trackingId">UA-XXXX-Y</string>
+
+    <!-- Enable automatic activity tracking -->
+    <bool name="ga_autoActivityTracking">true</bool>
+
+    <!-- Enable automatic exception tracking -->
+    <bool name="ga_reportUncaughtExceptions">true</bool>
+
+    <!-- The dispatch period in seconds. Defaults to 30 minutes. -->
+    <integer name="ga_dispatchPeriod">30</integer>
+
+    <!--
+        Tells Google Analytics to anonymize the information sent by the tracker objects 
+        by removing the last octet of the IP address prior to its storage. 
+        
+        Set to TRUE, we are not interested in accurate GEO location    -->
+    <bool name="ga_anonymizeIp">true</bool>
+
+    <!--
+        Flag to enable or writing of debug information to the log, 
+        useful for troubleshooting your implementation. false by default.    -->
+    <bool name="ga_debug">false</bool>
+
+</resources>

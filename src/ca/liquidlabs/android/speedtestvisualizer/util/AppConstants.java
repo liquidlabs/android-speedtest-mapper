@@ -65,4 +65,9 @@ public interface AppConstants {
      * Email mime type
      */
     String EMAIL_MIME_TYPE = "message/rfc822";
+    
+    /**
+     * Mime type for plain text
+     */
+    String PLAIN_TEXT_MIME_TYPE = "text/plain";
 }
