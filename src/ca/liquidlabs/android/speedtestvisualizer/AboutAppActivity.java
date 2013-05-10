@@ -112,12 +112,14 @@ public class AboutAppActivity extends Activity {
     @Override
     public void onStart() {
         super.onStart();
+        // Tracks activity view using analytics.
         EasyTracker.getInstance().activityStart(this);
     }
 
     @Override
     public void onStop() {
         super.onStop();
+        // Tracks activity view using analytics.
         EasyTracker.getInstance().activityStop(this);
     }
 

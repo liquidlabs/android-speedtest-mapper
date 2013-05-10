@@ -108,6 +108,8 @@ public class MainActivity extends Activity implements InputDialogListener {
     protected void onStart() {
         super.onStart();
         Tracer.debug(LOG_TAG, "onStart");
+
+        // Tracks activity view using analytics.
         EasyTracker.getInstance().activityStart(this);
 
         // Prepare session UI data - based on user input
@@ -120,6 +122,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     @Override
     public void onStop() {
         super.onStop();
+        // Tracks activity view using analytics.
         EasyTracker.getInstance().activityStop(this);
     }
 
