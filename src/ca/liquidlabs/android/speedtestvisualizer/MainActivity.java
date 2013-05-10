@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package ca.liquidlabs.android.speedtestvisualizer;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 
 import android.app.Activity;
@@ -106,12 +108,19 @@ public class MainActivity extends Activity implements InputDialogListener {
     protected void onStart() {
         super.onStart();
         Tracer.debug(LOG_TAG, "onStart");
+        EasyTracker.getInstance().activityStart(this);
 
         // Prepare session UI data - based on user input
         this.prepareSessionDataUi();
 
         // Prepare button to proper speedtest link
         this.prepareSpeedTestLink();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EasyTracker.getInstance().activityStop(this);
     }
 
     /**
@@ -238,10 +247,10 @@ public class MainActivity extends Activity implements InputDialogListener {
         } else {
             // Prepare link to SpeedTest app in Google Play
             mSpeedtestLinkButton.setText(R.string.lbl_get_app_googleplay);
-			mSpeedtestLinkButton.setCompoundDrawablesWithIntrinsicBounds(
-					AppPackageUtils.getAppIcon(getApplicationContext(),
-							GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE),
-					null, null, null);
+            mSpeedtestLinkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    AppPackageUtils.getAppIcon(getApplicationContext(),
+                            GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE),
+                    null, null, null);
 
             // Setup play store intent
             mSpeedtestLinkButton.setOnClickListener(new OnClickListener() {
