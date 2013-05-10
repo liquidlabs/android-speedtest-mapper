@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.annotation.SuppressLint;
@@ -37,6 +38,7 @@ import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
 import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
+import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -65,7 +67,7 @@ public class MapperActivity extends Activity {
     private static List<SpeedTestRecord> mCsvListData;
     private static int mMaxNetworkSpeed;
     private static int mMinNetworkSpeed;
-    
+
     /**
      * Available filter type for connections
      */
@@ -78,7 +80,7 @@ public class MapperActivity extends Activity {
      * The unit used by speedtest to export the data.
      */
     private static final String SPEED_UNIT = "Mbps";
-    
+
     /**
      * {@link AsyncTask} to process all the marker data
      */
@@ -111,12 +113,26 @@ public class MapperActivity extends Activity {
         super.onResume();
         setUpMapIfNeeded();
     }
-    
+
     @Override
     protected void onPause() {
         // Override the activity transition animation
         overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
         super.onPause();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Tracks activity view using analytics.
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Tracks activity view using analytics.
+        EasyTracker.getInstance().activityStop(this);
     }
 
     private void setUpMapIfNeeded() {
@@ -130,14 +146,14 @@ public class MapperActivity extends Activity {
             if (mMap != null) {
                 // Hide the zoom controls as the button panel will cover it.
                 mMap.getUiSettings().setZoomControlsEnabled(false);
-                
+
                 // Get the csv data from intent and then proceed
                 Bundle bundle = getIntent().getExtras();
                 final String csvHeader = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_HEADER);
                 final String csvData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
-                
+
                 // create task if not created, otherwise re-use same task
-                if(mDataProcessorTask == null){
+                if (mDataProcessorTask == null) {
                     mDataProcessorTask = new MarkerDataProcessorTask();
                 }
                 // Dispatch an asynctask to calculate required data for markers
@@ -147,12 +163,12 @@ public class MapperActivity extends Activity {
     }
 
     private void setUpMap() {
-    	if(mCsvListData == null || mCsvListData.size()==0){
-    		// nothing to show on map - return with user msg
-    		Toast.makeText(this, R.string.msg_no_records_found, Toast.LENGTH_LONG).show();
-    		return;
-    	}
-    	
+        if (mCsvListData == null || mCsvListData.size() == 0) {
+            // nothing to show on map - return with user msg
+            Toast.makeText(this, R.string.msg_no_records_found, Toast.LENGTH_LONG).show();
+            return;
+        }
+
         // Setting an info window adapter allows us to change the both the
         // contents and look of the
         // info window.
@@ -164,9 +180,9 @@ public class MapperActivity extends Activity {
     }
 
     /**
-     * Adds all the parsed speedtest markers to the map. This task is processor 
-     * intensive, stalls the main thread if there is lots of data. But unfortunately, 
-     * this has to be done in UI thread.
+     * Adds all the parsed speedtest markers to the map. This task is processor
+     * intensive, stalls the main thread if there is lots of data. But
+     * unfortunately, this has to be done in UI thread.
      */
     private void addMarkersToMap() {
 
@@ -190,8 +206,10 @@ public class MapperActivity extends Activity {
              */
             String snippetMultiInfo[] = {
                     speedTestRecord.getConnectionType().toString(),
-                    NumberFormat.getInstance().format(speedTestRecord.getDownload()) + " " + SPEED_UNIT,
-                    NumberFormat.getInstance().format(speedTestRecord.getUpload()) + " " + SPEED_UNIT
+                    NumberFormat.getInstance().format(speedTestRecord.getDownload()) + " "
+                            + SPEED_UNIT,
+                    NumberFormat.getInstance().format(speedTestRecord.getUpload()) + " "
+                            + SPEED_UNIT
             };
 
             mMap.addMarker(new MarkerOptions()
@@ -244,7 +262,6 @@ public class MapperActivity extends Activity {
         return true;
     }
 
-            
     /**
      * Clears maps
      */
@@ -254,7 +271,6 @@ public class MapperActivity extends Activity {
         }
         mMap.clear();
     }
-
 
     /**
      * Resets the maps
@@ -268,30 +284,29 @@ public class MapperActivity extends Activity {
         addMarkersToMap();
     }
 
-	/**
-	 * Calculates marker color warmness based on download speed. <br/>
-	 * Highest speed -> RED, Lowest speed -> GREEN.
-	 * 
-	 * @param speedValue
-	 *            Single record's speed value
-	 * @return hue value based on speed
-	 */
-	private static float getWeightedMarkerValue(int speedValue) {
-		int speedDifference = MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed;
-		if (speedDifference <= 0) {
-			// this might be the case, when there is only one record and
-			// MaxSpeed = MinSpeed, So, return warmest hue value
-			return BitmapDescriptorFactory.HUE_RED;
-		}
-		
-		// calculate hue value based on speed
-		float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * MapperActivity.mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
-				/ speedDifference;
-		if (hueVal < BitmapDescriptorFactory.HUE_RED || hueVal > BitmapDescriptorFactory.HUE_ROSE) {
-			return BitmapDescriptorFactory.HUE_GREEN;
-		}
-		return hueVal;
-	}
+    /**
+     * Calculates marker color warmness based on download speed. <br/>
+     * Highest speed -> RED, Lowest speed -> GREEN.
+     * 
+     * @param speedValue Single record's speed value
+     * @return hue value based on speed
+     */
+    private static float getWeightedMarkerValue(int speedValue) {
+        int speedDifference = MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed;
+        if (speedDifference <= 0) {
+            // this might be the case, when there is only one record and
+            // MaxSpeed = MinSpeed, So, return warmest hue value
+            return BitmapDescriptorFactory.HUE_RED;
+        }
+
+        // calculate hue value based on speed
+        float hueVal = ((BitmapDescriptorFactory.HUE_GREEN * MapperActivity.mMaxNetworkSpeed) - (BitmapDescriptorFactory.HUE_GREEN * speedValue))
+                / speedDifference;
+        if (hueVal < BitmapDescriptorFactory.HUE_RED || hueVal > BitmapDescriptorFactory.HUE_ROSE) {
+            return BitmapDescriptorFactory.HUE_GREEN;
+        }
+        return hueVal;
+    }
 
     /**
      * Shows progress animation in ActioBar
@@ -334,58 +349,59 @@ public class MapperActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
-    
+
     /**
      * Task to calculate additional data required for mapping markers
      */
     private class MarkerDataProcessorTask extends AsyncTask<String, Void, Void> {
-        
+
         @Override
-        protected void onPreExecute(){
+        protected void onPreExecute() {
             showProgressIndicator();
         }
 
-		@Override
-		protected Void doInBackground(String... params) {
-			mCsvListData = CsvDataParser.parseCsvData(params[0], params[1]);
+        @Override
+        protected Void doInBackground(String... params) {
+            mCsvListData = CsvDataParser.parseCsvData(params[0], params[1]);
 
-			// do additional operation only if there is more than 1 data
-			if (mCsvListData.size() > 0) {
-				Collections.sort(mCsvListData, new ComparableDownloadSpeed());
-				// at this point we know there is at least one data, save min
-				// and max speed data
-				mMinNetworkSpeed = mCsvListData.get(0).getDownload();
-				mMaxNetworkSpeed = mCsvListData.get(mCsvListData.size() - 1)
-						.getDownload();
+            // do additional operation only if there is more than 1 data
+            if (mCsvListData.size() > 0) {
+                Collections.sort(mCsvListData, new ComparableDownloadSpeed());
+                // at this point we know there is at least one data, save min
+                // and max speed data
+                mMinNetworkSpeed = mCsvListData.get(0).getDownload();
+                mMaxNetworkSpeed = mCsvListData.get(mCsvListData.size() - 1)
+                        .getDownload();
 
-				// For each of the marker data - update hue color value based on
-				// download speed
-				for (SpeedTestRecord record : mCsvListData) {
-					record.setMarkerColorHue(getWeightedMarkerValue(record
-							.getDownload()));
-				}
+                // For each of the marker data - update hue color value based on
+                // download speed
+                for (SpeedTestRecord record : mCsvListData) {
+                    record.setMarkerColorHue(getWeightedMarkerValue(record
+                            .getDownload()));
+                }
 
-				Tracer.debug(LOG_TAG, "Min: " + MapperActivity.mMinNetworkSpeed
-						+ ", Max: " + MapperActivity.mMaxNetworkSpeed);
-			}
+                Tracer.debug(LOG_TAG, "Min: " + MapperActivity.mMinNetworkSpeed
+                        + ", Max: " + MapperActivity.mMaxNetworkSpeed);
+            }
 
-			// Nothing to return
-			return null;
-		}
+            // Nothing to return
+            return null;
+        }
 
         @Override
-        protected void onPostExecute(Void v){
+        protected void onPostExecute(Void v) {
             // hide progress when all processing done
             hideProgressIndicator();
-            
+
             // now setup map with marker and other params
             setUpMap();
         }
-        
+
     }
 
     /**
-     * Inner listener class to listent for change in connection type filter spinner.
+     * Inner listener class to listent for change in connection type filter
+     * spinner.
      */
     private class ConnectionTypeFilterHandler implements OnItemSelectedListener {
 
