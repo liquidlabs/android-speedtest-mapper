@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestvisualizer;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,6 +30,9 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+
 public class AboutAppActivity extends Activity {
 
     @Override
@@ -39,70 +41,86 @@ public class AboutAppActivity extends Activity {
         setContentView(R.layout.activity_about_app);
         // Show the Up button in the action bar.
         setupActionBar();
-        
+
         /* setup the Attribution Text for Google Maps - as per license agreement */
-      //  TextView attrText = (TextView) super.findViewById(R.id.txt_about_info);        
-      //  attrText.setText();
-        
+        // TextView attrText = (TextView)
+        // super.findViewById(R.id.txt_about_info);
+        // attrText.setText();
+
         initListeners();
     }
-    
-    
+
     /**
      * Initializes / Attaches Event Listeners to Buttons
      */
-    private void initListeners() 
+    private void initListeners()
     {
-    	Button btn = (Button) super.findViewById(R.id.btn_license_info);    	
-    	final AboutAppActivity $this = AboutAppActivity.this;
-    	
-    	btn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
+        Button btn = (Button) super.findViewById(R.id.btn_license_info);
+        final AboutAppActivity $this = AboutAppActivity.this;
 
-				new AlertDialog.Builder($this)
-			    	.setTitle($this.getString(R.string.lbl_license_info))
-			    	.setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo($this))
-			    	.setNegativeButton("OK", new DialogInterface.OnClickListener() {
-			    		public void onClick(DialogInterface dialog, int whichButton) {
-			    			// Do nothing.
-			    		}
-			    	}).show();				
-			}
-		});
-    	
-    	btn = (Button) super.findViewById(R.id.btn_google_play_apps);
-    	btn.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {				
-				String googlePlayLink = $this.getString(R.string.google_play_query);
-				$this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(googlePlayLink)));
-			}
-		});
-    	
-    	/* On Tap of the TextView, simply redirect user to the Github Repo */
-    	TextView txtView = (TextView) super.findViewById(R.id.txt_about_info);
-    	txtView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse($this.getString(R.string.github_url)));
-				$this.startActivity(browserIntent);				
-			}
-		});
-    	
-    	txtView = (TextView) super.findViewById(R.id.txt_author_info);
-    	txtView.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse($this.getString(R.string.author_url)));
-				$this.startActivity(browserIntent);				
-			}
-		});    	
+        btn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+
+                new AlertDialog.Builder($this)
+                        .setTitle($this.getString(R.string.lbl_license_info))
+                        .setMessage(GooglePlayServicesUtil.getOpenSourceSoftwareLicenseInfo($this))
+                        .setNegativeButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                // Do nothing.
+                            }
+                        }).show();
+            }
+        });
+
+        btn = (Button) super.findViewById(R.id.btn_google_play_apps);
+        btn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                String googlePlayLink = $this.getString(R.string.google_play_query);
+                $this.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(googlePlayLink)));
+            }
+        });
+
+        /* On Tap of the TextView, simply redirect user to the Github Repo */
+        TextView txtView = (TextView) super.findViewById(R.id.txt_about_info);
+        txtView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse($this
+                        .getString(R.string.github_url)));
+                $this.startActivity(browserIntent);
+            }
+        });
+
+        txtView = (TextView) super.findViewById(R.id.txt_author_info);
+        txtView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse($this
+                        .getString(R.string.author_url)));
+                $this.startActivity(browserIntent);
+            }
+        });
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Tracks activity view using analytics.
+        EasyTracker.getInstance().activityStart(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Tracks activity view using analytics.
+        EasyTracker.getInstance().activityStop(this);
     }
 
     @Override
@@ -120,7 +138,7 @@ public class AboutAppActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -131,11 +149,12 @@ public class AboutAppActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-        case R.id.action_github_project:
-        	// open github project page
-        	Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.github_url)));
-			startActivity(browserIntent);
-			break;
+            case R.id.action_github_project:
+                // open github project page
+                Intent browserIntent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(getString(R.string.github_url)));
+                startActivity(browserIntent);
+                break;
             case android.R.id.home:
                 // This ID represents the Home or Up button. In the case of this
                 // activity, the Up button is shown. Use NavUtils to allow users

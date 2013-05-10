@@ -13,9 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestvisualizer;
 
-import com.google.android.gms.common.GooglePlayServicesUtil;
+package ca.liquidlabs.android.speedtestvisualizer;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -28,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.InputDialogFragment.InputDialogListener;
@@ -35,6 +35,9 @@ import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppPackageUtils;
 import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
 import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
  * Main entry point launcher activity. Data is loaded here and verified before
@@ -51,6 +54,9 @@ public class MainActivity extends Activity implements InputDialogListener {
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
     private Button mRelaunchMapButton;
+
+    // Share action provider for menu item
+    private ShareActionProvider mShareActionProvider;
 
     /**
      * Validated CSV data saved in memory
@@ -107,11 +113,21 @@ public class MainActivity extends Activity implements InputDialogListener {
         super.onStart();
         Tracer.debug(LOG_TAG, "onStart");
 
+        // Tracks activity view using analytics.
+        EasyTracker.getInstance().activityStart(this);
+
         // Prepare session UI data - based on user input
         this.prepareSessionDataUi();
 
         // Prepare button to proper speedtest link
         this.prepareSpeedTestLink();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        // Tracks activity view using analytics.
+        EasyTracker.getInstance().activityStop(this);
     }
 
     /**
@@ -238,10 +254,10 @@ public class MainActivity extends Activity implements InputDialogListener {
         } else {
             // Prepare link to SpeedTest app in Google Play
             mSpeedtestLinkButton.setText(R.string.lbl_get_app_googleplay);
-			mSpeedtestLinkButton.setCompoundDrawablesWithIntrinsicBounds(
-					AppPackageUtils.getAppIcon(getApplicationContext(),
-							GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE),
-					null, null, null);
+            mSpeedtestLinkButton.setCompoundDrawablesWithIntrinsicBounds(
+                    AppPackageUtils.getAppIcon(getApplicationContext(),
+                            GooglePlayServicesUtil.GOOGLE_PLAY_STORE_PACKAGE),
+                    null, null, null);
 
             // Setup play store intent
             mSpeedtestLinkButton.setOnClickListener(new OnClickListener() {
@@ -259,6 +275,21 @@ public class MainActivity extends Activity implements InputDialogListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share_app);
+
+        // Fetch and store ShareActionProvider. More info @
+        // http://developer.android.com/training/sharing/shareaction.html
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+        // Share app using share action provider
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(AppPackageUtils.getShareAppIntent(
+                    getApplicationContext()));
+        }
+
+        // Return true to display menu
         return true;
     }
 
@@ -270,7 +301,8 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return true;
             case R.id.action_report_issue:
                 // Prepare email content and send intent
-                startActivity(Intent.createChooser(getReportIssueIntent(),
+                startActivity(Intent.createChooser(
+                        AppPackageUtils.getReportIssueIntent(getApplicationContext()),
                         getString(R.string.title_dialog_choose_email)));
                 return true;
             case R.id.action_about_app:
@@ -281,28 +313,6 @@ public class MainActivity extends Activity implements InputDialogListener {
                 return super.onOptionsItemSelected(item);
         }
 
-    }
-
-    /**
-     * Prepares an intent to report issue via email.
-     * 
-     * @return Intent to launch to send email.
-     */
-    private Intent getReportIssueIntent() {
-        Intent reportIssueIntent = new Intent(Intent.ACTION_SEND);
-        reportIssueIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {
-                AppConstants.CONTANT_EMAIL
-        });
-        reportIssueIntent.putExtra(Intent.EXTRA_SUBJECT,
-                getString(R.string.report_issue_subject, getString(R.string.app_name)));
-        reportIssueIntent.putExtra(
-                Intent.EXTRA_TEXT,
-                getString(R.string.report_issue_body,
-                        AppPackageUtils
-                                .getApplicationVersionInfo(getApplicationContext(),
-                                        AppConstants.PACKAGE_SPEEDTEST_APP)));
-        reportIssueIntent.setType(AppConstants.EMAIL_MIME_TYPE);
-        return reportIssueIntent;
     }
 
     //
