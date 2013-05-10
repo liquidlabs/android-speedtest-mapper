@@ -6,13 +6,25 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="@string/action_paste"/>
+    
+    <!-- 
+        Adding share action provider.
+        More info @ http://developer.android.com/training/sharing/shareaction.html 
+    -->
+    <item android:id="@+id/action_share_app"
+        android:orderInCategory="200"
+        android:showAsAction="never"
+        android:title="@string/action_share_app"
+        android:actionProviderClass="android.widget.ShareActionProvider" />
     <item
         android:id="@+id/action_report_issue"
+        android:orderInCategory="300"
         android:showAsAction="never"
         android:title="@string/action_report_issue">
     </item>
     <item
         android:id="@+id/action_about_app"
+        android:orderInCategory="400"
         android:showAsAction="never"
         android:title="@string/action_about">
     </item>

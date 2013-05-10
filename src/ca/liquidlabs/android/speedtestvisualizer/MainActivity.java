@@ -16,9 +16,6 @@
 
 package ca.liquidlabs.android.speedtestvisualizer;
 
-import com.google.analytics.tracking.android.EasyTracker;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -30,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.InputDialogFragment.InputDialogListener;
@@ -37,6 +35,9 @@ import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppPackageUtils;
 import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
 import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
+
+import com.google.analytics.tracking.android.EasyTracker;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 
 /**
  * Main entry point launcher activity. Data is loaded here and verified before
@@ -53,6 +54,9 @@ public class MainActivity extends Activity implements InputDialogListener {
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
     private Button mRelaunchMapButton;
+
+    // Share action provider for menu item
+    private ShareActionProvider mShareActionProvider;
 
     /**
      * Validated CSV data saved in memory
@@ -271,6 +275,20 @@ public class MainActivity extends Activity implements InputDialogListener {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.action_share_app);
+
+        // Fetch and store ShareActionProvider
+        // More info @ http://developer.android.com/training/sharing/shareaction.html
+        mShareActionProvider = (ShareActionProvider) item.getActionProvider();
+
+        // Share app using share action provider
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(getShareAppIntent());
+        }
+
+        // Return true to display menu
         return true;
     }
 
@@ -315,6 +333,17 @@ public class MainActivity extends Activity implements InputDialogListener {
                                         AppConstants.PACKAGE_SPEEDTEST_APP)));
         reportIssueIntent.setType(AppConstants.EMAIL_MIME_TYPE);
         return reportIssueIntent;
+    }
+
+    private Intent getShareAppIntent() {
+        Intent shareAppIntent = new Intent(Intent.ACTION_SEND);
+        shareAppIntent.putExtra(Intent.EXTRA_SUBJECT,
+                getString(R.string.share_app_subject, getString(R.string.speedtest_app_name)));
+        shareAppIntent.putExtra(
+                Intent.EXTRA_TEXT,
+                getString(R.string.share_app_body, getString(R.string.app_name)));
+        shareAppIntent.setType("text/plain");
+        return shareAppIntent;
     }
 
     //
