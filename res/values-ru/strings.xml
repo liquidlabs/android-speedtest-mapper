@@ -1,0 +1,4 @@
+<resources>
+    <!-- Localized header value for exported csv -->
+    <string name="speedtest_csv_header">Дата,Тип_подключения,Шир.,Дол.,Получение,Передача,Задержка,Имя_сервера,Внутренний_IP,Внешний_IP</string>
+</resources>
