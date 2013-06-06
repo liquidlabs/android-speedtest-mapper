@@ -1,0 +1,4 @@
+<resources>
+    <!-- Localized header value for exported csv -->
+    <string name="speedtest_csv_header">Data,ConnType,Lat,Lon,Download,Upload,Latência,ServerName,InternalIp,ExternalIp</string>
+</resources>

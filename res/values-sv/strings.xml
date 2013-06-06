@@ -1,0 +1,4 @@
+<resources>
+    <!-- Localized header value for exported csv -->
+    <string name="speedtest_csv_header">Datum,Anslutningstyp,Lat,Lon,Hämta,Överföra,Latens,Servernamn,InternIp,ExternIp</string>
+</resources>
