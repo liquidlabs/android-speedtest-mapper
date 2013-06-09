@@ -65,9 +65,9 @@ public class MainActivity extends Activity implements InputDialogListener {
     private static boolean mIsSharedIntent = false;
 
     /**
-     * Localised CSV header text, used for data validation
+     * Part of CSV header text, used for data validation
      */
-    private String mCsvHeaderText = null;
+    private String mCsvHeaderValidationText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,7 +84,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         mRelaunchMapButton = (Button) findViewById(R.id.btn_relaunch_map);
 
         // Also load the CSV record header text, which is needed to validate
-        mCsvHeaderText = this.getString(R.string.speedtest_csv_header);
+        mCsvHeaderValidationText = this.getString(R.string.speedtest_csv_header_validation);
 
         /*
          * Get intent, action and MIME type More info/guide:
@@ -138,7 +138,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private void handleIntentText(String sharedText) {
         Tracer.debug(LOG_TAG, "handleIntentText()");
 
-        if (CsvDataParser.isValidCsvData(mCsvHeaderText, sharedText)) {
+        if (CsvDataParser.isValidCsvData(mCsvHeaderValidationText, sharedText)) {
             // save the valid data in for current session
             mLastSessionValidData = sharedText;
             mIsSharedIntent = false;
@@ -157,7 +157,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private void handleLocalText(String data) {
         Tracer.debug(LOG_TAG, "handleLocalText()");
 
-        if (CsvDataParser.isValidCsvData(mCsvHeaderText, data)) {
+        if (CsvDataParser.isValidCsvData(mCsvHeaderValidationText, data)) {
             // save the valid data in for current session
             mLastSessionValidData = data;
             this.launchMapperActivity(data);
@@ -195,7 +195,7 @@ public class MainActivity extends Activity implements InputDialogListener {
     private void launchMapperActivity(String csvData) {
         // Test data ready - go to maps view
         Intent intent = new Intent(this, MapperActivity.class);
-        intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_HEADER, mCsvHeaderText);
+        intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_HEADER, mCsvHeaderValidationText);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_DATA, csvData);
         startActivity(intent);
         // apply slide-in animation

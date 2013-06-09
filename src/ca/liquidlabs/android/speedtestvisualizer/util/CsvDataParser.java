@@ -73,7 +73,7 @@ public class CsvDataParser {
      */
     private static String getCsvData(String csvHeader, String csvData) {
         if (csvData != null) {
-            int startPosition = csvData.indexOf(csvHeader);
+            int startPosition = csvData.lastIndexOf(csvHeader);
             if (startPosition != -1) {
                 // found expected header, return CSV data set
                 return csvData.substring(startPosition);
@@ -93,7 +93,7 @@ public class CsvDataParser {
      */
     public static boolean isValidCsvData(String csvHeader, String csvData) {
         if (csvData != null && !csvData.equals("")) {
-            return (csvData.indexOf(csvHeader) != -1);
+            return (csvData.lastIndexOf(csvHeader) != -1);
         }
         return false;
     }
