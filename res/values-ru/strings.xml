@@ -1,4 +1,12 @@
 <resources>
     <!-- Localized header value for exported csv -->
     <string name="speedtest_csv_header">Дата,Тип_подключения,Шир.,Дол.,Получение,Передача,Задержка,Имя_сервера,Внутренний_IP,Внешний_IP</string>
+    <!--
+        This value is required to validate data independent of localization. Because, when
+        data is exported,  we end up with mojibake (wrong trasformation of localized data)
+        More info @ http://en.wikipedia.org/wiki/Mojibake
+        
+        So, only take part of header data which are supported by Locale.US 
+    -->
+    <string name="speedtest_csv_header_validation">_IP</string>
 </resources>
