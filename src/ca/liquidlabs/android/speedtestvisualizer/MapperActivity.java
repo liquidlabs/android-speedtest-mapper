@@ -77,9 +77,9 @@ public class MapperActivity extends Activity {
     private static int FILTER_SELECTED = FILTER_TYPE_ALL;
 
     /**
-     * The unit used by speedtest to export the data.
+     * The default unit used by speedtest to export the data.
      */
-    private static final String SPEED_UNIT = "Mbps";
+    private static final String SPEED_UNIT = "bps";
 
     /**
      * {@link AsyncTask} to process all the marker data
