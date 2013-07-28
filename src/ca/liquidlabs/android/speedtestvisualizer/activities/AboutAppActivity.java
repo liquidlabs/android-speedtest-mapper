@@ -31,10 +31,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
-import ca.liquidlabs.android.speedtestvisualizer.R.id;
-import ca.liquidlabs.android.speedtestvisualizer.R.layout;
-import ca.liquidlabs.android.speedtestvisualizer.R.menu;
-import ca.liquidlabs.android.speedtestvisualizer.R.string;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.GooglePlayServicesUtil;

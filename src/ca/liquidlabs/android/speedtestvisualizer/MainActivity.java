@@ -139,7 +139,7 @@ public class MainActivity extends Activity implements InputDialogListener {
      * @param intent Intent received by this activity
      */
     private void handleIntentText(String sharedText) {
-        Tracer.debug(LOG_TAG, "handleIntentText()");
+        Tracer.debug(LOG_TAG, "handleIntentText() " + sharedText);
 
         if (CsvDataParser.isValidCsvData(mCsvHeaderValidationText, sharedText)) {
             // save the valid data in for current session
