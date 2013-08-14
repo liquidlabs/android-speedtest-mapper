@@ -6,6 +6,10 @@
     <string name="speedtest_app_name">Speed Test</string>
     <string name="title_activity_mapper">Map Visualizer</string>
     <string name="title_activity_about_app">About App</string>
+    <string name="title_activity_datastats">Stats</string>
+    <string name="title_datastats_section1">Section 1</string>
+    <string name="title_datastats_section2">Section 2</string>
+    <string name="title_datastats_section3">Section 3</string>
     
     <string name="txt_welcome">Welcome!</string>
     <string name="txt_inpul_guide">Paste exported CSV data content</string>
