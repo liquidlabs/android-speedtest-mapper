@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ca.liquidlabs.android.speedtestvisualizer;
+package ca.liquidlabs.android.speedtestvisualizer.activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -32,6 +32,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import ca.liquidlabs.android.speedtestvisualizer.R;
+import ca.liquidlabs.android.speedtestvisualizer.fragments.SpeedTestInfoWindowAdapter;
 import ca.liquidlabs.android.speedtestvisualizer.model.ComparableDownloadSpeed;
 import ca.liquidlabs.android.speedtestvisualizer.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;

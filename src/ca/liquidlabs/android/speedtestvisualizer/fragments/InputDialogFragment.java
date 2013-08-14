@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package ca.liquidlabs.android.speedtestvisualizer;
+package ca.liquidlabs.android.speedtestvisualizer.fragments;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -29,6 +29,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 /**
@@ -48,7 +49,7 @@ public class InputDialogFragment extends DialogFragment implements OnEditorActio
     private EditText mEditText;
     private Button mDoneButton;
 
-    static InputDialogFragment newInstance() {
+    public static InputDialogFragment newInstance() {
         return new InputDialogFragment();
     }
 

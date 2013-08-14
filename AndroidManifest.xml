@@ -65,7 +65,7 @@
             Application maps activity 
         -->
         <activity
-            android:name="ca.liquidlabs.android.speedtestvisualizer.MapperActivity"
+            android:name="ca.liquidlabs.android.speedtestvisualizer.activities.MapperActivity"
             android:label="@string/title_activity_mapper"
             android:parentActivityName="ca.liquidlabs.android.speedtestvisualizer.MainActivity" >
             <meta-data
@@ -77,7 +77,7 @@
             Application about activity 
         -->
         <activity
-            android:name="ca.liquidlabs.android.speedtestvisualizer.AboutAppActivity"
+            android:name="ca.liquidlabs.android.speedtestvisualizer.activities.AboutAppActivity"
             android:label="@string/title_activity_about_app"
             android:parentActivityName="ca.liquidlabs.android.speedtestvisualizer.MainActivity" >
             <meta-data
