@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package ca.liquidlabs.android.speedtestvisualizer;
+package ca.liquidlabs.android.speedtestvisualizer.activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -29,6 +29,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
+
+import ca.liquidlabs.android.speedtestvisualizer.R;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.GooglePlayServicesUtil;

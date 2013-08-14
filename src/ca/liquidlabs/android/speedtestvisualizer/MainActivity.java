@@ -30,7 +30,10 @@ import android.widget.ImageView;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
-import ca.liquidlabs.android.speedtestvisualizer.InputDialogFragment.InputDialogListener;
+import ca.liquidlabs.android.speedtestvisualizer.activities.AboutAppActivity;
+import ca.liquidlabs.android.speedtestvisualizer.activities.MapperActivity;
+import ca.liquidlabs.android.speedtestvisualizer.fragments.InputDialogFragment;
+import ca.liquidlabs.android.speedtestvisualizer.fragments.InputDialogFragment.InputDialogListener;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppPackageUtils;
 import ca.liquidlabs.android.speedtestvisualizer.util.CsvDataParser;
@@ -136,7 +139,7 @@ public class MainActivity extends Activity implements InputDialogListener {
      * @param intent Intent received by this activity
      */
     private void handleIntentText(String sharedText) {
-        Tracer.debug(LOG_TAG, "handleIntentText()");
+        Tracer.debug(LOG_TAG, "handleIntentText() " + sharedText);
 
         if (CsvDataParser.isValidCsvData(mCsvHeaderValidationText, sharedText)) {
             // save the valid data in for current session
