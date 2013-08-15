@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
@@ -57,6 +58,8 @@ public class MainActivity extends Activity implements InputDialogListener {
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
     private Button mRelaunchMapButton;
+    private Button mLaunchStatsButton;
+    private LinearLayout mButtonContainer;
 
     // Share action provider for menu item
     private ShareActionProvider mShareActionProvider;
@@ -85,6 +88,8 @@ public class MainActivity extends Activity implements InputDialogListener {
         mMessageTextView = (TextView) findViewById(R.id.txt_user_feedback_guide);
         mSpeedtestLinkButton = (Button) findViewById(R.id.btn_speedtest_app_link);
         mRelaunchMapButton = (Button) findViewById(R.id.btn_relaunch_map);
+        mLaunchStatsButton = (Button) findViewById(R.id.btn_launch_stats);
+        mButtonContainer = (LinearLayout) findViewById(R.id.button_container);
 
         // Also load the CSV record header text, which is needed to validate
         mCsvHeaderValidationText = this.getString(R.string.speedtest_csv_header_validation);
@@ -178,7 +183,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         // give ui feedback with error
         mIconFeedback.setImageResource(R.drawable.ic_disappoint);
         mMessageTextView.setText(R.string.msg_invalid_data);
-        mRelaunchMapButton.setVisibility(View.GONE);
+        mButtonContainer.setVisibility(View.GONE);
     }
 
     /**
@@ -224,13 +229,20 @@ public class MainActivity extends Activity implements InputDialogListener {
                     launchMapperActivity(mLastSessionValidData);
                 }
             });
-            mRelaunchMapButton.setVisibility(View.VISIBLE);
+            mLaunchStatsButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Tracer.debug(LOG_TAG, "Stats view");
+                }
+            });
+            
+            mButtonContainer.setVisibility(View.VISIBLE);
         } else {
             // Welcome user and show instructions UI
             mIconFeedback.setImageResource(R.drawable.ic_dialog_bubble);
             mMessageTextView.setText(R.string.msg_welcome_instructions);
             // TODO: Show button with YouTube demo link
-            mRelaunchMapButton.setVisibility(View.GONE);
+            mButtonContainer.setVisibility(View.GONE);
         }
     }
 

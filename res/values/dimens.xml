@@ -21,4 +21,5 @@
     
     <!-- Activity Specific -->
     <dimen name="activity_message_block_top_margin">40dp</dimen>
+    <dimen name="button_container_margin_top">20dp</dimen>
 </resources>
