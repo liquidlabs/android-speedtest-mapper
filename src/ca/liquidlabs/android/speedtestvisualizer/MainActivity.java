@@ -32,6 +32,7 @@ import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.activities.AboutAppActivity;
+import ca.liquidlabs.android.speedtestvisualizer.activities.DataStatsActivity;
 import ca.liquidlabs.android.speedtestvisualizer.activities.MapperActivity;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.InputDialogFragment;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.InputDialogFragment.InputDialogListener;
@@ -150,7 +151,7 @@ public class MainActivity extends Activity implements InputDialogListener {
             // save the valid data in for current session
             mLastSessionValidData = sharedText;
             mIsSharedIntent = false;
-            this.launchMapperActivity(sharedText);
+            this.launchDataVisualizerActivity(sharedText, MapperActivity.class);
         } else {
             this.handleInvalidText();
         }
@@ -168,7 +169,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         if (CsvDataParser.isValidCsvData(mCsvHeaderValidationText, data)) {
             // save the valid data in for current session
             mLastSessionValidData = data;
-            this.launchMapperActivity(data);
+            this.launchDataVisualizerActivity(data, MapperActivity.class);
         } else {
             this.handleInvalidText();
         }
@@ -199,10 +200,11 @@ public class MainActivity extends Activity implements InputDialogListener {
      * Launches mapping activity when valid CSV data is found.
      * 
      * @param csvData Valid speedtest data
+     * @param clazz Class activity to launch.
      */
-    private void launchMapperActivity(String csvData) {
+    private void launchDataVisualizerActivity(String csvData, Class<?> clazz) {
         // Test data ready - go to maps view
-        Intent intent = new Intent(this, MapperActivity.class);
+        Intent intent = new Intent(this, clazz);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_HEADER, mCsvHeaderValidationText);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_DATA, csvData);
         startActivity(intent);
@@ -226,13 +228,13 @@ public class MainActivity extends Activity implements InputDialogListener {
             mRelaunchMapButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    launchMapperActivity(mLastSessionValidData);
+                    launchDataVisualizerActivity(mLastSessionValidData, MapperActivity.class);
                 }
             });
             mLaunchStatsButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Tracer.debug(LOG_TAG, "Stats view");
+                    launchDataVisualizerActivity(mLastSessionValidData, DataStatsActivity.class);
                 }
             });
             
