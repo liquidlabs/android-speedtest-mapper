@@ -65,7 +65,9 @@ public class SpeedTestRecord {
     private float markerColorHue;
 
     /**
-     * Constructs speedtest model object from parsed csv record.
+     * Constructs speedtest model object from parsed csv record. <br/>
+     * 
+     * TODO: Handle the exceptions in future, and show user friendly error message to user.
      * 
      * @param csvRecord
      */
@@ -93,6 +95,9 @@ public class SpeedTestRecord {
         } catch (NumberFormatException e) {
             // if for some reason unexpected value is passed, stop parsing
             throw new IllegalArgumentException("Unable to parse record: " + csvRecord.toString());
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // this might happen for some leftover lines when copy and pasting data. 
+            throw new IllegalArgumentException("Invalid record : " + csvRecord.toString());
         }
     }
 
