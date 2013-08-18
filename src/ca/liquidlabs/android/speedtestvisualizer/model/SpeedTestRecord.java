@@ -57,6 +57,14 @@ public class SpeedTestRecord {
     private String externalIp;
     
     //
+    // Other useful attributes of record
+    //
+    /**
+     * Date format of speedtest date record.
+     */
+    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
+    
+    //
     // Extra info added by this app
     //
     /**
@@ -99,6 +107,24 @@ public class SpeedTestRecord {
             // this might happen for some leftover lines when copy and pasting data. 
             throw new IllegalArgumentException("Invalid record : " + csvRecord.toString());
         }
+    }
+    
+    /**
+     * Constructor to create a copy of speedtest record object from another object.
+     * 
+     * @param speedTestRecord
+     */
+    public SpeedTestRecord(SpeedTestRecord speedTestRecord) {
+        this.date = speedTestRecord.getDate();
+        this.connectionType = speedTestRecord.getConnectionType();
+        this.lat = speedTestRecord.getLat();
+        this.lon = speedTestRecord.getLon();
+        this.download = speedTestRecord.getDownload();
+        this.upload = speedTestRecord.getUpload();
+        this.latency = speedTestRecord.getLatency();
+        this.serverName = speedTestRecord.getServerName();
+        this.internalIp = speedTestRecord.getInternalIp();
+        this.externalIp = speedTestRecord.getExternalIp();
     }
 
     /**
