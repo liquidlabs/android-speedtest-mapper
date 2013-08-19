@@ -91,6 +91,7 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
         // convert the csv data to graph data based on type of graph.
         for (int i = 0; i < totalCsvRecords; i++) {
 
+            // for each graph type, load different graph view data
             switch (graphType) {
                 case DATE_VS_DOWNLOAD:
                     graphData[i] = new StDataDownloadDate(csvListData.get(i));
@@ -107,14 +108,6 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
                     break;
             }
 
-        }
-
-        try {
-            // manual delay for testing
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         }
 
         // return the processed data
