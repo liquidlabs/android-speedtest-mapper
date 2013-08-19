@@ -13,9 +13,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
+import ca.liquidlabs.android.speedtestvisualizer.fragments.DownloadGraphFragment;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.GraphViewFragment;
 
 import java.util.Locale;
@@ -40,6 +42,9 @@ public class DataStatsActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // get feature to show progress in actionbar when processing data
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
         setContentView(R.layout.activity_data_stats);
 
         // Show the Up button in the action bar.
@@ -54,7 +59,7 @@ public class DataStatsActivity extends FragmentActivity {
         mViewPager.setAdapter(mSectionsPagerAdapter);
 
     }
-    
+
     @Override
     protected void onPause() {
         // Override the activity transition animation
@@ -98,18 +103,23 @@ public class DataStatsActivity extends FragmentActivity {
 
         @Override
         public Fragment getItem(int position) {
-            
-            if(position == 0) {
+
+            if (position == 0) {
                 return GraphViewFragment.newInstance("Test");
-            } else {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a DummySectionFragment (defined as a static inner class
-            // below) with the page number as its lone argument.
-            Fragment fragment = new DummySectionFragment();
-            Bundle args = new Bundle();
-            args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-            fragment.setArguments(args);
-            return fragment;
+            } else if (position == 1) {
+                return DownloadGraphFragment.newInstance("Test2");
+            }
+            else {
+                // getItem is called to instantiate the fragment for the given
+                // page.
+                // Return a DummySectionFragment (defined as a static inner
+                // class
+                // below) with the page number as its lone argument.
+                Fragment fragment = new DummySectionFragment();
+                Bundle args = new Bundle();
+                args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
+                fragment.setArguments(args);
+                return fragment;
             }
         }
 
