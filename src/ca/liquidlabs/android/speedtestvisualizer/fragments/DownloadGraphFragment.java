@@ -136,7 +136,7 @@ public class DownloadGraphFragment extends BaseGraphFragment {
         GraphView graphView;
         graphView = new BarGraphView(
                 getActivity().getApplicationContext() // context
-                , "Download Speed" // heading
+                , mGraphType.getGraphTitle() // heading
         );
 
         // override styles

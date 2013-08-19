@@ -8,13 +8,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.DownloadGraphFragment;
@@ -43,6 +39,13 @@ public class DataStatsActivity extends FragmentActivity {
     // Instance Properties
     private String mCsvHeader;
     private String mCsvData;
+
+    /**
+     * List of graph types supported by this activity.
+     */
+    private final GraphType availableGraphTypes[] = {
+            GraphType.DATE_VS_DOWNLOAD, GraphType.DATE_VS_UPLOAD, GraphType.DATE_VS_LATENCY
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,12 +117,14 @@ public class DataStatsActivity extends FragmentActivity {
         @Override
         public Fragment getItem(int position) {
 
-            if (position == 0) {
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_DOWNLOAD);
-            } else if (position == 1) {
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_UPLOAD);
-            } else if (position == 2){
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_LATENCY);
+            GraphType selectedGraphType = availableGraphTypes[position];
+
+            if (selectedGraphType == GraphType.DATE_VS_DOWNLOAD) {
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+            } else if (selectedGraphType == GraphType.DATE_VS_UPLOAD) {
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+            } else if (selectedGraphType == GraphType.DATE_VS_LATENCY) {
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
             }
             else {
                 // FIXME - fix this.
@@ -129,25 +134,15 @@ public class DataStatsActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
-            return 3;
+            // return number of available graph types
+            return availableGraphTypes.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.title_datastats_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_datastats_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_datastats_section3).toUpperCase(l);
-            }
-            return null;
+            return availableGraphTypes[position].getShortTitle().toUpperCase(l);
         }
     }
-
-
 
 }

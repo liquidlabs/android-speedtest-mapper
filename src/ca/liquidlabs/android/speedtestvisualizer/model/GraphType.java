@@ -26,9 +26,39 @@ package ca.liquidlabs.android.speedtestvisualizer.model;
  * @author Hossain Khan
  */
 public enum GraphType {
-    DATE_VS_DOWNLOAD,
-    DATE_VS_UPLOAD,
-    DATE_VS_LATENCY,
-    DATE_VS_DOWNLOAD_UPLOAD,
-    DATE_VS_DOWNLOAD_UPLOAD_LATENCY;
+    DATE_VS_DOWNLOAD("Download Graph", "Download"),
+    DATE_VS_UPLOAD("Upload Graph", "Upload"),
+    DATE_VS_LATENCY("Latency Graph", "Latency"),
+    DATE_VS_DOWNLOAD_UPLOAD("Download & Upload Graph", "Down & Up"),
+    DATE_VS_DOWNLOAD_UPLOAD_LATENCY("Download, Upload & Latency Graph", "Down, Up & Latency");
+
+    private final String mGraphTitle;
+    private final String mGraphPagerTitle;
+
+    /**
+     * @param graphTitle
+     * @param graphPagerTitle
+     */
+    private GraphType(final String graphTitle, final String graphPagerTitle) {
+        mGraphTitle = graphTitle;
+        mGraphPagerTitle = graphPagerTitle;
+    }
+
+    /**
+     * Get long title of the graph.
+     * 
+     * @return Title of the graph.
+     */
+    public String getGraphTitle() {
+        return mGraphTitle;
+    }
+
+    /**
+     * Get short title for view-pager or similar component.
+     * 
+     * @return Short title.
+     */
+    public String getShortTitle() {
+        return mGraphPagerTitle;
+    }
 }
