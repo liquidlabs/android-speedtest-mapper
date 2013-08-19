@@ -28,6 +28,7 @@ package ca.liquidlabs.android.speedtestvisualizer.model;
 public enum GraphType {
     DATE_VS_DOWNLOAD,
     DATE_VS_UPLOAD,
+    DATE_VS_LATENCY,
     DATE_VS_DOWNLOAD_UPLOAD,
     DATE_VS_DOWNLOAD_UPLOAD_LATENCY;
 }

@@ -116,9 +116,11 @@ public class DataStatsActivity extends FragmentActivity {
         public Fragment getItem(int position) {
 
             if (position == 0) {
-                return GraphViewFragment.newInstance("Test");
-            } else if (position == 1) {
                 return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_DOWNLOAD);
+            } else if (position == 1) {
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_UPLOAD);
+            } else if (position == 2){
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_LATENCY);
             }
             else {
                 // getItem is called to instantiate the fragment for the given

@@ -18,8 +18,11 @@ package ca.liquidlabs.android.speedtestvisualizer.util;
 
 import android.os.AsyncTask;
 
+import ca.liquidlabs.android.speedtestvisualizer.model.GraphType;
 import ca.liquidlabs.android.speedtestvisualizer.model.SpeedTestRecord;
 import ca.liquidlabs.android.speedtestvisualizer.model.StDataDownloadDate;
+import ca.liquidlabs.android.speedtestvisualizer.model.StDataLatencyDate;
+import ca.liquidlabs.android.speedtestvisualizer.model.StDataUploadDate;
 
 import com.jjoe64.graphview.GraphViewDataInterface;
 
@@ -74,18 +77,36 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
      * Parses the speedtest data, and prepares a list which can be used for
      * graphing.
      * 
-     * @param params Parameters are: [0]=> CSV Header, [1]=> CSV data, [2]=> GraphType
+     * @param params Parameters are: [0]=> CSV Header, [1]=> CSV data,
+     *            [2]=>GraphType
      */
     @Override
     protected GraphViewDataInterface[] doInBackground(final String... params) {
         List<SpeedTestRecord> csvListData = CsvDataParser.parseCsvData(params[0], params[1]);
-        
+        GraphType graphType = GraphType.valueOf(params[2]);
+
         final int totalCsvRecords = csvListData.size();
         GraphViewDataInterface[] graphData = new GraphViewDataInterface[totalCsvRecords];
 
         // convert the csv data to graph data based on type of graph.
         for (int i = 0; i < totalCsvRecords; i++) {
-            graphData[i] = new StDataDownloadDate(csvListData.get(i));
+
+            switch (graphType) {
+                case DATE_VS_DOWNLOAD:
+                    graphData[i] = new StDataDownloadDate(csvListData.get(i));
+                    break;
+                case DATE_VS_UPLOAD:
+                    graphData[i] = new StDataUploadDate(csvListData.get(i));
+                    break;
+                case DATE_VS_LATENCY:
+                    graphData[i] = new StDataLatencyDate(csvListData.get(i));
+                    break;
+                default:
+                    // default - load the download
+                    graphData[i] = new StDataDownloadDate(csvListData.get(i));
+                    break;
+            }
+
         }
 
         try {
@@ -95,8 +116,7 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        
-        
+
         // return the processed data
         return graphData;
     }
