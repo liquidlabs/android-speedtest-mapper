@@ -74,12 +74,12 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
      * Parses the speedtest data, and prepares a list which can be used for
      * graphing.
      * 
-     * @param params Parameters are: [0]=> CSV Header, [1]=> CSV data
+     * @param params Parameters are: [0]=> CSV Header, [1]=> CSV data, [2]=> GraphType
      */
     @Override
     protected GraphViewDataInterface[] doInBackground(final String... params) {
         List<SpeedTestRecord> csvListData = CsvDataParser.parseCsvData(params[0], params[1]);
-
+        
         final int totalCsvRecords = csvListData.size();
         GraphViewDataInterface[] graphData = new GraphViewDataInterface[totalCsvRecords];
 

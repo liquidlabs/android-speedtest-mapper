@@ -19,6 +19,8 @@ import android.widget.TextView;
 import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.DownloadGraphFragment;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.GraphViewFragment;
+import ca.liquidlabs.android.speedtestvisualizer.model.GraphType;
+import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 
 import java.util.Locale;
 
@@ -39,6 +41,10 @@ public class DataStatsActivity extends FragmentActivity {
      */
     ViewPager mViewPager;
 
+    // Instance Properties
+    private String mCsvHeader;
+    private String mCsvData;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +63,11 @@ public class DataStatsActivity extends FragmentActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        // Get the csv data from intent and then proceed
+        Bundle bundle = getIntent().getExtras();
+        mCsvHeader = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_HEADER);
+        mCsvData = bundle.getString(AppConstants.KEY_SPEEDTEST_CSV_DATA);
 
     }
 
@@ -107,7 +118,7 @@ public class DataStatsActivity extends FragmentActivity {
             if (position == 0) {
                 return GraphViewFragment.newInstance("Test");
             } else if (position == 1) {
-                return DownloadGraphFragment.newInstance("Test2");
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_DOWNLOAD);
             }
             else {
                 // getItem is called to instantiate the fragment for the given

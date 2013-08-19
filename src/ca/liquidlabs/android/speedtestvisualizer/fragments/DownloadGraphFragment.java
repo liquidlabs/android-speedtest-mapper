@@ -23,7 +23,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.model.GraphType;
@@ -49,10 +48,15 @@ public class DownloadGraphFragment extends BaseGraphFragment {
     public static final String BUNDLE_ARG_DATA = "csvData";
     public static final String BUNDLE_ARG_GRAPH_TYPE = "graphType";
 
-    private final String TEST_DATA = "Date,ConnType,Lat,Lon,Download,Upload,Latency,ServerName,InternalIp,ExternalIp\n\"2013-04-27 10:47\",\"Wifi\",\"40.87763\",\"-73.88753\",11524,329,2248,\"Frederick, MD\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 10:46\",\"Cell\",\"39.27206\",\"-76.51323\",12848,369,39,\"Frederick, MD\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 10:21\",\"Edge\",\"42.42897\",\"-77.39760\",12924,368,18,\"Toronto, ON\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 10:18\",\"Wifi\",\"42.42897\",\"-77.39760\",13787,502,17,\"Toronto, ON\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 09:55\",\"Wifi\",\"43.74476\",\"-79.34768\",14203,460,44,\"Buffalo, NY\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 09:54\",\"Wifi\",\"43.13451\",\"-77.62008\",12407,462,45,\"Buffalo, NY\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 09:21\",\"Umts\",\"43.63553\",\"-79.80909\",14537,373,19,\"Toronto, ON\",\"192.168.0.104\",\"24.246.58.77\"\n\"2013-04-27 09:20\",\"Wifi\",\"42.93778\",\"-78.87253\",15145,383,20,\"Toronto, ON\",\"192.168.0.104\",\"24.246.58.77\"";
-    private final String TEST_HEADER = "ServerName,InternalIp,ExternalIp";
 
     private FrameLayout mGraphViewContainer;
+
+    //
+    // Data from bundle
+    //
+    private String mCsvHeader;
+    private String mCsvData;
+    private GraphType mGraphType;
 
     /**
      * Creates a graph fragment to draw graphview based on data and graph type.
@@ -92,7 +96,13 @@ public class DownloadGraphFragment extends BaseGraphFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        new SpeedTestRecordProcessorTask(this).execute(TEST_HEADER, TEST_DATA);
+        // Get the arguments and save them.
+        Bundle bundleArgs = getArguments();
+        mCsvHeader = bundleArgs.getString(BUNDLE_ARG_HEADER);
+        mCsvData = bundleArgs.getString(BUNDLE_ARG_DATA);
+        mGraphType = (GraphType) bundleArgs.getSerializable(BUNDLE_ARG_GRAPH_TYPE);
+        
+        new SpeedTestRecordProcessorTask(this).execute(mCsvHeader, mCsvData, mGraphType.name());
 
         Tracer.debug(LOG_TAG, "onActivityCreated()");
 
@@ -126,7 +136,7 @@ public class DownloadGraphFragment extends BaseGraphFragment {
         GraphView graphView;
         graphView = new BarGraphView(
                 getActivity().getApplicationContext() // context
-                , "GraphViewDemo" // heading
+                , "Download Speed" // heading
         );
 
         // override styles
