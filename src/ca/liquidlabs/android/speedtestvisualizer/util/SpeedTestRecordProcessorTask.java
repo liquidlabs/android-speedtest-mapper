@@ -23,7 +23,6 @@ import ca.liquidlabs.android.speedtestvisualizer.model.StDataDownloadDate;
 
 import com.jjoe64.graphview.GraphViewDataInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -38,7 +37,9 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
      */
     public interface OnDataProcessorListener {
         /**
-         * Called when the processor is about to begin processing data.
+         * Called when the processor is about to begin long-running data
+         * processing.<br/>
+         * Client should give feedback to user by showing progress or similar.
          */
         void onPreProcess();
 
@@ -60,7 +61,7 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
      * 
      * @param listener {@link OnDataProcessorListener} for callback
      */
-    public SpeedTestRecordProcessorTask(OnDataProcessorListener listener) {
+    public SpeedTestRecordProcessorTask(final OnDataProcessorListener listener) {
         mListener = listener;
     }
 
@@ -76,7 +77,7 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
      * @param params Parameters are: [0]=> CSV Header, [1]=> CSV data
      */
     @Override
-    protected GraphViewDataInterface[] doInBackground(String... params) {
+    protected GraphViewDataInterface[] doInBackground(final String... params) {
         List<SpeedTestRecord> csvListData = CsvDataParser.parseCsvData(params[0], params[1]);
 
         final int totalCsvRecords = csvListData.size();
@@ -94,13 +95,15 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        
+        
         // return the processed data
         return graphData;
     }
 
     @Override
-    protected void onPostExecute(GraphViewDataInterface[] v) {
-        mListener.onComplete(v);
+    protected void onPostExecute(final GraphViewDataInterface[] graphData) {
+        mListener.onComplete(graphData);
     }
 
 }
