@@ -18,7 +18,6 @@ import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.DownloadGraphFragment;
-import ca.liquidlabs.android.speedtestvisualizer.fragments.GraphViewFragment;
 import ca.liquidlabs.android.speedtestvisualizer.model.GraphType;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 
@@ -123,16 +122,8 @@ public class DataStatsActivity extends FragmentActivity {
                 return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, GraphType.DATE_VS_LATENCY);
             }
             else {
-                // getItem is called to instantiate the fragment for the given
-                // page.
-                // Return a DummySectionFragment (defined as a static inner
-                // class
-                // below) with the page number as its lone argument.
-                Fragment fragment = new DummySectionFragment();
-                Bundle args = new Bundle();
-                args.putInt(DummySectionFragment.ARG_SECTION_NUMBER, position + 1);
-                fragment.setArguments(args);
-                return fragment;
+                // FIXME - fix this.
+                return null;
             }
         }
 
@@ -157,28 +148,6 @@ public class DataStatsActivity extends FragmentActivity {
         }
     }
 
-    /**
-     * A dummy fragment representing a section of the app, but that simply
-     * displays dummy text.
-     */
-    public static class DummySectionFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        public static final String ARG_SECTION_NUMBER = "section_number";
 
-        public DummySectionFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_graph_dummy, container, false);
-            TextView dummyTextView = (TextView) rootView.findViewById(R.id.section_label);
-            dummyTextView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
-            return rootView;
-        }
-    }
 
 }
