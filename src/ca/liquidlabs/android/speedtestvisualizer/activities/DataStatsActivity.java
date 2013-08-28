@@ -45,7 +45,7 @@ public class DataStatsActivity extends FragmentActivity {
      */
     private final GraphType availableGraphTypes[] = {
             GraphType.DATE_VS_DOWNLOAD, GraphType.DATE_VS_UPLOAD, GraphType.DATE_VS_LATENCY,
-            GraphType.DATE_VS_DOWNLOAD_UPLOAD, GraphType.CONNECTION_TYPE
+            GraphType.DATE_VS_DOWNLOAD_UPLOAD
     };
 
     @Override

@@ -50,7 +50,6 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
     public static final String BUNDLE_ARG_DATA = "csvData";
     public static final String BUNDLE_ARG_GRAPH_TYPE = "graphType";
 
-
     private FrameLayout mGraphViewContainer;
 
     //
@@ -103,7 +102,7 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
         mCsvHeader = bundleArgs.getString(BUNDLE_ARG_HEADER);
         mCsvData = bundleArgs.getString(BUNDLE_ARG_DATA);
         mGraphType = (GraphType) bundleArgs.getSerializable(BUNDLE_ARG_GRAPH_TYPE);
-        
+
         new SpeedTestRecordProcessorTask(this).execute(mCsvHeader, mCsvData, mGraphType.name());
 
         Tracer.debug(LOG_TAG, "onActivityCreated()");
@@ -116,45 +115,8 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
      * @see OnDataProcessorListener
      */
     @Override
-    public void onComplete(final GraphViewDataInterface[] data) {
-
-        // Check after all processing done, if this fragment is still visible.
-        if (this.isRemoving() || this.isDetached()) {
-            Tracer.debug(LOG_TAG, "onComplete() >> Fragment is removing or already detached.");
-            // do nothing, view is already gone.
-            return;
-        }
-
-        // first - hide the progress indicator
-        hideProgressIndicator();
-        Tracer.debug(LOG_TAG, "onComplete: " + data);
-
-        Tracer.debug(LOG_TAG, "onComplete() > data available? - "
-                + data.length);
-
-        // init graph data
-        GraphViewSeries downloadSeries = new GraphViewSeries(data);
-
-        GraphView graphView;
-        graphView = new BarGraphView(
-                getActivity().getApplicationContext() // context
-                , mGraphType.getGraphTitle() // heading
-        );
-
-        // override styles
-        graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.GRAY);
-        graphView.getGraphViewStyle().setVerticalLabelsColor(Color.GRAY);
-
-        // add data
-        graphView.addSeries(downloadSeries);
-
-        // add graph to the view
-        mGraphViewContainer.addView(graphView);
-    }
-
-    @Override
     public void onComplete(final GraphViewDataInterface[]... dataSets) {
-     // Check after all processing done, if this fragment is still visible.
+        // Check after all processing done, if this fragment is still visible.
         if (this.isRemoving() || this.isDetached()) {
             Tracer.debug(LOG_TAG, "onComplete() >> Fragment is removing or already detached.");
             // do nothing, view is already gone.
@@ -167,35 +129,37 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
 
         Tracer.debug(LOG_TAG, "onComplete (multi) > data available? - "
                 + dataSets.length);
-        
+
         GraphViewDataInterface[][] availableDataSets = dataSets;
-        
-        if(availableDataSets.length == 1) {
+
+        if (availableDataSets.length == 1) {
             addSingleSeriesGraph(availableDataSets[0]);
             return;
         }
-        
-        GraphViewSeries seriesSin = new GraphViewSeries("Sinus curve", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), availableDataSets[0]);
-        GraphViewSeries seriesCos = new GraphViewSeries("Cosinus curve", new GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), availableDataSets[1]);
 
         // graph with dynamically genereated horizontal and vertical labels
         LineGraphView graphView;
         graphView = new LineGraphView(getActivity().getApplicationContext(), "Multi");
-        
-        // add data
-        graphView.addSeries(seriesCos);
-        graphView.addSeries(seriesSin);
+
+        for (int index = 0; index < availableDataSets.length; index++) {
+            // TODO Select different color
+            GraphViewSeries seriesData = new GraphViewSeries("Data: " + index, new GraphViewSeriesStyle(Color.rgb(200,
+                    50, 00),
+                    5), availableDataSets[index]);
+            // add data
+            graphView.addSeries(seriesData);
+        }
         // set legend
         graphView.setShowLegend(true);
         // set view port, start=2, size=40
-        //graphView.setViewPort(2, 40);
-        //graphView.setScrollable(true);
-        
+        // graphView.setViewPort(2, 40);
+        // graphView.setScrollable(true);
+
         // add graph to the view
         mGraphViewContainer.addView(graphView);
     }
-    
-    private void addSingleSeriesGraph(final GraphViewDataInterface[] data){
+
+    private void addSingleSeriesGraph(final GraphViewDataInterface[] data) {
         // init graph data
         GraphViewSeries downloadSeries = new GraphViewSeries(data);
 

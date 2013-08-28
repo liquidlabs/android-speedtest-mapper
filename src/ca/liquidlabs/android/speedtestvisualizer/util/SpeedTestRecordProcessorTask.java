@@ -47,13 +47,6 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
         void onPreProcess();
 
         /**
-         * Called when the data is processed and returns the data.
-         * 
-         * @param dataSet Processed data.
-         */
-        void onComplete(GraphViewDataInterface[] dataSet);
-
-        /**
          * Call back when multiple series is processed.
          * 
          * @param dataSets Array of data sets.
