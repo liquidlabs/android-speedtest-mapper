@@ -44,7 +44,8 @@ public class DataStatsActivity extends FragmentActivity {
      * List of graph types supported by this activity.
      */
     private final GraphType availableGraphTypes[] = {
-            GraphType.DATE_VS_DOWNLOAD, GraphType.DATE_VS_UPLOAD, GraphType.DATE_VS_LATENCY
+            GraphType.DATE_VS_DOWNLOAD, GraphType.DATE_VS_UPLOAD, GraphType.DATE_VS_LATENCY,
+            GraphType.DATE_VS_DOWNLOAD_UPLOAD, GraphType.CONNECTION_TYPE
     };
 
     @Override
@@ -121,9 +122,14 @@ public class DataStatsActivity extends FragmentActivity {
 
             if (selectedGraphType == GraphType.DATE_VS_DOWNLOAD) {
                 return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
-            } else if (selectedGraphType == GraphType.DATE_VS_UPLOAD) {
+            }
+            else if (selectedGraphType == GraphType.DATE_VS_UPLOAD) {
                 return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
-            } else if (selectedGraphType == GraphType.DATE_VS_LATENCY) {
+            }
+            else if (selectedGraphType == GraphType.DATE_VS_LATENCY) {
+                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+            }
+            else if (selectedGraphType == GraphType.DATE_VS_DOWNLOAD_UPLOAD) {
                 return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
             }
             else {
