@@ -34,6 +34,8 @@ import com.jjoe64.graphview.BarGraphView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.GraphViewDataInterface;
 import com.jjoe64.graphview.GraphViewSeries;
+import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
+import com.jjoe64.graphview.LineGraphView;
 
 public class DownloadGraphFragment extends BaseGraphFragment {
     /**
@@ -114,7 +116,7 @@ public class DownloadGraphFragment extends BaseGraphFragment {
      * @see OnDataProcessorListener
      */
     @Override
-    public void onComplete(GraphViewDataInterface[] data) {
+    public void onComplete(final GraphViewDataInterface[] data) {
 
         // Check after all processing done, if this fragment is still visible.
         if (this.isRemoving() || this.isDetached()) {
@@ -130,6 +132,70 @@ public class DownloadGraphFragment extends BaseGraphFragment {
         Tracer.debug(LOG_TAG, "onComplete() > data available? - "
                 + data.length);
 
+        // init graph data
+        GraphViewSeries downloadSeries = new GraphViewSeries(data);
+
+        GraphView graphView;
+        graphView = new BarGraphView(
+                getActivity().getApplicationContext() // context
+                , mGraphType.getGraphTitle() // heading
+        );
+
+        // override styles
+        graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.GRAY);
+        graphView.getGraphViewStyle().setVerticalLabelsColor(Color.GRAY);
+
+        // add data
+        graphView.addSeries(downloadSeries);
+
+        // add graph to the view
+        mGraphViewContainer.addView(graphView);
+    }
+
+    @Override
+    public void onComplete(final GraphViewDataInterface[]... dataSets) {
+     // Check after all processing done, if this fragment is still visible.
+        if (this.isRemoving() || this.isDetached()) {
+            Tracer.debug(LOG_TAG, "onComplete() >> Fragment is removing or already detached.");
+            // do nothing, view is already gone.
+            return;
+        }
+
+        // first - hide the progress indicator
+        hideProgressIndicator();
+        Tracer.debug(LOG_TAG, "onComplete (multi): " + dataSets);
+
+        Tracer.debug(LOG_TAG, "onComplete (multi) > data available? - "
+                + dataSets.length);
+        
+        GraphViewDataInterface[][] availableDataSets = dataSets;
+        
+        if(availableDataSets.length == 1) {
+            addSingleSeriesGraph(availableDataSets[0]);
+            return;
+        }
+        
+        GraphViewSeries seriesSin = new GraphViewSeries("Sinus curve", new GraphViewSeriesStyle(Color.rgb(200, 50, 00), 3), availableDataSets[0]);
+        GraphViewSeries seriesCos = new GraphViewSeries("Cosinus curve", new GraphViewSeriesStyle(Color.rgb(90, 250, 00), 3), availableDataSets[1]);
+
+        // graph with dynamically genereated horizontal and vertical labels
+        LineGraphView graphView;
+        graphView = new LineGraphView(getActivity().getApplicationContext(), "Multi");
+        
+        // add data
+        graphView.addSeries(seriesCos);
+        graphView.addSeries(seriesSin);
+        // set legend
+        graphView.setShowLegend(true);
+        // set view port, start=2, size=40
+        //graphView.setViewPort(2, 40);
+        //graphView.setScrollable(true);
+        
+        // add graph to the view
+        mGraphViewContainer.addView(graphView);
+    }
+    
+    private void addSingleSeriesGraph(final GraphViewDataInterface[] data){
         // init graph data
         GraphViewSeries downloadSeries = new GraphViewSeries(data);
 

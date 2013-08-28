@@ -33,7 +33,7 @@ import java.util.List;
  * 
  * @author Hossain Khan
  */
-public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphViewDataInterface[]> {
+public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphViewDataInterface[][]> {
 
     /**
      * A listener interface to notify caller when the data is processed.
@@ -49,9 +49,16 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
         /**
          * Called when the data is processed and returns the data.
          * 
-         * @param data Processed data.
+         * @param dataSet Processed data.
          */
-        void onComplete(GraphViewDataInterface[] data);
+        void onComplete(GraphViewDataInterface[] dataSet);
+
+        /**
+         * Call back when multiple series is processed.
+         * 
+         * @param dataSets Array of data sets.
+         */
+        void onComplete(GraphViewDataInterface[]... dataSets);
     }
 
     /**
@@ -81,33 +88,49 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
      *            [2]=>GraphType
      */
     @Override
-    protected GraphViewDataInterface[] doInBackground(final String... params) {
+    protected GraphViewDataInterface[][] doInBackground(final String... params) {
         List<SpeedTestRecord> csvListData = CsvDataParser.parseCsvData(params[0], params[1]);
         GraphType graphType = GraphType.valueOf(params[2]);
 
+        final int maxSeries = getMaxDataSeriesByType(graphType);
         final int totalCsvRecords = csvListData.size();
-        GraphViewDataInterface[] graphData = new GraphViewDataInterface[totalCsvRecords];
+        GraphViewDataInterface[][] graphData = new GraphViewDataInterface[maxSeries][totalCsvRecords];
 
-        // convert the csv data to graph data based on type of graph.
-        for (int i = 0; i < totalCsvRecords; i++) {
+        for (int dataSeriesCount = 0; dataSeriesCount < maxSeries; dataSeriesCount++) {
 
-            // for each graph type, load different graph view data
-            switch (graphType) {
-                case DATE_VS_DOWNLOAD:
-                    graphData[i] = new StDataDownloadDate(csvListData.get(i));
-                    break;
-                case DATE_VS_UPLOAD:
-                    graphData[i] = new StDataUploadDate(csvListData.get(i));
-                    break;
-                case DATE_VS_LATENCY:
-                    graphData[i] = new StDataLatencyDate(csvListData.get(i));
-                    break;
-                default:
-                    // default - load the download
-                    graphData[i] = new StDataDownloadDate(csvListData.get(i));
-                    break;
+            // convert the csv data to graph data based on type of graph.
+            for (int i = 0; i < totalCsvRecords; i++) {
+
+                // for each graph type, load different graph view data
+                switch (graphType) {
+                    case DATE_VS_DOWNLOAD:
+                        graphData[dataSeriesCount][i] = new StDataDownloadDate(csvListData.get(i));
+                        break;
+                    case DATE_VS_UPLOAD:
+                        graphData[dataSeriesCount][i] = new StDataUploadDate(csvListData.get(i));
+                        break;
+                    case DATE_VS_LATENCY:
+                        graphData[dataSeriesCount][i] = new StDataLatencyDate(csvListData.get(i));
+                        break;
+                    case DATE_VS_DOWNLOAD_UPLOAD:
+                        // Multi series graph, check which data type to load
+                        // first
+                        if (dataSeriesCount == 0) {
+                            // add download series at index 0
+                            graphData[dataSeriesCount][i] = new StDataDownloadDate(csvListData.get(i));
+                        } else if (dataSeriesCount == 1) {
+                            // add upload series at index 1
+                            graphData[dataSeriesCount][i] = new StDataUploadDate(csvListData.get(i));
+                        }
+
+                        break;
+                    default:
+                        // default - load the download
+                        graphData[dataSeriesCount][i] = new StDataDownloadDate(csvListData.get(i));
+                        break;
+                }
+
             }
-
         }
 
         // return the processed data
@@ -115,8 +138,30 @@ public class SpeedTestRecordProcessorTask extends AsyncTask<String, Void, GraphV
     }
 
     @Override
-    protected void onPostExecute(final GraphViewDataInterface[] graphData) {
+    protected void onPostExecute(final GraphViewDataInterface[][] graphData) {
         mListener.onComplete(graphData);
+    }
+
+    private int getMaxDataSeriesByType(final GraphType graphType) {
+        final int DATE_VS_DOWNLOAD = 1;
+        final int DATE_VS_UPLOAD = 1;
+        final int DATE_VS_LATENCY = 1;
+        final int DATE_VS_DOWNLOAD_UPLOAD = 2;
+        final int NONE = 0;
+
+        // for each graph type, load different graph view data
+        switch (graphType) {
+            case DATE_VS_DOWNLOAD:
+                return DATE_VS_DOWNLOAD;
+            case DATE_VS_UPLOAD:
+                return DATE_VS_UPLOAD;
+            case DATE_VS_LATENCY:
+                return DATE_VS_LATENCY;
+            case DATE_VS_DOWNLOAD_UPLOAD:
+                return DATE_VS_DOWNLOAD_UPLOAD;
+            default:
+                return NONE;
+        }
     }
 
 }
