@@ -37,11 +37,11 @@ import com.jjoe64.graphview.GraphViewSeries;
 import com.jjoe64.graphview.GraphViewSeries.GraphViewSeriesStyle;
 import com.jjoe64.graphview.LineGraphView;
 
-public class DownloadGraphFragment extends BaseGraphFragment {
+public class GraphViewMasterFragment extends BaseGraphFragment {
     /**
      * Log tag.
      */
-    private static final String LOG_TAG = DownloadGraphFragment.class.getSimpleName();
+    private static final String LOG_TAG = GraphViewMasterFragment.class.getSimpleName();
 
     /**
      * The fragment argument representing the section number for this fragment.
@@ -70,7 +70,7 @@ public class DownloadGraphFragment extends BaseGraphFragment {
      */
     public static Fragment newInstance(final String header, final String csvData, GraphType graphType) {
         Tracer.debug(LOG_TAG, "newInstance()");
-        DownloadGraphFragment fragment = new DownloadGraphFragment();
+        GraphViewMasterFragment fragment = new GraphViewMasterFragment();
         Bundle bundle = new Bundle();
         bundle.putString(BUNDLE_ARG_HEADER, header);
         bundle.putString(BUNDLE_ARG_DATA, csvData);

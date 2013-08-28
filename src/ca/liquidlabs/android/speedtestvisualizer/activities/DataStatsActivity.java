@@ -13,7 +13,7 @@ import android.view.MenuItem;
 import android.view.Window;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
-import ca.liquidlabs.android.speedtestvisualizer.fragments.DownloadGraphFragment;
+import ca.liquidlabs.android.speedtestvisualizer.fragments.GraphViewMasterFragment;
 import ca.liquidlabs.android.speedtestvisualizer.model.GraphType;
 import ca.liquidlabs.android.speedtestvisualizer.util.AppConstants;
 
@@ -121,16 +121,16 @@ public class DataStatsActivity extends FragmentActivity {
             GraphType selectedGraphType = availableGraphTypes[position];
 
             if (selectedGraphType == GraphType.DATE_VS_DOWNLOAD) {
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+                return GraphViewMasterFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
             }
             else if (selectedGraphType == GraphType.DATE_VS_UPLOAD) {
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+                return GraphViewMasterFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
             }
             else if (selectedGraphType == GraphType.DATE_VS_LATENCY) {
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+                return GraphViewMasterFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
             }
             else if (selectedGraphType == GraphType.DATE_VS_DOWNLOAD_UPLOAD) {
-                return DownloadGraphFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
+                return GraphViewMasterFragment.newInstance(mCsvHeader, mCsvData, selectedGraphType);
             }
             else {
                 // FIXME - fix this.
