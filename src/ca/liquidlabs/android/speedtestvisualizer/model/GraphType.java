@@ -30,7 +30,8 @@ public enum GraphType {
     DATE_VS_UPLOAD("Upload Graph", "Upload"),
     DATE_VS_LATENCY("Latency Graph", "Latency"),
     DATE_VS_DOWNLOAD_UPLOAD("Download & Upload Graph", "Down & Up"),
-    DATE_VS_DOWNLOAD_UPLOAD_LATENCY("Download, Upload & Latency Graph", "Down, Up & Latency");
+    DATE_VS_DOWNLOAD_UPLOAD_LATENCY("Download, Upload & Latency Graph", "Down, Up & Latency"),
+    CONNECTION_TYPE("Connection Types", "Connectivity");
 
     private final String mGraphTitle;
     private final String mGraphPagerTitle;
