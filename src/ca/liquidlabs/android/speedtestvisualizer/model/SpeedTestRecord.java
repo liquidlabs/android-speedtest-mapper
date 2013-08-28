@@ -13,11 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package ca.liquidlabs.android.speedtestvisualizer.model;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.commons.csv.CSVRecord;
+import org.apache.commons.lang3.time.DateUtils;
+
+import java.text.ParseException;
+import java.util.Date;
 
 /**
  * POJO model which represents all the available attributes for SpeedTest(tm)
@@ -55,7 +60,7 @@ public class SpeedTestRecord {
     private String serverName;
     private String internalIp;
     private String externalIp;
-    
+
     //
     // Other useful attributes of record
     //
@@ -63,19 +68,27 @@ public class SpeedTestRecord {
      * Date format of speedtest date record.
      */
     public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm";
-    
+
     //
     // Extra info added by this app
     //
     /**
-     * Hue value store for each marker after calculation. Used by app internally.
+     * Hue value store for each marker after calculation. Used by app
+     * internally.
      */
     private float markerColorHue;
 
     /**
-     * Constructs speedtest model object from parsed csv record. <br/>
+     * Timestamp value for the record.
      * 
-     * TODO: Handle the exceptions in future, and show user friendly error message to user.
+     * @see #getUnixTimeStamp()
+     */
+    private long recordTimestamp = 0;
+
+    /**
+     * Constructs speedtest model object from parsed csv record. <br/>
+     * TODO: Handle the exceptions in future, and show user friendly error
+     * message to user.
      * 
      * @param csvRecord
      */
@@ -104,13 +117,15 @@ public class SpeedTestRecord {
             // if for some reason unexpected value is passed, stop parsing
             throw new IllegalArgumentException("Unable to parse record: " + csvRecord.toString());
         } catch (ArrayIndexOutOfBoundsException e) {
-            // this might happen for some leftover lines when copy and pasting data. 
+            // this might happen for some leftover lines when copy and pasting
+            // data.
             throw new IllegalArgumentException("Invalid record : " + csvRecord.toString());
         }
     }
-    
+
     /**
-     * Constructor to create a copy of speedtest record object from another object.
+     * Constructor to create a copy of speedtest record object from another
+     * object.
      * 
      * @param speedTestRecord
      */
@@ -285,11 +300,10 @@ public class SpeedTestRecord {
         this.externalIp = externalIp;
     }
 
-    
     //
     // Getter/Setter methods for Extra Infos
     //
-    
+
     public float getMarkerColorHue() {
         return markerColorHue;
     }
@@ -297,4 +311,33 @@ public class SpeedTestRecord {
     public void setMarkerColorHue(float markerColorHue) {
         this.markerColorHue = markerColorHue;
     }
+
+    //
+    // Helper methods
+    //
+
+    /**
+     * Returns unix timestamp of speedtest record. If date parsing is failed, it
+     * returns 0.
+     * 
+     * @return Unix timestamp value. Or 0 when date parsing fails.
+     * @see {@link #getDate()}
+     * @see {@link Date#getTime()}
+     */
+    public long getUnixTimeStamp() {
+        if (recordTimestamp > 0) {
+            // return cached value
+            return recordTimestamp;
+        } else {
+            try {
+                Date parsedDate = DateUtils.parseDate(getDate(), SpeedTestRecord.DATE_FORMAT);
+                recordTimestamp = parsedDate.getTime();
+                return recordTimestamp;
+            } catch (ParseException e) {
+                android.util.Log.e("LOG", "Unable to parse date", e);
+                return 0;
+            }
+        }
+    }
+
 }
