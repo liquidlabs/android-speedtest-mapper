@@ -6,6 +6,10 @@
     <string name="speedtest_app_name">Speed Test</string>
     <string name="title_activity_mapper">Map Visualizer</string>
     <string name="title_activity_about_app">About App</string>
+    <string name="title_activity_datastats">Stats</string>
+    <string name="title_datastats_section1">Section 1</string>
+    <string name="title_datastats_section2">Section 2</string>
+    <string name="title_datastats_section3">Section 3</string>
     
     <string name="txt_welcome">Welcome!</string>
     <string name="txt_inpul_guide">Paste exported CSV data content</string>
@@ -27,6 +31,7 @@
     <string name="lbl_input_heading">Manual input</string>
     <string name="lbl_input_process">Process Data</string>
     <string name="lbl_launch_map">View map</string>
+    <string name="lbl_launch_stats">Statistics</string>
     <string name="lbl_show_how">Show me how</string>
     <!-- User message -->
     <string name="msg_invalid_data">Ops! we were unable to process exported data.\nIf issue persists, please report us.\nWe\'ll look into it :-]</string>

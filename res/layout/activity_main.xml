@@ -1,14 +1,19 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/MarginedActivity"
+    style="@style/MarginedRootView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     tools:context=".MainActivity" >
 
     <!--
         I'm trying to keep it simple here. Instead of using dialog and other UI things, 
         trying to re-use existing UI elements to convey message    -->
+
     <ImageView
         android:id="@+id/ic_user_feedback"
         style="@style/InfoView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="@dimen/activity_message_block_top_margin"
         android:contentDescription="@string/desc_user_feedback_icon"
@@ -17,16 +22,41 @@
     <TextView
         android:id="@+id/txt_user_feedback_guide"
         style="@style/InfoView.Text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ic_user_feedback"
         android:text="@string/txt_welcome"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <!-- Invisible button that shows, when user has some data in session to re-launch map -->
-    <Button
-        android:id="@+id/btn_relaunch_map"
-        style="@style/InfoView.Button"
+    <!-- Button container that shows, when user has some data in session to launch map or stats view -->
+    <LinearLayout
+        android:id="@+id/button_container"
+        android:layout_marginTop="@dimen/button_container_margin_top"
+        style="?android:attr/buttonBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/txt_user_feedback_guide"
-        android:text="@string/lbl_launch_map" />
+        android:visibility="invisible" >
+
+        <!-- Unfortunately, I could not re-use style here, since I'm already using "?android:attr/buttonBarButtonStyle" as style -->
+        <Button
+            android:id="@+id/btn_relaunch_map"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/btn_link"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/lbl_launch_map" />
+
+        <Button
+            android:id="@+id/btn_launch_stats"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/btn_link"
+            style="?android:attr/buttonBarButtonStyle"
+            android:text="@string/lbl_launch_stats" />
+    </LinearLayout>
 
     <!--
         Button which will be Re-Used to show either:

@@ -27,10 +27,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ShareActionProvider;
 import android.widget.TextView;
 
 import ca.liquidlabs.android.speedtestvisualizer.activities.AboutAppActivity;
+import ca.liquidlabs.android.speedtestvisualizer.activities.DataStatsActivity;
 import ca.liquidlabs.android.speedtestvisualizer.activities.MapperActivity;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.InputDialogFragment;
 import ca.liquidlabs.android.speedtestvisualizer.fragments.InputDialogFragment.InputDialogListener;
@@ -57,6 +59,8 @@ public class MainActivity extends Activity implements InputDialogListener {
     private TextView mMessageTextView;
     private Button mSpeedtestLinkButton;
     private Button mRelaunchMapButton;
+    private Button mLaunchStatsButton;
+    private LinearLayout mButtonContainer;
 
     // Share action provider for menu item
     private ShareActionProvider mShareActionProvider;
@@ -85,6 +89,8 @@ public class MainActivity extends Activity implements InputDialogListener {
         mMessageTextView = (TextView) findViewById(R.id.txt_user_feedback_guide);
         mSpeedtestLinkButton = (Button) findViewById(R.id.btn_speedtest_app_link);
         mRelaunchMapButton = (Button) findViewById(R.id.btn_relaunch_map);
+        mLaunchStatsButton = (Button) findViewById(R.id.btn_launch_stats);
+        mButtonContainer = (LinearLayout) findViewById(R.id.button_container);
 
         // Also load the CSV record header text, which is needed to validate
         mCsvHeaderValidationText = this.getString(R.string.speedtest_csv_header_validation);
@@ -145,7 +151,7 @@ public class MainActivity extends Activity implements InputDialogListener {
             // save the valid data in for current session
             mLastSessionValidData = sharedText;
             mIsSharedIntent = false;
-            this.launchMapperActivity(sharedText);
+            this.launchDataVisualizerActivity(sharedText, MapperActivity.class);
         } else {
             this.handleInvalidText();
         }
@@ -163,7 +169,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         if (CsvDataParser.isValidCsvData(mCsvHeaderValidationText, data)) {
             // save the valid data in for current session
             mLastSessionValidData = data;
-            this.launchMapperActivity(data);
+            this.launchDataVisualizerActivity(data, MapperActivity.class);
         } else {
             this.handleInvalidText();
         }
@@ -178,7 +184,7 @@ public class MainActivity extends Activity implements InputDialogListener {
         // give ui feedback with error
         mIconFeedback.setImageResource(R.drawable.ic_disappoint);
         mMessageTextView.setText(R.string.msg_invalid_data);
-        mRelaunchMapButton.setVisibility(View.GONE);
+        mButtonContainer.setVisibility(View.GONE);
     }
 
     /**
@@ -194,10 +200,11 @@ public class MainActivity extends Activity implements InputDialogListener {
      * Launches mapping activity when valid CSV data is found.
      * 
      * @param csvData Valid speedtest data
+     * @param clazz Class activity to launch.
      */
-    private void launchMapperActivity(String csvData) {
+    private void launchDataVisualizerActivity(String csvData, Class<?> clazz) {
         // Test data ready - go to maps view
-        Intent intent = new Intent(this, MapperActivity.class);
+        Intent intent = new Intent(this, clazz);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_HEADER, mCsvHeaderValidationText);
         intent.putExtra(AppConstants.KEY_SPEEDTEST_CSV_DATA, csvData);
         startActivity(intent);
@@ -221,16 +228,23 @@ public class MainActivity extends Activity implements InputDialogListener {
             mRelaunchMapButton.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    launchMapperActivity(mLastSessionValidData);
+                    launchDataVisualizerActivity(mLastSessionValidData, MapperActivity.class);
                 }
             });
-            mRelaunchMapButton.setVisibility(View.VISIBLE);
+            mLaunchStatsButton.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    launchDataVisualizerActivity(mLastSessionValidData, DataStatsActivity.class);
+                }
+            });
+            
+            mButtonContainer.setVisibility(View.VISIBLE);
         } else {
             // Welcome user and show instructions UI
             mIconFeedback.setImageResource(R.drawable.ic_dialog_bubble);
             mMessageTextView.setText(R.string.msg_welcome_instructions);
             // TODO: Show button with YouTube demo link
-            mRelaunchMapButton.setVisibility(View.GONE);
+            mButtonContainer.setVisibility(View.GONE);
         }
     }
 

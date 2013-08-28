@@ -14,6 +14,7 @@
     <!-- Generic view related -->
     <dimen name="filter_view_margin">10dp</dimen>
     <dimen name="filter_view_padding">6dp</dimen>
+    <dimen name="pager_title_padding">4dp</dimen>
     
     <!--  typography margins -->
     <dimen name="title_vertical_margin">10dp</dimen>
@@ -21,4 +22,5 @@
     
     <!-- Activity Specific -->
     <dimen name="activity_message_block_top_margin">40dp</dimen>
+    <dimen name="button_container_margin_top">20dp</dimen>
 </resources>

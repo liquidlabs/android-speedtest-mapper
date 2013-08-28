@@ -74,6 +74,19 @@
         </activity>
         
         <!--
+            Graph and statistics activity 
+        -->
+        <activity
+            android:name="ca.liquidlabs.android.speedtestvisualizer.activities.DataStatsActivity"
+            android:label="@string/title_activity_datastats"
+            android:parentActivityName="ca.liquidlabs.android.speedtestvisualizer.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.liquidlabs.android.speedtestvisualizer.MainActivity" />
+        </activity>
+        
+        
+        <!--
             Application about activity 
         -->
         <activity
