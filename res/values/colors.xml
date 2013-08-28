@@ -1,4 +1,6 @@
 <resources>
-    <color name="btn_link">#555</color>
+    <color name="btn_link">#304a7b</color>
     <color name="bg_filter_container">#ACCC</color>
+    <color name="bg_pager_title">#9a9a9a</color>
+    <color name="txt_pager_title">#fff</color>
 </resources>

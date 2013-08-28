@@ -1,0 +1,9 @@
+<!--
+
+List of ids used by the APP. 
+
+-->
+<resources>
+    <!-- Parent container id for the graph view -->
+    <item type="id" name="graph_view_container" />
+</resources>

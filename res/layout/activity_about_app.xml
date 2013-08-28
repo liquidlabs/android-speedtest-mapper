@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/MarginedActivity" 
+    style="@style/MarginedRootView" 
     tools:context=".AboutAppActivity" 
 >
 
