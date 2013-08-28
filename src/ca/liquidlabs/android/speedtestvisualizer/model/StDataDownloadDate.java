@@ -18,6 +18,8 @@ package ca.liquidlabs.android.speedtestvisualizer.model;
 
 import com.jjoe64.graphview.GraphViewDataInterface;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 /**
  * Download VS Date graph view.
  * 
@@ -39,7 +41,7 @@ public class StDataDownloadDate extends SpeedTestRecord implements GraphViewData
      */
     @Override
     public double getX() {
-        return super.getUpload();
+        return NumberUtils.toDouble(Long.toString(getUnixTimeStamp()));
     }
 
     /**
@@ -47,7 +49,7 @@ public class StDataDownloadDate extends SpeedTestRecord implements GraphViewData
      */
     @Override
     public double getY() {
-        return super.getDownload();
+        return getDownload();
     }
 
 }

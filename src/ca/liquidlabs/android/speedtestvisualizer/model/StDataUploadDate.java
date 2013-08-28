@@ -3,6 +3,8 @@ package ca.liquidlabs.android.speedtestvisualizer.model;
 
 import com.jjoe64.graphview.GraphViewDataInterface;
 
+import org.apache.commons.lang3.math.NumberUtils;
+
 public class StDataUploadDate extends SpeedTestRecord implements GraphViewDataInterface {
 
     /**
@@ -19,7 +21,7 @@ public class StDataUploadDate extends SpeedTestRecord implements GraphViewDataIn
      */
     @Override
     public double getX() {
-        return super.getLatency();
+        return NumberUtils.toDouble(Long.toString(getUnixTimeStamp()));
     }
 
     /**
@@ -27,7 +29,7 @@ public class StDataUploadDate extends SpeedTestRecord implements GraphViewDataIn
      */
     @Override
     public double getY() {
-        return super.getUpload();
+        return getUpload();
     }
 
 }
