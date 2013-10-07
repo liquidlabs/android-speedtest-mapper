@@ -21,6 +21,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -43,6 +44,9 @@ import ca.liquidlabs.android.speedtestvisualizer.util.Tracer;
 
 import com.google.analytics.tracking.android.EasyTracker;
 import com.google.android.gms.common.GooglePlayServicesUtil;
+
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 /**
  * Main entry point launcher activity. Data is loaded here and verified before
@@ -102,14 +106,38 @@ public class MainActivity extends Activity implements InputDialogListener {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
+        Bundle bundle = intent.getExtras();
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             mIsSharedIntent = true;
             if ("text/plain".equals(type)) {
-                // Handle text being sent
-                handleIntentText(intent.getStringExtra(Intent.EXTRA_TEXT));
+                /*
+                 * Check if this is coming from Speedtest v3.0 app (which has
+                 * attachment file)
+                 */
+                if (bundle != null) {
+                    Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                    try {
+                        InputStream inputStream = getContentResolver().openInputStream(uri);
+                        handleIntentText(AppPackageUtils.convertStreamToString(inputStream));
+                    } catch (FileNotFoundException e) {
+                        Log.e(LOG_TAG, "Unable to find file from URI", e);
+                        // unsupported mimetype/data
+                        this.handleInvalidText();
+                    } catch (Exception e) {
+                        Log.e(LOG_TAG, "Unable to handle data.", e);
+                        // unsupported mimetype/data
+                        this.handleInvalidText();
+                    }
+                } else {
+                    /*
+                     * Fall back to old version implementation
+                     */
+                    // Handle text being sent
+                    handleIntentText(intent.getStringExtra(Intent.EXTRA_TEXT));
+                }
             } else {
-                // unsupported mimetype
+                // unsupported mimetype/data
                 this.handleInvalidText();
             }
         } else {

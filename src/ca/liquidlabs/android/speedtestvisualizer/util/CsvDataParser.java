@@ -92,9 +92,11 @@ public class CsvDataParser {
      * @return {@code true} when header is available, {@code false} otherwise
      */
     public static boolean isValidCsvData(String csvHeader, String csvData) {
+        boolean isValidData = false;
         if (csvData != null && !csvData.equals("")) {
-            return (csvData.lastIndexOf(csvHeader) != -1);
+            isValidData = (csvData.lastIndexOf(csvHeader) != -1);
         }
-        return false;
+        Tracer.debug(LOG_TAG, "isValidCsvData() : " + isValidData);
+        return isValidData;
     }
 }
