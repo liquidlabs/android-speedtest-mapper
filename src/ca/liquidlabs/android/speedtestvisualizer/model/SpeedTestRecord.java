@@ -54,8 +54,8 @@ public class SpeedTestRecord {
     private ConnectionType connectionType;
     private float lat;
     private float lon;
-    private int download;
-    private int upload;
+    private float download;
+    private float upload;
     private int latency;
     private String serverName;
     private String internalIp;
@@ -104,8 +104,8 @@ public class SpeedTestRecord {
             this.lon = Float.parseFloat(csvRecord.get(KEY_LON));
 
             // download and upload values are always in kbps
-            this.download = (int) Float.parseFloat(csvRecord.get(KEY_DOWNL));
-            this.upload = (int) Float.parseFloat(csvRecord.get(KEY_UPL));
+            this.download =  Float.parseFloat(csvRecord.get(KEY_DOWNL));
+            this.upload = Float.parseFloat(csvRecord.get(KEY_UPL));
 
             // latency is numeric - in milliseconds
             this.latency = Integer.parseInt(csvRecord.get(KEY_LATENCY));
@@ -219,7 +219,7 @@ public class SpeedTestRecord {
     /**
      * @return the download
      */
-    public int getDownload() {
+    public float getDownload() {
         return download;
     }
 
@@ -233,7 +233,7 @@ public class SpeedTestRecord {
     /**
      * @return the upload
      */
-    public int getUpload() {
+    public float getUpload() {
         return upload;
     }
 

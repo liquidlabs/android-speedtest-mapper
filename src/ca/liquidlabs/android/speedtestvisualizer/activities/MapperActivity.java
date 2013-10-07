@@ -67,8 +67,8 @@ public class MapperActivity extends Activity {
 
     private GoogleMap mMap;
     private static List<SpeedTestRecord> mCsvListData;
-    private static int mMaxNetworkSpeed;
-    private static int mMinNetworkSpeed;
+    private static float mMaxNetworkSpeed;
+    private static float mMinNetworkSpeed;
 
     /**
      * Available filter type for connections
@@ -294,8 +294,8 @@ public class MapperActivity extends Activity {
      * @param speedValue Single record's speed value
      * @return hue value based on speed
      */
-    private static float getWeightedMarkerValue(int speedValue) {
-        int speedDifference = MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed;
+    private static float getWeightedMarkerValue(float speedValue) {
+        float speedDifference = MapperActivity.mMaxNetworkSpeed - MapperActivity.mMinNetworkSpeed;
         if (speedDifference <= 0) {
             // this might be the case, when there is only one record and
             // MaxSpeed = MinSpeed, So, return warmest hue value
