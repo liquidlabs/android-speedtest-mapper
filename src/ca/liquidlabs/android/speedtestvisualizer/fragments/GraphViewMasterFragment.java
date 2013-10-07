@@ -136,6 +136,10 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
 
         GraphViewDataInterface[][] availableDataSets = dataSets;
 
+        /*
+         * For single series graph, use BAR chart. Usually used for single
+         * dimension graph. Eg. Download VS Date, Upload VS Date and so on.
+         */
         if (availableDataSets.length == 1) {
             addSingleSeriesGraph(availableDataSets[0]);
             return;
@@ -143,18 +147,39 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
 
         // graph with dynamically genereated horizontal and vertical labels
         LineGraphView graphView;
-        graphView = new LineGraphView(getActivity().getApplicationContext(), "Multi");
+        graphView = new LineGraphView(getActivity().getApplicationContext(), mGraphType.getGraphTitle());
 
         for (int index = 0; index < availableDataSets.length; index++) {
-            // TODO Select different color
-            GraphViewSeries seriesData = new GraphViewSeries("Data: " + index, new GraphViewSeriesStyle(Color.rgb(200,
-                    50, 00),
-                    5), availableDataSets[index]);
-            // add data
-            graphView.addSeries(seriesData);
+            /*
+             * Since we have limited type of multi series data, hardcode the
+             * type for now. FIXME: Fix this in next release and generalize the
+             * return type after data is processed.
+             */
+            if (index == 0) {
+                // DONWLOAD data - FIXME: Hardcoded value - must be fixed!!!!!!!
+                GraphViewSeries seriesData = new GraphViewSeries("Download", new GraphViewSeriesStyle(Color.rgb(200,
+                        50, 00), 3), availableDataSets[index]);
+                graphView.addSeries(seriesData);
+
+            } else if (index == 1) {
+                // UPLOAD data - FIXME: Hardcoded value - must be fixed!!!!!!!
+                GraphViewSeries seriesData = new GraphViewSeries("Upload", new GraphViewSeriesStyle(Color.rgb(90,
+                        250, 00), 3), availableDataSets[index]);
+                graphView.addSeries(seriesData);
+
+            } else {
+                GraphViewSeries seriesData = new GraphViewSeries("Data: " + index, new GraphViewSeriesStyle(Color.rgb(
+                        200,
+                        50, 00),
+                        5), availableDataSets[index]);
+                // add data
+                graphView.addSeries(seriesData);
+            }
         }
         // set legend
         graphView.setShowLegend(true);
+        graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.GRAY);
+        graphView.getGraphViewStyle().setVerticalLabelsColor(Color.GRAY);
         graphView.setCustomLabelFormatter(mGraphDateLabelFormatter);
         // set view port, start=2, size=40
         // graphView.setViewPort(2, 40);
