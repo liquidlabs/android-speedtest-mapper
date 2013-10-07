@@ -79,9 +79,10 @@ public class MapperActivity extends Activity {
     private static int FILTER_SELECTED = FILTER_TYPE_ALL;
 
     /**
-     * The default unit used by speedtest to export the data.
+     * The default unit used by speedtest to export the data. <br/>
+     * FIXME: Based on Speedtest v3.0 app, unit is now dependent on what user selected on app.
      */
-    private static final String SPEED_UNIT = "bps";
+    private static final String SPEED_UNIT = "";
 
     /**
      * {@link AsyncTask} to process all the marker data
