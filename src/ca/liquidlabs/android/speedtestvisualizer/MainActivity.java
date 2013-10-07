@@ -106,19 +106,19 @@ public class MainActivity extends Activity implements InputDialogListener {
         Intent intent = getIntent();
         String action = intent.getAction();
         String type = intent.getType();
-        Bundle bundle = intent.getExtras();
+        // URI is only available in 3.0
+        Uri exportFileUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
 
         if (Intent.ACTION_SEND.equals(action) && type != null) {
             mIsSharedIntent = true;
             if ("text/plain".equals(type)) {
                 /*
                  * Check if this is coming from Speedtest v3.0 app (which has
-                 * attachment file)
+                 * attachment file in URI)
                  */
-                if (bundle != null) {
-                    Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                if (exportFileUri != null) {
                     try {
-                        InputStream inputStream = getContentResolver().openInputStream(uri);
+                        InputStream inputStream = getContentResolver().openInputStream(exportFileUri);
                         handleIntentText(AppPackageUtils.convertStreamToString(inputStream));
                     } catch (FileNotFoundException e) {
                         Log.e(LOG_TAG, "Unable to find file from URI", e);
