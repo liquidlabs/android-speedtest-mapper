@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
+import ca.liquidlabs.android.speedtestvisualizer.model.GraphLabelDate;
 import ca.liquidlabs.android.speedtestvisualizer.model.GraphType;
 import ca.liquidlabs.android.speedtestvisualizer.util.SpeedTestRecordProcessorTask;
 import ca.liquidlabs.android.speedtestvisualizer.util.SpeedTestRecordProcessorTask.OnDataProcessorListener;
@@ -51,6 +52,8 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
     public static final String BUNDLE_ARG_GRAPH_TYPE = "graphType";
 
     private FrameLayout mGraphViewContainer;
+    
+    private GraphLabelDate mGraphDateLabelFormatter;
 
     //
     // Data from bundle
@@ -102,6 +105,7 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
         mCsvHeader = bundleArgs.getString(BUNDLE_ARG_HEADER);
         mCsvData = bundleArgs.getString(BUNDLE_ARG_DATA);
         mGraphType = (GraphType) bundleArgs.getSerializable(BUNDLE_ARG_GRAPH_TYPE);
+        mGraphDateLabelFormatter = new GraphLabelDate();
 
         new SpeedTestRecordProcessorTask(this).execute(mCsvHeader, mCsvData, mGraphType.name());
 
@@ -151,6 +155,7 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
         }
         // set legend
         graphView.setShowLegend(true);
+        graphView.setCustomLabelFormatter(mGraphDateLabelFormatter);
         // set view port, start=2, size=40
         // graphView.setViewPort(2, 40);
         // graphView.setScrollable(true);
@@ -172,6 +177,7 @@ public class GraphViewMasterFragment extends BaseGraphFragment {
         // override styles
         graphView.getGraphViewStyle().setHorizontalLabelsColor(Color.GRAY);
         graphView.getGraphViewStyle().setVerticalLabelsColor(Color.GRAY);
+        graphView.setCustomLabelFormatter(mGraphDateLabelFormatter);
 
         // add data
         graphView.addSeries(downloadSeries);
