@@ -25,6 +25,9 @@ import android.graphics.drawable.Drawable;
 
 import ca.liquidlabs.android.speedtestvisualizer.R;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Locale;
 
 /**
@@ -160,5 +163,22 @@ public class AppPackageUtils {
                         AppConstants.PLAY_STORE_BASE_WEB_URI + context.getPackageName()));
         shareAppIntent.setType(AppConstants.PLAIN_TEXT_MIME_TYPE);
         return shareAppIntent;
+    }
+
+    /**
+     * Get all the string data from input string.
+     * 
+     * @param is Input stream
+     * @return String data from the input stream
+     * @throws Exception
+     */
+    public static String convertStreamToString(InputStream is) throws Exception {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        StringBuilder sb = new StringBuilder();
+        String line = null;
+        while ((line = reader.readLine()) != null) {
+            sb.append(line).append("\n");
+        }
+        return sb.toString();
     }
 }

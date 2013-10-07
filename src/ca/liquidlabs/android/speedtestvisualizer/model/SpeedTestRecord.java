@@ -104,8 +104,8 @@ public class SpeedTestRecord {
             this.lon = Float.parseFloat(csvRecord.get(KEY_LON));
 
             // download and upload values are always in kbps
-            this.download = Integer.parseInt(csvRecord.get(KEY_DOWNL));
-            this.upload = Integer.parseInt(csvRecord.get(KEY_UPL));
+            this.download = (int) Float.parseFloat(csvRecord.get(KEY_DOWNL));
+            this.upload = (int) Float.parseFloat(csvRecord.get(KEY_UPL));
 
             // latency is numeric - in milliseconds
             this.latency = Integer.parseInt(csvRecord.get(KEY_LATENCY));
